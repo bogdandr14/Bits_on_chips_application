@@ -1,0 +1,41 @@
+﻿@model Bits_on_chips_application.Models.Component
+@{
+    ViewData["Title"] = "Delete";
+}
+<form method="post" asp-action="DeletePost">
+    <div class="text-center">
+        <div class="title">@ViewData["Title"]</div>
+        <input asp-for="ComponentId" hidden />
+        <table class="personal-info">
+            <tr>
+                <th><label asp-for="ComponentName"></label></th>
+                <td>
+                    <input type=text asp-for="ComponentName" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Producer"></label></th>
+                <td>
+                    <input type=text asp-for="Producer" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="ComponentId"></label></th>
+                <td>
+                    <input type=text asp-for="ComponentId" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Price"></label></th>
+                <td>
+                    <input type=text asp-for="Price" disabled />
+                </td>
+            </tr>
+        </table>
+        <div class="btns">
+            <input asp-for="ComponentId" hidden />
+            <input type="submit" class="btn btn-danger" value="Delete" />
+            <a asp-action="Categories" class="btn btn-success">Cancel</a>
+        </div>
+    </div>
+</form>

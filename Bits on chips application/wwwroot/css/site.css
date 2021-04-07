@@ -1,0 +1,269 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+.navbar {
+    background: #1b1b1b;
+    position: fixed;
+    top: 0; 
+    width: 100%; 
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: left;
+    word-break: keep-all;
+    font-size: 30px;
+    font-weight: 500;
+}
+    a.navbar-brand:hover {
+        color: darkcyan;
+    }
+*.navbar-nav {
+    white-space: normal;
+    text-align: right;
+    word-break: keep-all;
+    border-radius: 5px;
+    font-size: 22px;
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 1900px;
+    }
+}
+.navbar-collapse{
+    flex-grow: unset;
+}
+/*Title styles---------------------------------
+    --------------------------------------*/
+.title {
+    text-shadow: 3px 3px 5px rgb(0,100,255);
+    font-size: 55px;
+    margin: 20px 20px;
+    font-weight: 600;
+}
+
+.sub_title {
+    text-shadow: 2px 2px 4px rgb(0,100,255);
+    font-size: 42px;
+    margin: 15px 15px;
+    font-weight: 600;
+}
+.sub_sub_title {
+    text-shadow: 2px 2px 3px rgb(0,100,255);
+    font-size: 30px;
+    margin: 10px 10px;
+    font-weight: 600;
+}
+
+
+/*Buttons ---------------------------------
+------------------------------------------*/
+
+.btns {
+    text-shadow: none;
+    position: center;
+    text-align: center;
+}
+
+    .btns a, .btns input {
+        background: #1b1b1b;
+        color: rgb(200, 255, 0);
+        border-radius: 12px;
+        margin: 30px 20px;
+        border: 2px solid rgb(200, 255, 0);
+        font-size: 20px;
+        font-weight: 500;
+        padding: 10px 10px;
+        cursor: pointer;
+    }
+
+        .btns a:hover, .btns input:hover {
+            background: lightgrey;
+            border-color: darkcyan;
+            color: darkcyan;
+            transition: all 0.3s ease;
+        }
+btns-post {
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 2px
+}
+btn-delete {
+    border-color: darkred;
+    color: darkred;
+}
+btn-create {
+    border-color: darkgreen;
+    color: darkgreen;
+}
+btn-edit {
+    border-color: darkblue;
+    color: darkblue;
+}
+btn-add {
+    border-color: darkorange;
+    color: darkorange;
+}
+
+/*Lists, tables and inputs---------------
+    ------------------------------------*/
+.comp_categ, ul li {
+    list-style-type: none;
+}
+
+.comp_categ a img {
+    border: 2px solid rgb(200, 255, 0);
+    border-radius: 15px;
+    margin: 10px 10px;
+    width: 250px;
+    height: 200px;
+}
+
+    .comp_categ a img:hover {
+        border: 5px solid darkcyan;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+* table {
+    margin-bottom: 20px;
+    table-layout: fixed;
+    width: 90%;
+}
+* table tr td input{
+    
+}
+table th {
+    text-align: right;    
+}
+
+table td {
+    text-align: left;
+}
+*.component-table{
+    margin-top:30px;
+    table-layout: fixed;
+    width:  100%;
+}
+    *.component-table thead {
+        background-color: rgb(200, 255, 0);
+        color: darkcyan;
+    }
+
+    * .component-table tbody {
+        background-color: #1b1b1b;
+        color: rgb(200, 255, 0);
+    }
+
+    * .component-table tbody tr td a:hover {
+        color:darkcyan;
+        transition: all 0.3s ease;
+    }
+
+        *.component-table thead tr th, *.component-table tbody tr td {
+            text-align: center;
+            border: solid;
+            width:10%;
+        }
+
+* label {
+    text-shadow: 2px 2px 2px rgb(0,100,255);
+    font-size: 30px;
+}
+
+.input * input {
+    text-decoration: none;
+    font-size: 20px;
+    margin: 10px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+.input .largerCheckbox{
+    height: 20px;
+    width: 20px;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: rgb(200, 255, 0);
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-link {
+    margin: 0px 10px;
+}
+.nav-link:hover {
+    background-color: lightgrey;
+    color: darkcyan;
+    border-radius: 5px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+    margin: 0px 50px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 18px;
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    margin-top: 100px;
+    background-image: url('img3.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: rgb(200, 255, 0);
+    /*width: 100%;
+    height: 100vh;*/
+    background-size: cover;
+    background-position: center;
+    /*position: relative;
+    overflow: none;*/
+}
+.header {
+    color: rgb(200, 255, 0);
+    background: #1b1b1b;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}

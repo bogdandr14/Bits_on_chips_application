@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Change personal information";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="input">
+        <table class="input">
+            <tr>
+                <th><label for="address">Address:</label></th>
+                <td><input type=text placeholder="Enter address"></td>
+            </tr>
+            <tr>
+                <th><label for="e-mail">E-mail:</label></th>
+                <td><input type=text placeholder="Enter e-mail"></td>
+            </tr>
+            <tr>
+                <th><label for="phone-number">Phone number:</label></th>
+                <td><input type=text placeholder="Enter phone number"></td>
+            </tr>
+            <tr>
+                <th><label for="password">Old password:</label></th>
+                <td><input type=password placeholder="Enter password"></td>
+            </tr>
+            <tr>
+                <th><label for="new-password">New password:</label></th>
+                <td>
+                    <input type=password placeholder="Enter password" id="password">
+                    <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
+                    <label for="checkbox">Show</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="btns">
+        <a class="nav-button" asp-area="" asp-controller="User" asp-action="Info">Confirm</a>
+        <a class="nav-button" asp-area="" asp-controller="Home" asp-action="Index">Cancel</a>
+    </div>
+</div>

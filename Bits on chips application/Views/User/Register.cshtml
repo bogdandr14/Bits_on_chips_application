@@ -1,0 +1,73 @@
+﻿@model Bits_on_chips_application.Models.User
+
+@{
+    ViewData["Title"] = "Register page";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <form class="input" method="post" asp-action="Register">
+        <table class="personal-info">
+            <tr>
+                <th><label asp-for="FirstName"></label></th>
+                <td>
+                    <input type=text placeholder="Enter first name" asp-for="FirstName" required>
+                    <span asp-validation-for="FirstName"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="LastName"></label></th>
+                <td>
+                    <input type=text placeholder="Enter last name" asp-for="LastName" required>
+                    <span asp-validation-for="LastName"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Contact.Address"></label></th>
+                <td>
+                    <input type=text placeholder="Enter address" asp-for="Contact.Address" required>
+                    <span asp-validation-for="Contact.Address"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Contact.Email"></label></th>
+                <td>
+                    <input type=text placeholder="Enter e-mail" asp-for="Contact.Email" required>
+                    <span asp-validation-for="Contact.Email"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Contact.Phone"></label></th>
+                <td>
+                    <input type=text placeholder="Enter phone number" asp-for="Contact.Phone" required>
+                    <span asp-validation-for="Contact.Phone"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Username"></label></th>
+                <td>
+                    <input type=text placeholder="Enter your username" asp-for="Username" required>
+                    <span asp-validation-for="Username"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Password"></label></th>
+                <td>
+                    <input type=password placeholder="Enter password" id="password" asp-for="Password" required>
+                    <span asp-validation-for="Password"></span>
+                    <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
+                    <label for="checkbox">Show</label>
+                </td>
+            </tr>
+            <tr>
+                <th><label>Confirm password</label></th>
+                <td><input type=password placeholder="Reenter password" required></td>
+            </tr>
+        </table>
+        <div class="btns">
+            <input type="submit" class="nav-button" value="Register"/>
+           
+            <a class="nav-button" style="margin-bottom: 20px" asp-area="" asp-controller="Home" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>

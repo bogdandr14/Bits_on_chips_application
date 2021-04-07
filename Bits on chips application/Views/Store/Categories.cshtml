@@ -1,0 +1,21 @@
+﻿@model IEnumerable< Bits_on_chips_application.Models.Category>
+@{
+    ViewData["Title"] = "Component categories page";
+}
+
+<div class="text-center">
+    <div class="title"> @ViewData["Title"]</div>
+    <div class="btns">
+        <a class="nav-button" asp-action = "Create">Add new component</a>
+    </div>
+    <div class="sub_title">Please select a category of components</div>
+    <div class="comp_categ">
+
+        @foreach (var categ in Model)
+        {
+            string imgSrc = "../css/" + categ.CategoryName + "Image.jpg";
+            <a class="nav-button" asp-controller="Store" asp-action="Component" asp-route-Id=@categ.CategoryID><img src=@imgSrc></a>
+        }
+
+    </div>
+</div>

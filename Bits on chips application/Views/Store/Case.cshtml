@@ -1,0 +1,234 @@
+﻿@model IEnumerable<Bits_on_chips_application.Models.Component>
+
+@{
+    ViewData["Title"] = "Case page";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="btns">
+        <a class="nav-button" asp-area="" asp-controller="Store" asp-action="Categories">Back to categories</a>
+    </div>
+    @if (Model.Count() > 0)
+    {
+        Component component = Model.First();
+        IEnumerable<string> s = Enumerable.Empty<string>();
+        s.Append("ComponentName");
+        s.Append("Producer");
+        s.Append("");
+        <table class="component-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ComponentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Producer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    @if (component.Interface != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Interface)
+                        </th>
+                    }
+                    @if (component.Size != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Size)
+                        </th>
+                    }
+                    @if (component.Type != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Type)
+                        </th>
+                    }
+                    @if (component.Buffer != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Buffer)
+                        </th>
+                    }
+                    @if (component.Speed != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Speed)
+                        </th>
+                    }
+                    @if (component.Socket != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Socket)
+                        </th>
+                    }
+                    @if (component.Frequency != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Frequency)
+                        </th>
+                    }
+                    @if (component.MaxRead != null)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.MaxRead)
+                        </th>
+                    }
+                    @if (component.Efficiency != 0)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Efficiency)
+                        </th>
+                    }
+                    @if (component.Technology != 0)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Technology)
+                        </th>
+                    }
+                    @if (component.Power != 0)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Power)
+                        </th>
+                    }
+                    @if (component.NumberCores != 0)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumberCores)
+                        </th>
+                    }
+                    @if (component.NumberSlots != 0)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumberSlots)
+                        </th>
+                    }
+                    @if (component.NumberFans != 0)
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumberFans)
+                        </th>
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ComponentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Producer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        @if (component.Interface != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Interface)
+                            </td>
+                        }
+                        @if (component.Size != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Size)
+                            </td>
+                        }
+                        @if (component.Type != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                        }
+                        @if (component.Buffer != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Buffer)
+                            </td>
+                        }
+                        @if (component.Speed != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Speed)
+                            </td>
+                        }
+                        @if (component.Socket != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Socket)
+                            </td>
+                        }
+                        @if (component.Frequency != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Frequency)
+                            </td>
+                        }
+                        @if (component.MaxRead != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MaxRead)
+                            </td>
+                        }
+                        @if (component.Efficiency != 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Efficiency)
+                            </td>
+                        }
+                        @if (component.Technology != 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Technology)
+                            </td>
+                        }
+                        @if (component.Power != 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Power)
+                            </td>
+                        }
+                        @if (component.NumberCores != 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumberCores)
+                            </td>
+                        }
+                        @if (component.NumberSlots != 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumberSlots)
+                            </td>
+                        }
+                        @if (component.NumberFans != 0)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumberFans)
+                            </td>
+                        }
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ComponentId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ComponentId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ComponentId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <br />
+        <br />
+        <div class="sub_title">
+            No items in this category yet, please come back soon!
+        </div>
+    }
+</div>

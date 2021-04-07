@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Personal information page";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="sub_title">
+        <ul>
+            <li><b>Username: </b> personal username</li>
+            <li><b>First name:</b> personal first name</li>
+            <li><b>Last name:</b> personal last name</li>
+            <li><b>Birth date:</b> personal birth date</li>
+            <li><b>Address:</b> personal address</li>
+            <li><b>E-mail:</b> personal e-mail</li>
+            <li><b>Phone number:</b> personal phone number</li>
+        </ul>
+    </div>
+    <div class="btns">
+        <a class="nav-button" asp-area="" asp-controller="User" asp-action="Change">Change info</a>
+    </div>
+</div>
