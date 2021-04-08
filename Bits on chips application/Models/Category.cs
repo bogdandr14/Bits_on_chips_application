@@ -11,7 +11,7 @@ namespace Bits_on_chips_application.Models
     {
         [Key]
         public int CategoryID { get; set; }
-        [DisplayName("Category name: ")]
+        [DisplayName("Category name")]
         public string CategoryName { get; set; }
     }
 }

@@ -2,40 +2,35 @@
 @{
     ViewData["Title"] = "Delete";
 }
-<form method="post" asp-action="DeletePost">
-    <div class="text-center">
-        <div class="title">@ViewData["Title"]</div>
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="sub_title">Are you sure you want to delete this component?</div>
+    <form class="input" method="post" asp-action="DeletePost">
         <input asp-for="ComponentId" hidden />
-        <table class="personal-info">
+        <table class="delete-info">
             <tr>
                 <th><label asp-for="ComponentName"></label></th>
                 <td>
-                    <input type=text asp-for="ComponentName" disabled />
+                    <input type=text asp-for="ComponentName" style="background:grey; color:crimson"disabled />
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Producer"></label></th>
                 <td>
-                    <input type=text asp-for="Producer" disabled />
-                </td>
-            </tr>
-            <tr>
-                <th><label asp-for="ComponentId"></label></th>
-                <td>
-                    <input type=text asp-for="ComponentId" disabled />
+                    <input type=text asp-for="Producer"  style="background:grey; color:crimson"disabled />
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Price"></label></th>
                 <td>
-                    <input type=text asp-for="Price" disabled />
+                    <input type=text asp-for="Price"  style="background:grey; color:crimson"disabled />
                 </td>
             </tr>
         </table>
         <div class="btns">
-            <input asp-for="ComponentId" />
             <input type="submit" style="border-color:red; color:red" value="Delete" />
-            <a asp-action="Categories" class="btn btn-success">Cancel</a>
+            <a asp-action="Categories" class="btn-add">Cancel</a>
         </div>
-    </div>
-</form>
+    </form>
+</div>

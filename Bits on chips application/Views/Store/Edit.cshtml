@@ -1,0 +1,207 @@
+﻿@model Bits_on_chips_application.Models.Component
+
+@{
+    ViewData["Title"] = "Edit component";
+}
+
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="btns" style="margin-bottom: 30px">
+        <a class="nav-button" asp-controller="Store" asp-action="Categories">Back to categories</a>
+    </div>
+    <form class="input" method="post" asp-action="EditPost">
+        <input asp-for="ComponentId" hidden />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <table>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="ComponentName" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="ComponentName" class="form-control w-50" value="@Model.ComponentName" />
+                    <span asp-validation-for="ComponentName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Producer" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Producer" class="form-control w-50" value="@Model.Producer" />
+                    <span asp-validation-for="Producer" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Price" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Price" class="form-control w-50" value="@Model.Price" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Interface" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Interface" class="form-control w-50" value="@Model.Interface" />
+                    <span asp-validation-for="Interface" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Size" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Size" class="form-control w-50" value="@Model.Size" />
+                    <span asp-validation-for="Size" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Type" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Type" class="form-control w-50" value="@Model.Type" />
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Buffer" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Buffer" class="form-control w-50" value="@Model.Buffer" />
+                    <span asp-validation-for="Buffer" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Speed" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Speed" class="form-control w-50" value="@Model.Speed" />
+                    <span asp-validation-for="Speed" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Socket" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Socket" class="form-control w-50" value="@Model.Socket" />
+                    <span asp-validation-for="Socket" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Frequency" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Frequency" class="form-control w-50" value="@Model.Frequency" />
+                    <span asp-validation-for="Frequency" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="MaxRead" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="MaxRead" class="form-control w-50" value="@Model.MaxRead" />
+                    <span asp-validation-for="MaxRead" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Efficiency" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Efficiency" class="form-control w-50" value="@Model.Efficiency" />
+                    <span asp-validation-for="Efficiency" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Technology" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Technology" class="form-control w-50" value="@Model.Technology" />
+                    <span asp-validation-for="Technology" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Power" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Power" class="form-control w-50" value="@Model.Power" />
+                    <span asp-validation-for="Power" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="NumberCores" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="NumberCores" class="form-control w-50" value="@Model.NumberCores" />
+                    <span asp-validation-for="NumberCores" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="NumberSlots" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="NumberSlots" class="form-control w-50" value="@Model.NumberSlots" />
+                    <span asp-validation-for="NumberSlots" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="NumberFans" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="NumberFans" class="form-control w-50" value="@Model.NumberFans" />
+                    <span asp-validation-for="NumberFans" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Category.CategoryName" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Category.CategoryName" class="form-control w-50" value="@Model.Category.CategoryName" disabled />
+                    <span asp-validation-for="Category.CategoryName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="categoryId" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="categoryId" class="form-control w-50" value="@Model.categoryId" disabled />
+                    <span asp-validation-for="categoryId" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Category" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Category" class="form-control w-50" value="@Model.Category" disabled />
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="btns">
+                <th>
+                </th>
+                <td>
+                    <input type="submit" value="Save" style="border-color: Highlight; color: Highlight" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+

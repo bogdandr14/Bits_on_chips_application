@@ -20,10 +20,6 @@ namespace Bits_on_chips_application.Controllers
             IEnumerable<Category> objList = _db.DBCategories;
             return View(objList);
         }
-        public IActionResult Cart()
-        {
-            return View();
-        }
         public IActionResult Component(int? id)
         {
             if (id == null || id == 0)
@@ -78,7 +74,6 @@ namespace Bits_on_chips_application.Controllers
             IQueryable<Component> objList = _db.DBComponents.Where(o => o.Category.CategoryName.Equals("case"));
             return View(objList);
         }
-
         //Get-Delete
         public IActionResult Delete(int? id)
         {
@@ -86,40 +81,32 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-
             var obj = _db.DBComponents.Find(id);
-
             if (obj == null)
             {
                 return NotFound();
             }
-
             return View(obj);
         }
-
         //Post-Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
+        public IActionResult DeletePost(int ComponentId)
         {
-            var obj = _db.DBComponents.Find(id);
-            
+            var obj = _db.DBComponents.Find(ComponentId);
             if(obj == null)
             {
                 return NotFound();
             }
-          
             _db.DBComponents.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        //Get-Delete
+        //Get-Create
         public IActionResult Create()
         {
             return View();
         }
-
         //Post-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -138,6 +125,35 @@ namespace Bits_on_chips_application.Controllers
                 return RedirectToAction("Categories");
             }
             return View(obj);
+        }
+        //Get-Edit
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.DBComponents.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            var categ = _db.DBCategories.Find(obj.categoryId);
+            obj.Category = categ;
+            return View(obj);
+        }
+        //Post-Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditPost(Component component)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.DBComponents.Update(component);
+                _db.SaveChanges();
+                return RedirectToAction("Categories");
+            }
+            return RedirectToAction("Create", component);
         }
     }
 }
