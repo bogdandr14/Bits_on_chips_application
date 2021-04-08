@@ -23,24 +23,31 @@
                 </td>
             </tr>
             <tr>
-                <th><label asp-for="Contact.Address"></label></th>
+            <th><label asp-for="BirthDate"></label></th>
+            <td>
+                <input type="date" placeholder="Enter birth date" asp-for="BirthDate" required>
+                <span asp-validation-for="BirthDate"></span>
+            </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Address"></label></th>
                 <td>
-                    <input type=text placeholder="Enter address" asp-for="Contact.Address" required>
-                    <span asp-validation-for="Contact.Address"></span>
+                    <input type=text placeholder="Enter address" asp-for="Address" required>
+                    <span asp-validation-for="Address"></span>
                 </td>
             </tr>
             <tr>
-                <th><label asp-for="Contact.Email"></label></th>
+                <th><label asp-for="Email"></label></th>
                 <td>
-                    <input type=text placeholder="Enter e-mail" asp-for="Contact.Email" required>
-                    <span asp-validation-for="Contact.Email"></span>
+                    <input type=text placeholder="Enter e-mail" asp-for="Email" required>
+                    <span asp-validation-for="Email"></span>
                 </td>
             </tr>
             <tr>
-                <th><label asp-for="Contact.Phone"></label></th>
+                <th><label asp-for="Phone"></label></th>
                 <td>
-                    <input type=text placeholder="Enter phone number" asp-for="Contact.Phone" required>
-                    <span asp-validation-for="Contact.Phone"></span>
+                    <input type=text placeholder="Enter phone number" asp-for="Phone" required>
+                    <span asp-validation-for="Phone"></span>
                 </td>
             </tr>
             <tr>

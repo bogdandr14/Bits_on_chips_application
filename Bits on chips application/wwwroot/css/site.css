@@ -83,26 +83,48 @@ a.navbar-brand {
             color: darkcyan;
             transition: all 0.3s ease;
         }
-btns-post {
-    font-size: 14px;
+
+* .btns-post {
+    font-size: 16px;
+    font-weight: 500;
+    width:15%;
+}
+
+* .btn-delete {
     border-radius: 6px;
-    padding: 2px
+    margin: 2px;
+    padding: 1px;
+    border: 2px solid;
+    border-color: red;
+    color: red;
 }
-btn-delete {
-    border-color: darkred;
-    color: darkred;
+* .btn-create {
+    border-radius: 6px;
+    margin: 2px;
+    padding: 1px;
+    border: 2px solid;
+    border-color: green;
+    color: green;
 }
-btn-create {
-    border-color: darkgreen;
-    color: darkgreen;
+* .btn-edit {
+    border-radius: 6px;
+    margin: 2px;
+    padding: 1px;
+    border: 2px solid;
+    border-color: Highlight;
+    color: Highlight;
 }
-btn-edit {
-    border-color: darkblue;
-    color: darkblue;
+* .btn-add {
+    border-radius: 6px;
+    margin: 2px;
+    padding: 1px;
+    border: 2px solid;
+    border-color: green;
+    color: green;
 }
-btn-add {
-    border-color: darkorange;
-    color: darkorange;
+*.btn-delete:hover, *.btn-create:hover, *.btn-edit:hover, *.btn-add:hover {
+    background: lightgrey;
+    transition: all 0.3s ease;
 }
 
 /*Lists, tables and inputs---------------
@@ -163,7 +185,6 @@ table td {
         *.component-table thead tr th, *.component-table tbody tr td {
             text-align: center;
             border: solid;
-            width:10%;
         }
 
 * label {

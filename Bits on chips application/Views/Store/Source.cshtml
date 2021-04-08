@@ -21,51 +21,18 @@
                         @Html.DisplayNameFor(model => model.Producer)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Interface)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Size)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Type)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Buffer)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Speed)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Socket)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Frequency)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MaxRead)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Efficiency)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Technology)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Power)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.NumberCores)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NumberSlots)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.NumberFans)
                     </th>
-                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th class="btns-post"></th>
                 </tr>
             </thead>
             <tbody>
@@ -79,54 +46,23 @@
                             @Html.DisplayFor(modelItem => item.Producer)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Interface)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Size)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Buffer)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Speed)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Socket)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Frequency)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MaxRead)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Efficiency)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Technology)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Power)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NumberCores)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NumberSlots)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.NumberFans)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.ComponentId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.ComponentId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ComponentId">Delete</a>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td class="btns-post">
+                            <div role="group">
+                                <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
+                                <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
+                                <a class="btn-add" asp-controller="Store" asp-action="Details" asp-route-id="@item.ComponentId">Add to cart</a>
+                            </div>
                         </td>
                     </tr>
                 }

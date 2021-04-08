@@ -33,7 +33,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Price)
                     </th>
-                    <th style="resize:both"></th>
+                    <th class="btns-post"></th>
                 </tr>
             </thead>
             <tbody>
@@ -58,15 +58,15 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>
-                        <td>
-                            <div class="btns w-100" role="group">
-                                @*<a asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId" style="font-size: 16px; border-radius: 6px; margin: 2px; padding: 1px; border-color: Highlight; color: Highlight">Edit</a>
-                                <a asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId" style="font-size: 16px; border-radius: 6px; margin: 2px; padding: 1px; border-color: red; color: red">Delete</a>*@
-                                <a asp-controller="Store" asp-action="Details" asp-route-id="@item.ComponentId" style="font-size: 16px; border-radius: 6px; margin: 2px; padding: 1px; border-color: orange; color: orange">Add to cart</a>
-                                @*<form asp-action="Ssd">
+                        <td class="btns-post">
+                            @*<form asp-action="Ssd">
             <input type="hidden" asp-for="@item.ComponentId" />
             <input type="submit" value="Delete" class="btn btn-danger" /> |
         </form>*@
+                            <div role="group">
+                                <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
+                                <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
+                                <a class="btn-add" asp-controller="Store" asp-action="Details" asp-route-id="@item.ComponentId">Add to cart</a>
                             </div>
                         </td>
                     </tr>

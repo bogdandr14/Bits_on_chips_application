@@ -12,39 +12,39 @@ namespace Bits_on_chips_application.Models
     {
         [Key]
         public int ComponentId { get; set; }
-        [DisplayName("Component name: ")]
+        [DisplayName("Component name")]
         public string ComponentName { get; set; }
-        [DisplayName("Producer: ")]
+        [DisplayName("Producer")]
         public string Producer { get; set; }
-        [DisplayName("Price: ")]
+        [DisplayName("Price")]
         public float Price { get; set; }
-        [DisplayName("Interface: ")]
+        [DisplayName("Interface")]
         public string Interface { get; set; }
-        [DisplayName("Size: ")]
+        [DisplayName("Size")]
         public string Size { get; set; }
-        [DisplayName("Component type: ")]
+        [DisplayName("Component type")]
         public string Type { get; set; }
-        [DisplayName("Buffer: ")]
+        [DisplayName("Buffer")]
         public string Buffer { get; set; }
-        [DisplayName("Speed: ")]
+        [DisplayName("Speed")]
         public string Speed { get; set; }
-        [DisplayName("Socket: ")]
+        [DisplayName("Socket")]
         public string Socket { get; set; }
-        [DisplayName("Frequency: ")]
+        [DisplayName("Frequency")]
         public string Frequency { get; set; }
-        [DisplayName("Max read capability: ")]
+        [DisplayName("Max read capability")]
         public string MaxRead { get; set; }
-        [DisplayName("Efficiency: ")]
+        [DisplayName("Efficiency")]
         public float Efficiency { get; set; }
-        [DisplayName("Technology: ")]
+        [DisplayName("Technology")]
         public int Technology { get; set; }
-        [DisplayName("Power: ")]
+        [DisplayName("Power")]
         public int Power { get; set; }
-        [DisplayName("Number of cores: ")]
+        [DisplayName("Number of cores")]
         public int NumberCores { get; set; }
-        [DisplayName("Number of slots: ")]
+        [DisplayName("Number of slots")]
         public int NumberSlots { get; set; }
-        [DisplayName("Number of fans: ")]
+        [DisplayName("Number of fans")]
         public int NumberFans { get; set; }
         public Category Category { get; set; }
         [ForeignKey("Category")]
