@@ -64,6 +64,9 @@ namespace Bits_on_chips_application
                 endpoints.MapControllerRoute(
                    name: "Store",
                    pattern: "{controller=Store}/{action=Categories}/{id?}");
+                endpoints.MapControllerRoute(
+                   name: "Cart",
+                   pattern: "{controller=Store}/{action=ShoppingCart}/{id?}");
             });
         }
     }

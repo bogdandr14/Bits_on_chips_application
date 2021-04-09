@@ -4,7 +4,6 @@
     ViewData["Title"] = "Edit component";
 }
 
-
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
     <div class="btns" style="margin-bottom: 30px">
@@ -12,6 +11,7 @@
     </div>
     <form class="input" method="post" asp-action="EditPost">
         <input asp-for="ComponentId" hidden />
+        <input asp-for="CategoryId" hidden/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <table>
             <tr class="form-group">
@@ -173,25 +173,6 @@
                 </th>
                 <td>
                     <input asp-for="Category.CategoryName" class="form-control w-50" value="@Model.Category.CategoryName" disabled />
-                    <span asp-validation-for="Category.CategoryName" class="text-danger"></span>
-                </td>
-            </tr>
-            <tr class="form-group">
-                <th>
-                    <label asp-for="categoryId" class="control-label"></label>
-                </th>
-                <td>
-                    <input asp-for="categoryId" class="form-control w-50" value="@Model.categoryId" disabled />
-                    <span asp-validation-for="categoryId" class="text-danger"></span>
-                </td>
-            </tr>
-            <tr class="form-group">
-                <th>
-                    <label asp-for="Category" class="control-label"></label>
-                </th>
-                <td>
-                    <input asp-for="Category" class="form-control w-50" value="@Model.Category" disabled />
-                    <span asp-validation-for="Category" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="btns">

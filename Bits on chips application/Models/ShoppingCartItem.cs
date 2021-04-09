@@ -11,14 +11,14 @@ namespace Bits_on_chips_application.Models
     {
         [Key]
         public int CartItemId { get; set; }
-        public Component Component { get; set; }
-        [ForeignKey("Component")]
         public int ComponentId { get; set; }
-        public User User { get; set; }
-        [ForeignKey("User")]
+        [ForeignKey("ComponentId")]
+        public virtual Component Component { get; set; }
         public int UserId { get; set; }
-        public Order Order { get; set; }
-        [ForeignKey("Order")]
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
         public int OrderId { get; set; }
+        [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
     }
 }

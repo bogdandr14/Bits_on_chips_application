@@ -46,9 +46,10 @@ namespace Bits_on_chips_application.Models
         public int NumberSlots { get; set; }
         [DisplayName("Number of fans")]
         public int NumberFans { get; set; }
-        public Category Category { get; set; }
-        [ForeignKey("Category")]
+        [DisplayName("Category Type")]
         [Required]
-        public int categoryId { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
     }
 }

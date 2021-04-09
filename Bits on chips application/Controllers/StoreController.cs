@@ -1,10 +1,12 @@
 ﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace Bits_on_chips_application.Controllers
 {
@@ -105,6 +107,12 @@ namespace Bits_on_chips_application.Controllers
         //Get-Create
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> TypeDropDown = _db.DBCategories.Select(i => new SelectListItem
+            {
+                Text = i.CategoryName,
+                Value = i.CategoryId.ToString()
+            });
+            ViewBag.TypeDropDown = TypeDropDown;
             return View();
         }
         //Post-Create
@@ -114,16 +122,16 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                IQueryable<Category> category = _db.DBCategories.Where(o => o.CategoryName == obj.Category.CategoryName);
-                if(category.Count() == 0)
-                {
-                    return NotFound();
-                }
-                obj.Category = category.First();
                 _db.DBComponents.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Categories");
             }
+            IEnumerable<SelectListItem> TypeDropDown = _db.DBCategories.Select(i => new SelectListItem
+            {
+                Text = i.CategoryName,
+                Value = i.CategoryId.ToString()
+            });
+            ViewBag.TypeDropDown = TypeDropDown;
             return View(obj);
         }
         //Get-Edit
@@ -138,7 +146,11 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            var categ = _db.DBCategories.Find(obj.categoryId);
+            var categ = _db.DBCategories.Find(obj.CategoryId);
+            if (categ == null)
+            {
+                return NotFound();
+            }
             obj.Category = categ;
             return View(obj);
         }
@@ -153,7 +165,7 @@ namespace Bits_on_chips_application.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Categories");
             }
-            return RedirectToAction("Create", component);
+            return RedirectToAction("Edit", new { id = component.ComponentId });
         }
     }
 }

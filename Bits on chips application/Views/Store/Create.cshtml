@@ -167,11 +167,13 @@
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Category.CategoryName" class="control-label"></label>
+                    <label asp-for="CategoryId" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Category.CategoryName" class="form-control w-50" required />
-                    <span asp-validation-for="Category.CategoryName" class="text-danger"></span>
+                    <select asp-for="CategoryId" class="form-control w-50" asp-items="@ViewBag.TypeDropDown">
+                        <option selected>--Select component type</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="btns">
