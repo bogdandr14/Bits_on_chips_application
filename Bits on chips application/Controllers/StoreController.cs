@@ -1,5 +1,6 @@
 ﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
+using Bits_on_chips_application.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -107,22 +108,31 @@ namespace Bits_on_chips_application.Controllers
         //Get-Create
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> TypeDropDown = _db.DBCategories.Select(i => new SelectListItem
+            /*IEnumerable<SelectListItem> TypeDropDown = _db.DBCategories.Select(i => new SelectListItem
             {
                 Text = i.CategoryName,
                 Value = i.CategoryId.ToString()
             });
-            ViewBag.TypeDropDown = TypeDropDown;
-            return View();
+            ViewBag.TypeDropDown = TypeDropDown;*/
+            ComponentVM ComponentVM = new ComponentVM()
+            {
+                Component = new Component(),
+                TypeDropDown = _db.DBCategories.Select(i => new SelectListItem
+                {
+                    Text = i.CategoryName,
+                    Value = i.CategoryId.ToString()
+                })
+            };
+            return View(ComponentVM);
         }
         //Post-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Component obj)
+        public IActionResult Create(ComponentVM obj)
         {
             if (ModelState.IsValid)
             {
-                _db.DBComponents.Add(obj);
+                _db.DBComponents.Add(obj.Component);
                 _db.SaveChanges();
                 return RedirectToAction("Categories");
             }

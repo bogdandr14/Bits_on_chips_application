@@ -1,4 +1,4 @@
-﻿@model Bits_on_chips_application.Models.Component
+﻿@model Bits_on_chips_application.Models.ViewModels.ComponentVM
 
 @{
     ViewData["Title"] = "Create component";
@@ -14,166 +14,166 @@
         <table>
             <tr class="form-group">
                 <th>
-                    <label asp-for="ComponentName" class="control-label"></label>
+                    <label asp-for="Component.ComponentName" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="ComponentName" class="form-control w-50" required />
-                    <span asp-validation-for="ComponentName" class="text-danger"></span>
+                    <input asp-for="Component.ComponentName" class="form-control w-50" required />
+                    <span asp-validation-for="Component.ComponentName" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Producer" class="control-label"></label>
+                    <label asp-for="Component.Producer" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Producer" class="form-control w-50" required />
-                    <span asp-validation-for="Producer" class="text-danger"></span>
+                    <input asp-for="Component.Producer" class="form-control w-50" required />
+                    <span asp-validation-for="Component.Producer" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Price" class="control-label"></label>
+                    <label asp-for="Component.Price" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Price" class="form-control w-50" required />
-                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <input asp-for="Component.Price" class="form-control w-50" required />
+                    <span asp-validation-for="Component.Price" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Interface" class="control-label"></label>
+                    <label asp-for="Component.Interface" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Interface" class="form-control w-50" />
-                    <span asp-validation-for="Interface" class="text-danger"></span>
+                    <input asp-for="Component.Interface" class="form-control w-50" />
+                    <span asp-validation-for="Component.Interface" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Size" class="control-label"></label>
+                    <label asp-for="Component.Size" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Size" class="form-control w-50" />
-                    <span asp-validation-for="Size" class="text-danger"></span>
+                    <input asp-for="Component.Size" class="form-control w-50" />
+                    <span asp-validation-for="Component.Size" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Type" class="control-label"></label>
+                    <label asp-for="Component.Type" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Type" class="form-control w-50" />
-                    <span asp-validation-for="Type" class="text-danger"></span>
+                    <input asp-for="Component.Type" class="form-control w-50" />
+                    <span asp-validation-for="Component.Type" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Buffer" class="control-label"></label>
+                    <label asp-for="Component.Buffer" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Buffer" class="form-control w-50" />
-                    <span asp-validation-for="Buffer" class="text-danger"></span>
+                    <input asp-for="Component.Buffer" class="form-control w-50" />
+                    <span asp-validation-for="Component.Buffer" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Speed" class="control-label"></label>
+                    <label asp-for="Component.Speed" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Speed" class="form-control w-50" />
-                    <span asp-validation-for="Speed" class="text-danger"></span>
+                    <input asp-for="Component.Speed" class="form-control w-50" />
+                    <span asp-validation-for="Component.Speed" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Socket" class="control-label"></label>
+                    <label asp-for="Component.Socket" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Socket" class="form-control w-50" />
-                    <span asp-validation-for="Socket" class="text-danger"></span>
+                    <input asp-for="Component.Socket" class="form-control w-50" />
+                    <span asp-validation-for="Component.Socket" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Frequency" class="control-label"></label>
+                    <label asp-for="Component.Frequency" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Frequency" class="form-control w-50" />
-                    <span asp-validation-for="Frequency" class="text-danger"></span>
+                    <input asp-for="Component.Frequency" class="form-control w-50" />
+                    <span asp-validation-for="Component.Frequency" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="MaxRead" class="control-label"></label>
+                    <label asp-for="Component.MaxRead" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="MaxRead" class="form-control w-50" />
-                    <span asp-validation-for="MaxRead" class="text-danger"></span>
+                    <input asp-for="Component.MaxRead" class="form-control w-50" />
+                    <span asp-validation-for="Component.MaxRead" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Efficiency" class="control-label"></label>
+                    <label asp-for="Component.Efficiency" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Efficiency" class="form-control w-50" value="0" />
-                    <span asp-validation-for="Efficiency" class="text-danger"></span>
+                    <input asp-for="Component.Efficiency" class="form-control w-50" value="0" />
+                    <span asp-validation-for="Component.Efficiency" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Technology" class="control-label"></label>
+                    <label asp-for="Component.Technology" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Technology" class="form-control w-50" value="0" />
-                    <span asp-validation-for="Technology" class="text-danger"></span>
+                    <input asp-for="Component.Technology" class="form-control w-50" value="0" />
+                    <span asp-validation-for="Component.Technology" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="Power" class="control-label"></label>
+                    <label asp-for="Component.Power" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="Power" class="form-control w-50" value="0" />
-                    <span asp-validation-for="Power" class="text-danger"></span>
+                    <input asp-for="Component.Power" class="form-control w-50" value="0" />
+                    <span asp-validation-for="Component.Power" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="NumberCores" class="control-label"></label>
+                    <label asp-for="Component.NumberCores" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="NumberCores" class="form-control w-50" value="0" />
-                    <span asp-validation-for="NumberCores" class="text-danger"></span>
+                    <input asp-for="Component.NumberCores" class="form-control w-50" value="0" />
+                    <span asp-validation-for="Component.NumberCores" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="NumberSlots" class="control-label"></label>
+                    <label asp-for="Component.NumberSlots" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="NumberSlots" class="form-control w-50" value="0" />
-                    <span asp-validation-for="NumberSlots" class="text-danger"></span>
+                    <input asp-for="Component.NumberSlots" class="form-control w-50" value="0" />
+                    <span asp-validation-for="Component.NumberSlots" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="NumberFans" class="control-label"></label>
+                    <label asp-for="Component.NumberFans" class="control-label"></label>
                 </th>
                 <td>
-                    <input asp-for="NumberFans" class="form-control w-50" value="0" />
-                    <span asp-validation-for="NumberFans" class="text-danger"></span>
+                    <input asp-for="Component.NumberFans" class="form-control w-50" value="0" />
+                    <span asp-validation-for="Component.NumberFans" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="form-group">
                 <th>
-                    <label asp-for="CategoryId" class="control-label"></label>
+                    <label asp-for="Component.CategoryId" class="control-label"></label>
                 </th>
                 <td>
-                    <select asp-for="CategoryId" class="form-control w-50" asp-items="@ViewBag.TypeDropDown">
+                    <select asp-for="Component.CategoryId" class="form-control w-50" asp-items="@Model.TypeDropDown">
                         <option selected>--Select component type</option>
                     </select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    <span asp-validation-for="Component.CategoryId" class="text-danger"></span>
                 </td>
             </tr>
             <tr class="btns">
