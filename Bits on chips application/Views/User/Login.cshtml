@@ -6,7 +6,8 @@
     <div class="text-center">
         <div class="title">@ViewData["Title"]</div>
         <div class="sub_title">Here you can enter in your personal account</div>
-        <form class="input" method="post" asp-action="Login">
+        <form class="input" method="post" asp-action="Login" asp-controller="User">
+            <div asp-validation-summary="All" class="text-danger" style="font-size:24px"></div>
             <table class="login-info">
                 <tr>
                     <th>
@@ -45,7 +46,8 @@
             </table>
             <div class="sub_title">Don't have an account? Please register</div>
             <div class="btns">
-                <a class="nav-button" asp-controller="User" asp-action="Login">Login</a>
+                <input type="submit" class="nav-button" value="Login" />
+                @*<a class="nav-button" asp-controller="User" asp-action="Login">Login</a>*@
                 <a class="nav-button" asp-controller="User" asp-action="Register">Register</a>
             </div>
         </form>

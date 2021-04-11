@@ -1,7 +1,14 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
 @if (signInManager.IsSignedIn(User))
 {
-
+    <form method="post" id="logoutForm" asp-action="LogOff" asp-controller="User">
+        <ul class="navbar-nav flex-grow-3">
+            <li class="nav-link">Hello, @User.Identity.Name!</li>
+            <li class="nav-link">
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </li>
+        </ul>
+    </form>
 }
 else
 {

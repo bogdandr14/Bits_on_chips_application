@@ -212,11 +212,12 @@ a {
 .nav-link {
     margin: 0px 10px;
 }
-.nav-link:hover {
-    background-color: lightgrey;
-    color: darkcyan;
-    border-radius: 5px;
-}
+    .nav-link:hover, .nav-link:hover > a {
+        text-decoration: none;
+        background-color: lightgrey;
+        color: darkcyan;
+        border-radius: 5px;
+    }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;

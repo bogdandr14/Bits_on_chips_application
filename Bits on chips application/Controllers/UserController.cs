@@ -32,6 +32,21 @@ namespace Bits_on_chips_application.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Invalid login attempt");
+            }
+            return View(model);
+        }
         //Get-Register
         public async Task<IActionResult> Register()
         {
@@ -74,7 +89,7 @@ namespace Bits_on_chips_application.Controllers
                     Email = obj.Email,
                     PhoneNumber = obj.Phone
                 };
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user, obj.Password);
 
                 if (result.Succeeded)
                 {
@@ -82,8 +97,17 @@ namespace Bits_on_chips_application.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
+                foreach(var err in result.Errors)
+                {
+                    ModelState.AddModelError("", err.Description);
+                }
             }
             return View(obj);
+        }
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "User");
         }
         public IActionResult Change()
         {

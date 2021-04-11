@@ -52,6 +52,8 @@ namespace Bits_on_chips_application
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

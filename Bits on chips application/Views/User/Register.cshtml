@@ -7,62 +7,63 @@
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
     <form class="input" method="post" asp-action="Register">
+        <div asp-validation-summary="All" class="text-danger" style="font-size:24px"></div>
         <table class="personal-info">
             <tr>
                 <th><label asp-for="FirstName"></label></th>
                 <td>
                     <input type=text placeholder="Enter first name" asp-for="FirstName">
-                    <span asp-validation-for="FirstName"></span>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="LastName"></label></th>
                 <td>
                     <input type=text placeholder="Enter last name" asp-for="LastName">
-                    <span asp-validation-for="LastName"></span>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="BirthDate"></label></th>
                 <td>
                     <input type="date" placeholder="Enter birth date" asp-for="BirthDate">
-                    <span asp-validation-for="BirthDate"></span>
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Address"></label></th>
                 <td>
                     <input type=text placeholder="Enter address" asp-for="Address">
-                    <span asp-validation-for="Address"></span>
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Email"></label></th>
                 <td>
                     <input type=text placeholder="Enter e-mail" asp-for="Email">
-                    <span asp-validation-for="Email"></span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Phone"></label></th>
                 <td>
                     <input type=text placeholder="Enter phone number" asp-for="Phone">
-                    <span asp-validation-for="Phone"></span>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Username"></label></th>
                 <td>
                     <input type=text placeholder="Enter your username" asp-for="Username">
-                    <span asp-validation-for="Username"></span>
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Password"></label></th>
                 <td>
                     <input type=password placeholder="Enter password" id="password" asp-for="Password">
-                    <span asp-validation-for="Password"></span>
-                    
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
                 </td>
             </tr>
             <tr>
@@ -79,12 +80,13 @@
                 </th>
                 <td>
                     <input type=password placeholder="Reenter password" asp-for="ConfirmPassword">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </td>
             </tr>
         </table>
         <div class="btns">
-            <input type="submit" class="nav-button" value="Register"/>
-           
+            <input type="submit" class="nav-button" value="Register" />
+
             <a class="nav-button" style="margin-bottom: 20px" asp-area="" asp-controller="Home" asp-action="Index">Cancel</a>
         </div>
     </form>
