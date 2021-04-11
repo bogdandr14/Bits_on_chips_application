@@ -41,6 +41,7 @@ namespace Bits_on_chips_application.Models
         [DisplayName("Power")]
         public int Power { get; set; }
         [DisplayName("Number of cores")]
+        [Range(0,16)]
         public int NumberCores { get; set; }
         [DisplayName("Number of slots")]
         public int NumberSlots { get; set; }

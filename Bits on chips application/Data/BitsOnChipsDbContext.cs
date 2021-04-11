@@ -1,4 +1,5 @@
 ﻿using Bits_on_chips_application.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bits_on_chips_application.Data
 {
-    public class BitsOnChipsDbContext: DbContext
+    public class BitsOnChipsDbContext : IdentityDbContext<ApplicationUser>
     {
         public BitsOnChipsDbContext(DbContextOptions<BitsOnChipsDbContext> options) : base(options)
         {

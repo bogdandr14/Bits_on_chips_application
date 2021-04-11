@@ -1,33 +1,52 @@
-﻿
+﻿@model Bits_on_chips_application.Models.ViewModels.LoginVM
 @{
     ViewData["Title"] = "Login page";
 }
 
-<body>
     <div class="text-center">
         <div class="title">@ViewData["Title"]</div>
         <div class="sub_title">Here you can enter in your personal account</div>
-        <div class="input">
+        <form class="input" method="post" asp-action="Login">
             <table class="login-info">
                 <tr>
-                    <th><label for="username">Username:</label></th>
-                    <td><input type=text name="username" placeholder="Enter your username" required></td>
+                    <th>
+                        <label asp-for="Username" class="control-label"></label>
+                    </th>
+                    <td>
+                        <input asp-for="Username" class="form-control w-50" placeholder="Enter your username">
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </td>
                 </tr>
                 <tr>
-                    <th><label for="password">Password:</label></th>
+                    <th>
+                        <label asp-for="Password" class="control-label"></label>
+                    </th>
                     <td>
-                        <input type=password name="password" placeholder="Enter password" id="password" required>
+                        <input type=password asp-for="Password" class="form-control w-50" placeholder="Enter password" id="password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                    </th>
+                    <td>
                         <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
-                        <label for="checkbox">Show</label>
+                        <label for="checkbox">Show password</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                    </th>
+                    <td>
+                        <input type="checkbox" asp-for="RememberMe" class="largerCheckbox" />
+                        <label asp-for="RememberMe" class="control-label"></label>
                     </td>
                 </tr>
             </table>
-        </div>
-        <div class="sub_title">Don't have an account? Please register</div>
-
-        <div class="btns">
-            <a class="nav-button" asp-area="" asp-controller="Home" asp-action="Index">Login</a>
-            <a class="nav-button" asp-area="" asp-controller="User" asp-action="Register">Register</a>
-        </div>
+            <div class="sub_title">Don't have an account? Please register</div>
+            <div class="btns">
+                <a class="nav-button" asp-controller="User" asp-action="Login">Login</a>
+                <a class="nav-button" asp-controller="User" asp-action="Register">Register</a>
+            </div>
+        </form>
     </div>
-</body>
