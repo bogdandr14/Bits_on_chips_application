@@ -1,22 +1,87 @@
-﻿
+﻿@model Bits_on_chips_application.Models.ApplicationUser
+@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
+
 @{
     ViewData["Title"] = "Personal information page";
 }
 
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-    <div class="sub_title">
-        <ul>
-            <li><b>Username: </b> personal username</li>
-            <li><b>First name:</b> personal first name</li>
-            <li><b>Last name:</b> personal last name</li>
-            <li><b>Birth date:</b> personal birth date</li>
-            <li><b>Address:</b> personal address</li>
-            <li><b>E-mail:</b> personal e-mail</li>
-            <li><b>Phone number:</b> personal phone number</li>
-        </ul>
-    </div>
-    <div class="btns">
-        <a class="nav-button" asp-area="" asp-controller="User" asp-action="Change">Change info</a>
-    </div>
+    @if (signInManager.IsSignedIn(User))
+    {
+        <div class="sub_title">
+       
+            <table class="login-info">
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.UserName"></label>:
+                    </th>
+                    <td style="font-size: 24px; padding-left: 24px">
+                        @Model.UserName
+                    </td>
+                </tr>
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.FirstName"></label>:
+                    </th>
+                    <td style="font-size: 24px;padding-left: 24px">
+                        @Model.FirstName
+                    </td>
+                </tr>
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.LastName"></label>:
+                    </th>
+                    <td style="font-size: 24px; padding-left: 24px">
+                        @Model.LastName
+                    </td>
+                </tr>
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.BirthDate"></label>:
+                    </th>
+                    <td style="font-size: 24px; padding-left: 24px">
+                        @Model.BirthDate.Day/@Model.BirthDate.Month/@Model.BirthDate.Year
+                    </td>
+                </tr>
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.Address"></label>:
+                    </th>
+                    <td style="font-size: 24px; padding-left: 24px">
+                        @Model.Address
+                    </td>
+                </tr>
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.Email"></label>:
+                    </th>
+                    <td style="font-size: 24px; padding-left: 24px">
+                        @Model.Email
+                    </td>
+                </tr>
+                <tr>
+                    <th style="font-size: 24px">
+                        <label asp-for="@Model.PhoneNumber"></label>:
+                    </th>
+                    <td style="font-size: 24px; padding-left: 24px">
+                        @Model.PhoneNumber
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="btns">
+            <a class="nav-button" asp-area="" asp-controller="User" asp-action="Change">Change info</a>
+        </div>
+    }
+    else
+    {
+        <div class="sub_title">
+            Please login in order to see this page
+        </div>
+        <br/>
+        <div class="btns">
+            <a class="nav-button" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+        </div>
+    }
 </div>

@@ -114,10 +114,11 @@ a.navbar-brand {
     border-color: green;
     color: green;
 }
-*.btn-delete:hover, *.btn-create:hover, *.btn-edit:hover, *.btn-add:hover {
-    background: lightgrey;
-    transition: all 0.3s ease;
-}
+    *.btn-delete:hover, *.btn-create:hover, *.btn-edit:hover, *.btn-add:hover {
+        text-decoration: none;
+        background: lightgrey;
+        transition: all 0.3s ease;
+    }
 
 /*Lists, tables and inputs---------------
     ------------------------------------*/
@@ -142,7 +143,7 @@ a.navbar-brand {
 * table {
     margin-bottom: 20px;
     table-layout: fixed;
-    width: 90%;
+    width: 100%;
 }
 * table tr td input{
     

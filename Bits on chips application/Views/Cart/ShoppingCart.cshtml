@@ -1,57 +1,67 @@
 ﻿@model IEnumerable<Bits_on_chips_application.Models.ShoppingCartItem>
-
+@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
 @{
     ViewData["Title"] = "Shopping Cart";
 }
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-    @if (Model.Count() > 0)
+    @if (signInManager.IsSignedIn(User))
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Component)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.User)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Order)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Component.ComponentId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Order.OrderId)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.CartItemId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.CartItemId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.CartItemId">Delete</a>
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Component)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.User)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Order)
+                        </th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Component.ComponentId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Order.OrderId)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.CartItemId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.CartItemId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.CartItemId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="sub_title">
+                <ul>
+                    <li>The cart is currently empty, search for a product <a class="nav-button" asp-area="" asp-controller="Store" asp-action="Categories">here</a>.</li>
+                </ul>
+                <b>Total: 0.0$</b>
+            </div>
+        }
     }
     else
     {
-        <div class="sub_title">
-            <ul>
-                <li>The cart is currently empty, search for a product <a class="nav-button" asp-area="" asp-controller="Store" asp-action="Categories">here</a>.</li>
-            </ul>
-            <b>Total: 0.0$</b>
+        <div class="sub_title"> Please login in order to access your personal shopping cart</div>
+        <div class="btns">
+            <a class="nav-button" asp-controller="User" asp-action="Login">Login</a>
         </div>
     }
 </div>

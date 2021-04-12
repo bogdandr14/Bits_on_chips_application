@@ -39,6 +39,9 @@ namespace Bits_on_chips_application.Models.ViewModels
         public string Email { get; set; }
         [DisplayName("Phone number")]
         public string Phone { get; set; }
+        [Required]
+        [DisplayName("Role name")]
+        public string RoleName { get; set; }
         
     }
 }

@@ -1,4 +1,4 @@
-﻿    using Bits_on_chips_application.Data;
+﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Utility;
@@ -26,7 +26,8 @@ namespace Bits_on_chips_application.Controllers
         }
         public IActionResult Info()
         {
-            return View();
+            ApplicationUser user = _userManager.GetUserAsync(User).Result;
+            return View(user);
         }
         public IActionResult Login()
         {
@@ -58,19 +59,6 @@ namespace Bits_on_chips_application.Controllers
             }
             return View();
         }
-/*        //Post-Register
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Register(User obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.DBUsers.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Info");
-            }
-            return View(obj);
-        }*/
 
         //Post-Register
         [HttpPost]

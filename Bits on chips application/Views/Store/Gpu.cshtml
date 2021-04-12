@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Bits_on_chips_application.Models.Component>
-
+@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
 @{
     ViewData["Title"] = "Gpu page";
 }
@@ -35,7 +35,10 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Price)
                     </th>
-                    <th class="btns-post"></th>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <th class="btns-post"></th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -63,15 +66,21 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>
-                        <td class="btns-post">
-                            <div role="group">
-                                <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
-                                <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
-                                <a class="btn-add" asp-controller="Store" asp-action="Details" asp-route-id="@item.ComponentId">Add to cart</a>
-                            </div>
-                        </td>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <td class="btns-post">
+                                <div role="group">
+                                    @if (User.IsInRole(Bits_on_chips_application.Utility.Helper.Admin))
+                                    {
+                                        <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
+                                        <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
+                                    }
+                                    <a class="btn-add" asp-controller="Store" asp-action="Details" asp-route-id="@item.ComponentId">Add to cart</a>
+                                </div>
+                            </td>
+                        }
                     </tr>
-                 }
+                }
             </tbody>
         </table>
     }

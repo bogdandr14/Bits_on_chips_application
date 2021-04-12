@@ -71,7 +71,7 @@
                 </th>
                 <td>
                     <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
-                    <label for="checkbox">Show</label>
+                    <label for="checkbox">Show password</label>
                 </td>
             </tr>
             <tr>
@@ -83,6 +83,15 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </td>
             </tr>
+            @*<tr>
+                <th>
+                    <label asp-for="RoleName"></label>
+                </th>
+                <td>
+                    <select asp-items="@Bits_on_chips_application.Utility.Helper.GetRolesForLogin()" asp-for="RoleName"></select>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </td>
+            </tr>*@
         </table>
         <div class="btns">
             <input type="submit" class="nav-button" value="Register" />
