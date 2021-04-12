@@ -31,6 +31,10 @@ namespace Bits_on_chips_application.Controllers
         }
         public IActionResult Login()
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("Info");
+            }
             return View();
         }
         [HttpPost]
@@ -51,11 +55,14 @@ namespace Bits_on_chips_application.Controllers
         //Get-Register
         public async Task<IActionResult> Register()
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("Info");
+            }
             if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
             {
                 await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
                 await _roleManager.CreateAsync(new IdentityRole(Helper.Customer));
-
             }
             return View();
         }
@@ -95,11 +102,61 @@ namespace Bits_on_chips_application.Controllers
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "User");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult Change()
         {
-            return View();
+            if (!_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("Login");
+            }
+            ApplicationUser user = _userManager.GetUserAsync(User).Result;
+           
+            var obj = new EditVM
+            {
+                Address = user.Address,
+                Email = user.Email,
+                Phone = user.PhoneNumber
+            };      
+            return View(obj);
+        }
+
+        //Post-Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePost(EditVM modifications)
+        {
+            ApplicationUser user = _userManager.GetUserAsync(User).Result;
+            if (ModelState.IsValid)
+            {
+                Task<bool> task = _userManager.CheckPasswordAsync(user, modifications.ConfirmPassword);
+                if (task.Result)
+                {
+                    if (modifications.NewPassword != null)
+                    {
+                        var task1 = await _userManager.ChangePasswordAsync(user, modifications.ConfirmPassword, modifications.NewPassword);
+                        if (!task1.Succeeded)
+                        {
+                            TempData["message"] = "The new password does not meet the requirements!";
+                            return RedirectToAction("Change");
+                        }
+                    }
+                    user.Email = modifications.Email;
+                    user.Address = modifications.Address;
+                    user.PhoneNumber = modifications.Phone;
+                    var result = await _userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        TempData["message"] = "Could not update with the new information.";
+                        return RedirectToAction("Change");
+                    }
+                    return RedirectToAction("Info", "User");
+                }
+                TempData["message"] = "Passwords do not match!";
+                return RedirectToAction("Change");
+            }
+            TempData["message"] = "The fields do not met the requirements!";
+            return RedirectToAction("Change");
         }
     }
 }

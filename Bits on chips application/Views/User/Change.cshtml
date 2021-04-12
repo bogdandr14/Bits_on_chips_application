@@ -1,40 +1,70 @@
-﻿
+﻿@model Bits_on_chips_application.Models.ViewModels.EditVM
 @{
     ViewData["Title"] = "Change personal information";
-}
 
+}
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-    <div class="input">
+    <div class="sub_sub_title" style="color:red">@TempData["message"]</div>
+    <form class="input" method="post" asp-action="ChangePost">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <table class="input">
             <tr>
-                <th><label for="address">Address:</label></th>
-                <td><input type=text placeholder="Enter address"></td>
-            </tr>
-            <tr>
-                <th><label for="e-mail">E-mail:</label></th>
-                <td><input type=text placeholder="Enter e-mail"></td>
-            </tr>
-            <tr>
-                <th><label for="phone-number">Phone number:</label></th>
-                <td><input type=text placeholder="Enter phone number"></td>
-            </tr>
-            <tr>
-                <th><label for="password">Old password:</label></th>
-                <td><input type=password placeholder="Enter password"></td>
-            </tr>
-            <tr>
-                <th><label for="new-password">New password:</label></th>
+                <th>
+                    <label asp-for="Address"></label>
+                </th>
                 <td>
-                    <input type=password placeholder="Enter password" id="password">
+                    <input asp-for="Address" class="form-control w-50" value="@Model.Address">
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label asp-for="Email"></label>
+                </th>
+                <td>
+                    <input asp-for="Email" class="form-control w-50" value="@Model.Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label asp-for="Phone"></label>
+                </th>
+                <td>
+                    <input asp-for="Phone" class="form-control w-50" value="@Model.Phone">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="ConfirmPassword"></label></th>
+                <td>
+                    <input asp-for="ConfirmPassword" class="form-control w-50" required>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label asp-for="NewPassword"></label>
+                </th>
+                <td>
+                    <input asp-for="NewPassword" class="form-control w-50" id="password">
+                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                </th>
+                <td>
                     <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
                     <label for="checkbox">Show</label>
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="btns">
-        <a class="nav-button" asp-area="" asp-controller="User" asp-action="Info">Confirm</a>
-        <a class="nav-button" asp-area="" asp-controller="Home" asp-action="Index">Cancel</a>
-    </div>
+        <div class="btns">
+            <input type="submit" class="nav-button" value="Change" />
+            <a class="nav-button" asp-area="" asp-controller="User" asp-action="Info">Cancel</a>
+        </div>
+    </form>
+    
 </div>

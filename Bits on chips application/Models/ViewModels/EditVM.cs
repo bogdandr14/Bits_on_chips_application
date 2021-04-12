@@ -7,30 +7,17 @@ using System.Threading.Tasks;
 
 namespace Bits_on_chips_application.Models.ViewModels
 {
-    public class RegisterVM
+    public class EditVM
     {
-        [Required]
-        [DisplayName("Username")]
-        public string Username { get; set; }
-        [Required]
-        [DisplayName("Password")]
+        [DisplayName("New Password")]
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessage = "The string {0} must be at least {2} characters long.", MinimumLength = 6)]
-        public string Password { get; set; }
+        public string NewPassword { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [DisplayName("Confirm Password")]
-        [Compare("Password", ErrorMessage = "The passwords do not match.")]
+        [StringLength(100, ErrorMessage = "The string {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DisplayName("Current Password")]
         public string ConfirmPassword { get; set; }
-        [Required]
-        [DisplayName("First name")]
-        public string FirstName { get; set; }
-        [Required]
-        [DisplayName("Last name")]
-        public string LastName { get; set; }
-        [Required]
-        [DisplayName("Birth date ")]
-        public DateTime BirthDate { get; set; }
         [DisplayName("Home address")]
         public string Address { get; set; }
         [Required]
@@ -39,8 +26,5 @@ namespace Bits_on_chips_application.Models.ViewModels
         public string Email { get; set; }
         [DisplayName("Phone number")]
         public string Phone { get; set; }
-        [Required]
-        [DisplayName("Role name")]
-        public string RoleName { get; set; }
     }
 }
