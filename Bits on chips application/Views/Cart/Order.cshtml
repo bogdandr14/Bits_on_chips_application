@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Bits_on_chips_application.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Order page";
+}
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <table class="component-table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Component.ComponentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Component.Producer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PricePaid)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Component.ComponentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Component.Producer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PricePaid)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="btns btns-post">
+        <a class="btn-edit" asp-controller="Cart" asp-action="AllOrders">See all orders</a>
+    </div>
+</div>

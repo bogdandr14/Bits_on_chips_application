@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Bits_on_chips_application.Models.CartItem>
 @inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
+@inject Microsoft.AspNetCore.Identity.UserManager<Bits_on_chips_application.Models.ApplicationUser> userManager
 @{
     ViewData["Title"] = "Shopping Cart";
 }
@@ -31,7 +32,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{ float TotalPrice = 0;} 
+                    @{ float TotalPrice = 0;}
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -47,12 +48,16 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Component.Price)
                             </td>
-                            <td>
+                            <td class="btns-post" role="group" style="text-align:end">
                                 @Html.DisplayFor(modelItem => item.Quantity)
+                                @{ CartItem cartItem = item;
+                                    <a class="btn-edit" asp-controller="Cart" asp-action="ChangeQuantity" asp-route-id="@item.CartItemId">Change</a>}
                             </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.CartItemId">Remove</a> |
-                                <a asp-action="Details" asp-route-id="@item.CartItemId">Change quantity</a>
+                            <td class="btns-post" role="group">
+                                <form class="input" method="post" asp-action="RemoveItem" asp-controller="Cart">
+                                    <input asp-for="@item.CartItemId" hidden />
+                                    <input type="submit" class="btn-delete" value="Remove" />
+                                </form>
                             </td>
                         </tr>
                         TotalPrice = TotalPrice + item.Component.Price * item.Quantity;
@@ -60,6 +65,12 @@
                 </tbody>
             </table>
             <b class="sub_title">Total: @TotalPrice RON</b>
+
+            <div class="btns btns-post">
+                <form class="input" method="post" asp-action="OrderPost" asp-controller="Cart">
+                    <input type="submit" style="color:Highlight; border-color:Highlight" value="Order" />
+                </form>
+            </div>
         }
         else
         {
@@ -67,7 +78,6 @@
                 <ul>
                     <li>The cart is currently empty, search for a product <a class="nav-button" asp-area="" asp-controller="Store" asp-action="Categories">here</a>.</li>
                 </ul>
-                <b>Total: 0.0$</b>
             </div>
         }
     }

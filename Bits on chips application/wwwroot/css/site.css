@@ -92,15 +92,16 @@ a.navbar-brand {
 
 * .btn-delete {
     border-radius: 6px;
-    margin: 20px;
+    margin: 2px 20px 2px 20px;
     padding: 1px;
     border: 2px solid;
     border-color: red;
+    background-color: #1b1b1b;
     color: red;
 }
 * .btn-edit {
     border-radius: 6px;
-    margin: 20px;
+    margin: 2px 20px 2px 20px;
     padding: 1px;
     border: 2px solid;
     border-color: Highlight;

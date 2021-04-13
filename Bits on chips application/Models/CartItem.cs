@@ -13,9 +13,10 @@ namespace Bits_on_chips_application.Models
         [Key]
         public int CartItemId { get; set; }
         [DisplayName("Component quantity")]
+        [Range(1,100)]
         public int Quantity { get; set; }
         [DisplayName("Component price")]
-        public int PricePaid { get; set; }
+        public float PricePaid { get; set; }
         [DisplayName("Component id")]
         public int ComponentId { get; set; }
         [ForeignKey("ComponentId")]

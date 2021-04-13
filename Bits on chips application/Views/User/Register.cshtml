@@ -82,15 +82,15 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </td>
             </tr>
-            @*<tr>
+            <tr>
                 <th>
-                    <label asp-for="RoleName"></label>
+                    <label asp-for="RoleName" hidden></label>
                 </th>
                 <td>
-                    <select asp-items="@Bits_on_chips_application.Utility.Helper.GetRolesForLogin()" asp-for="RoleName"></select>
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <select asp-items="@Bits_on_chips_application.Utility.Helper.GetRolesForLogin()" asp-for="RoleName"hidden></select>
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
                 </td>
-            </tr>*@
+            </tr>
         </table>
         <div class="btns">
             <input type="submit" class="nav-button" value="Register" />
