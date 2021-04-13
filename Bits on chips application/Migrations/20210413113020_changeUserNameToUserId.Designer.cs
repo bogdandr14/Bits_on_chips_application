@@ -4,14 +4,16 @@ using Bits_on_chips_application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bits_on_chips_application.Migrations
 {
     [DbContext(typeof(BitsOnChipsDbContext))]
-    partial class BitsOnChipsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210413113020_changeUserNameToUserId")]
+    partial class changeUserNameToUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,11 +114,8 @@ namespace Bits_on_chips_application.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PricePaid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.HasKey("CartItemId");
 

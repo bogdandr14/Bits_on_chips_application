@@ -75,6 +75,7 @@ a.navbar-brand {
         font-weight: 500;
         padding: 10px 10px;
         cursor: pointer;
+        text-decoration: none;
     }
 
         .btns a:hover, .btns input:hover {
@@ -85,14 +86,13 @@ a.navbar-brand {
         }
 
 * .btns-post {
-    font-size: 16px;
-    font-weight: 500;
-    width:15%;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 * .btn-delete {
     border-radius: 6px;
-    margin: 2px;
+    margin: 20px;
     padding: 1px;
     border: 2px solid;
     border-color: red;
@@ -100,7 +100,7 @@ a.navbar-brand {
 }
 * .btn-edit {
     border-radius: 6px;
-    margin: 2px;
+    margin: 20px;
     padding: 1px;
     border: 2px solid;
     border-color: Highlight;
@@ -111,12 +111,14 @@ a.navbar-brand {
     margin: 2px;
     padding: 1px;
     border: 2px solid;
-    border-color: green;
-    color: green;
+    border-color: orange;
+    background-color:  #1b1b1b;
+    color: orange;
 }
     *.btn-delete:hover, *.btn-create:hover, *.btn-edit:hover, *.btn-add:hover {
         text-decoration: none;
         background: lightgrey;
+        color: darkcyan;
         transition: all 0.3s ease;
     }
 
@@ -145,9 +147,7 @@ a.navbar-brand {
     table-layout: fixed;
     width: 100%;
 }
-* table tr td input{
-    
-}
+
 table th {
     text-align: right;    
 }

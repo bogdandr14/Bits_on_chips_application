@@ -68,15 +68,27 @@
                         </td>
                         @if (signInManager.IsSignedIn(User))
                         {
-                            <td class="btns-post">
-                                <div role="group">
-                                    @if (User.IsInRole(Bits_on_chips_application.Utility.Helper.Admin))
-                                    {
-                                        <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
-                                        <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
-                                    }
-                                    <a class="btn-add" asp-controller="Store" asp-action="Details" asp-route-id="@item.ComponentId">Add to cart</a>
-                                </div>
+                            <td class="btns-post" role="group">
+                                @if (User.IsInRole(Bits_on_chips_application.Utility.Helper.Admin))
+                                {
+                                    <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
+                                    <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
+                                }
+                                @{Component component = item;}
+                                @if (User.IsInRole(Bits_on_chips_application.Utility.Helper.Customer))
+                                {
+                                    <form class="input" method="post" asp-action="AddItem" asp-controller="Cart">
+                                        <input asp-for="@component.ComponentId" hidden />
+                                        @if (TempData["item added"] != null && item.ComponentId.ToString().Equals(TempData["item added"].ToString()))
+                                        {
+                                            <input type="submit" class="btn-add post" value="Item added!" />
+                                        }
+                                        else
+                                        {
+                                            <input type="submit" class="btn-add post" value="Add to cart" />
+                                        }
+                                    </form>
+                                }
                             </td>
                         }
                     </tr>

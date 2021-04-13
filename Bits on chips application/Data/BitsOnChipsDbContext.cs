@@ -14,8 +14,9 @@ namespace Bits_on_chips_application.Data
         {
         }
         public DbSet<Component> DBComponents { get; set; }
-        public DbSet<User> DBUsers { get; set; }
-        public DbSet<ShoppingCartItem> DBCarts { get; set; }
+        public DbSet<CartItem> DBCarts { get; set; }
         public DbSet<Category> DBCategories { get; set; }
+        public DbSet<ApplicationUser> DBApplicationUsers { get; set; }
+        public DbSet<Order> DBOrders { get; set; }
     }
 }

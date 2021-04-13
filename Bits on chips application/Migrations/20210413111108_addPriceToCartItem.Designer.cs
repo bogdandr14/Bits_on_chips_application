@@ -4,14 +4,16 @@ using Bits_on_chips_application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bits_on_chips_application.Migrations
 {
     [DbContext(typeof(BitsOnChipsDbContext))]
-    partial class BitsOnChipsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210413111108_addPriceToCartItem")]
+    partial class addPriceToCartItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,25 +108,22 @@ namespace Bits_on_chips_application.Migrations
                     b.Property<int>("ComponentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PricePaid")
-                        .HasColumnType("int");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CartItemId");
 
                     b.HasIndex("ComponentId");
 
-                    b.HasIndex("Id");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserName");
 
                     b.ToTable("DBCarts");
                 });
@@ -227,7 +226,48 @@ namespace Bits_on_chips_application.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.ToTable("DBOrders");
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("DBUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -369,15 +409,15 @@ namespace Bits_on_chips_application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bits_on_chips_application.Models.ApplicationUser", "AppllicationUser")
-                        .WithMany()
-                        .HasForeignKey("Id");
-
                     b.HasOne("Bits_on_chips_application.Models.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Bits_on_chips_application.Models.ApplicationUser", "AppllicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserName");
 
                     b.Navigation("AppllicationUser");
 

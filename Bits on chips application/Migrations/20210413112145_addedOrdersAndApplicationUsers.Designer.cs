@@ -4,14 +4,16 @@ using Bits_on_chips_application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bits_on_chips_application.Migrations
 {
     [DbContext(typeof(BitsOnChipsDbContext))]
-    partial class BitsOnChipsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210413112145_addedOrdersAndApplicationUsers")]
+    partial class addedOrdersAndApplicationUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,25 +108,22 @@ namespace Bits_on_chips_application.Migrations
                     b.Property<int>("ComponentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PricePaid")
-                        .HasColumnType("int");
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CartItemId");
 
                     b.HasIndex("ComponentId");
 
-                    b.HasIndex("Id");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserName");
 
                     b.ToTable("DBCarts");
                 });
@@ -369,15 +368,15 @@ namespace Bits_on_chips_application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bits_on_chips_application.Models.ApplicationUser", "AppllicationUser")
-                        .WithMany()
-                        .HasForeignKey("Id");
-
                     b.HasOne("Bits_on_chips_application.Models.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Bits_on_chips_application.Models.ApplicationUser", "AppllicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserName");
 
                     b.Navigation("AppllicationUser");
 

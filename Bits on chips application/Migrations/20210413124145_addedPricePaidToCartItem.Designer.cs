@@ -4,14 +4,16 @@ using Bits_on_chips_application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bits_on_chips_application.Migrations
 {
     [DbContext(typeof(BitsOnChipsDbContext))]
-    partial class BitsOnChipsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210413124145_addedPricePaidToCartItem")]
+    partial class addedPricePaidToCartItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
