@@ -45,8 +45,8 @@ namespace Bits_on_chips_application.Controllers
         }
 
         [HttpGet]
-        [Route("Category/Rsd")]
-        [Route("Store/Rsd")]
+        [Route("Category/Ssd")]
+        [Route("Store/Ssd")]
         public IActionResult Ssd()
         {
             IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("ssd"));
