@@ -12,19 +12,27 @@ namespace Bits_on_chips_application.Models
     {
         [Key]
         public int CartItemId { get; set; }
+
         [DisplayName("Component quantity")]
         [Range(1,100)]
         public int Quantity { get; set; }
+
         [DisplayName("Component price")]
         public float PricePaid { get; set; }
+
         [DisplayName("Component id")]
         public int ComponentId { get; set; }
+
         [ForeignKey("ComponentId")]
         public virtual Component Component { get; set; }
+
         public string Id { get; set; }
+
         [ForeignKey("Id")]
         public virtual ApplicationUser AppllicationUser { get; set; }
+        
         public int OrderId { get; set; }
+
         [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
     }

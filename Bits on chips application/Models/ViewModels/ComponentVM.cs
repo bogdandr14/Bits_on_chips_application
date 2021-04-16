@@ -9,6 +9,7 @@ namespace Bits_on_chips_application.Models.ViewModels
     public class ComponentVM
     {
         public Component Component { get; set; }
+
         public IEnumerable<SelectListItem> TypeDropDown { get; set; }
     }
 }

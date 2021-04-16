@@ -13,17 +13,21 @@ namespace Bits_on_chips_application.Models.ViewModels
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessage = "The string {0} must be at least {2} characters long.", MinimumLength = 6)]
         public string NewPassword { get; set; }
+        
         [Required]
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessage = "The string {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DisplayName("Current Password")]
         public string ConfirmPassword { get; set; }
+        
         [DisplayName("Home address")]
         public string Address { get; set; }
+        
         [Required]
         [EmailAddress]
         [DisplayName("E-mail")]
         public string Email { get; set; }
+        
         [DisplayName("Phone number")]
         public string Phone { get; set; }
     }

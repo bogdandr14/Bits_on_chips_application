@@ -33,7 +33,23 @@ namespace Bits_on_chips_application
             );
             services.AddControllersWithViews();
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<BitsOnChipsDbContext>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequiredUniqueChars = 4;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(3);
+                options.Lockout.MaxFailedAccessAttempts = 100;
+                options.Lockout.AllowedForNewUsers = true;
+
+                options.User.RequireUniqueEmail = true;
+            });
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +91,7 @@ namespace Bits_on_chips_application
                    name: "Cart",
                    pattern: "{controller=Store}/{action=ShoppingCart}/{id?}");*/
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

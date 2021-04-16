@@ -11,9 +11,11 @@ namespace Bits_on_chips_application.Models
     {
         [Key]
         public int OrderId { get; set; }
+        
         [Required]
         [DisplayName("Date ordered")]
         public DateTime Date { get; set; }
+        
         [Required]
         [DisplayName("Price")]
         public float Price { get; set; }
