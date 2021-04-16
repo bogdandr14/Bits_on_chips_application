@@ -13,32 +13,39 @@ namespace Bits_on_chips_application.Controllers
 {
     public class UserController : Controller
     {
-        private readonly BitsOnChipsDbContext _db;
         UserManager<ApplicationUser> _userManager;
         SignInManager<ApplicationUser> _signInManager;
         RoleManager<IdentityRole> _roleManager;
-        public UserController(BitsOnChipsDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser>signInManager)
+        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser>signInManager)
         {
-            _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
+        
+        [HttpGet]
+        [Route("User/Info")]
         public IActionResult Info()
         {
             ApplicationUser user = _userManager.GetUserAsync(User).Result;
             return View(user);
         }
+
+        [Route("User/Login")]
+        [Route("User/SignIn")]
         public IActionResult Login()
         {
             if (_signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("Info");
+                return RedirectToAction("User//Info");
             }
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("User/Login")]
+        [Route("User/SignIn")]
         public async Task<IActionResult> Login(LoginVM model)
         {
             if (ModelState.IsValid)
@@ -52,7 +59,11 @@ namespace Bits_on_chips_application.Controllers
             }
             return View(model);
         }
+
         //Get-Register
+        [HttpGet]
+        [Route("User/Register")]
+        [Route("User/SignUp")]
         public async Task<IActionResult> Register()
         {
             if (_signInManager.IsSignedIn(User))
@@ -70,6 +81,7 @@ namespace Bits_on_chips_application.Controllers
         //Post-Register
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("User/Register")]
         public async Task<IActionResult> Register(RegisterVM  obj)
         {
             if (ModelState.IsValid)
@@ -99,11 +111,17 @@ namespace Bits_on_chips_application.Controllers
             }
             return View(obj);
         }
+
+        [HttpPost]
+        [Route("User/LogOff")]
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        [Route("User/Change")]
+        [Route("User/ChangeInfo")]
         public IActionResult Change()
         {
             if (!_signInManager.IsSignedIn(User))
@@ -124,6 +142,7 @@ namespace Bits_on_chips_application.Controllers
         //Post-Register
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("User/ChangePost")]
         public async Task<IActionResult> ChangePost(EditVM modifications)
         {
             ApplicationUser user = _userManager.GetUserAsync(User).Result;

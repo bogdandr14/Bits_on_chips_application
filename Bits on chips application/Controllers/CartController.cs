@@ -20,6 +20,10 @@ namespace Bits_on_chips_application.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+        [HttpGet]
+        [Route("ShoppingCart")]
+        [Route("ShoppingCart/Items")]
         public IActionResult ShoppingCart()
         {
             string userId = _userManager.GetUserId(User);
@@ -33,8 +37,10 @@ namespace Bits_on_chips_application.Controllers
             }
             return View(result);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("ShoppingCart/AddItem")]
         public IActionResult AddItem(Component component)
         {
             string userId = _userManager.GetUserId(User);
@@ -61,6 +67,10 @@ namespace Bits_on_chips_application.Controllers
             TempData["item added"] = component.ComponentId.ToString();
             return RedirectToAction(category.CategoryName, "Store");
         }
+
+        [HttpGet]
+        [Route("ShoppingCart/ChangeQuantity")]
+        [Route("CartItem/ChangeQuantity")]
         public IActionResult ChangeQuantity(int? id)
         {
             if (id == null || id == 0)
@@ -76,8 +86,11 @@ namespace Bits_on_chips_application.Controllers
             item.Component.Category = _repoWrapper.Category.FindById(item.Component.CategoryId);
             return View(item);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("ShoppingCart/ChangeQuantity")]
+        [Route("CartItem/ChangeQuantity")]
         public IActionResult ChangeQuantity(CartItem item)
         {
             if (ModelState.IsValid)
@@ -95,8 +108,10 @@ namespace Bits_on_chips_application.Controllers
             ModelState.AddModelError("", "Invalid quantity (range 1-100)");
             return View(item);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("ShoppingCart/RemoveItem")]
         public IActionResult RemoveItem(CartItem item)
         {
             item = _repoWrapper.CartItem.FindById(item.CartItemId);
@@ -108,8 +123,10 @@ namespace Bits_on_chips_application.Controllers
             _repoWrapper.Save();
             return RedirectToAction("ShoppingCart", "Cart");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("ShoppingCart/Order")]
         public IActionResult OrderPost()
         {
             if (!_signInManager.IsSignedIn(User))
@@ -142,6 +159,9 @@ namespace Bits_on_chips_application.Controllers
             TempData["order id"] = order.OrderId;
             return RedirectToAction("Order");
         }
+
+        [HttpGet]
+        [Route("Order")]
         public IActionResult Order(int ?id)
         {
             if (!_signInManager.IsSignedIn(User))
@@ -166,6 +186,8 @@ namespace Bits_on_chips_application.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        [Route("AllOrders")]
         public IActionResult AllOrders()
         {
             if (!_signInManager.IsSignedIn(User))

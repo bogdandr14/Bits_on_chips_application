@@ -18,11 +18,17 @@ namespace Bits_on_chips_application.Controllers
             _logger = logger;
         }
 
+        [Route("")]
+        [Route("Home")]
+        [Route("Index")]
+        [Route("Home/Index")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Route("Contact")]
+        [Route("Home/Contact")]
         public IActionResult Contact()
         {
             return View();

@@ -60,20 +60,21 @@ namespace Bits_on_chips_application
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
+                /*endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");*/
 
-                endpoints.MapControllerRoute(
+                /*endpoints.MapControllerRoute(
                    name: "User",
-                   pattern: "{controller=User}/{action=Info}/{id?}");
+                   pattern: "{controller=User}/{action=Info}/{id?}");*/
 
-                endpoints.MapControllerRoute(
+                /*endpoints.MapControllerRoute(
                    name: "Store",
-                   pattern: "{controller=Store}/{action=Categories}/{id?}");
-                endpoints.MapControllerRoute(
+                   pattern: "{controller=Store}/{action=Categories}/{id?}");*/
+                /*endpoints.MapControllerRoute(
                    name: "Cart",
-                   pattern: "{controller=Store}/{action=ShoppingCart}/{id?}");
+                   pattern: "{controller=Store}/{action=ShoppingCart}/{id?}");*/
+                endpoints.MapControllers();
             });
         }
     }
