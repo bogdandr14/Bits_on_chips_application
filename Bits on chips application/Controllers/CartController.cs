@@ -23,12 +23,12 @@ namespace Bits_on_chips_application.Controllers
         public IActionResult ShoppingCart()
         {
             string userId = _userManager.GetUserId(User);
-            var obj = _repoWrapper.CartItem.FindByCondition(o => o.Id == userId && o.OrderId == 1);
+            IQueryable<CartItem> obj = _repoWrapper.CartItem.FindByCondition(o => o.Id == userId && o.OrderId == 1);
             IList<CartItem> result = new List<CartItem>();
             foreach(var item in obj)
             {
-                item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).First();
-                item.Component.Category = _repoWrapper.Category.FindByCondition(o => o.CategoryId == item.Component.CategoryId).First();
+                item.Component = _repoWrapper.Component.FindById(item.ComponentId);
+                item.Component.Category = _repoWrapper.Category.FindById(item.Component.CategoryId);
                 result.Add(item);
             }
             return View(result);
@@ -38,7 +38,7 @@ namespace Bits_on_chips_application.Controllers
         public IActionResult AddItem(Component component)
         {
             string userId = _userManager.GetUserId(User);
-            component = _repoWrapper.Component.FindByCondition(obj => obj.ComponentId == component.ComponentId).FirstOrDefault();
+            component = _repoWrapper.Component.FindById(component.ComponentId);
             CartItem cartItem = _repoWrapper.CartItem.FindByCondition(obj => obj.ComponentId == component.ComponentId && obj.Id == userId && obj.OrderId == 1).FirstOrDefault();
             if (cartItem == default(CartItem))
             {
@@ -57,7 +57,7 @@ namespace Bits_on_chips_application.Controllers
                 _repoWrapper.CartItem.Update(cartItem);
             }
             _repoWrapper.Save();
-            Category category = _repoWrapper.Category.FindByCondition(obj => obj.CategoryId == component.CategoryId).FirstOrDefault();
+            Category category = _repoWrapper.Category.FindById(component.CategoryId);
             TempData["item added"] = component.ComponentId.ToString();
             return RedirectToAction(category.CategoryName, "Store");
         }
@@ -67,13 +67,13 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            CartItem item = _repoWrapper.CartItem.FindByCondition(o => o.CartItemId == id).FirstOrDefault();
+            CartItem item = _repoWrapper.CartItem.FindById(id);
             if (item == null)
             {
                 return NotFound();
             }
-            item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).FirstOrDefault();
-            item.Component.Category = _repoWrapper.Category.FindByCondition(o => o.CategoryId == item.Component.CategoryId).FirstOrDefault();
+            item.Component = _repoWrapper.Component.FindById(item.ComponentId);
+            item.Component.Category = _repoWrapper.Category.FindById(item.Component.CategoryId);
             return View(item);
         }
         [HttpPost]
@@ -82,7 +82,7 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                CartItem cartItem = _repoWrapper.CartItem.FindByCondition(o=>o.CartItemId == item.CartItemId).FirstOrDefault();
+                CartItem cartItem = _repoWrapper.CartItem.FindById(item.CartItemId);
                 if (cartItem == null)
                 {
                     return NotFound();
@@ -99,7 +99,7 @@ namespace Bits_on_chips_application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RemoveItem(CartItem item)
         {
-            item = _repoWrapper.CartItem.FindByCondition(o => o.CartItemId==item.CartItemId).FirstOrDefault();
+            item = _repoWrapper.CartItem.FindById(item.CartItemId);
             if(item == default(CartItem))
             {
                 return NotFound();
@@ -121,9 +121,9 @@ namespace Bits_on_chips_application.Controllers
             IList<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
             foreach(var item in cartItems)
             {
-                item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).FirstOrDefault();
+                item.Component = _repoWrapper.Component.FindById(item.ComponentId);
                 item.PricePaid = item.Component.Price;
-                totalPrice += item.PricePaid * item.Quantity;
+                totalPrice += item.Component.Price * item.Quantity;
             }
             Order order = new Order
             {
@@ -160,7 +160,7 @@ namespace Bits_on_chips_application.Controllers
             IList<CartItem> result = new List<CartItem>();
             foreach (var item in cartItems)
             {
-                item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).FirstOrDefault();
+                item.Component = _repoWrapper.Component.FindById(item.ComponentId);
                 result.Add(item);
             }
             return View(result);
@@ -175,7 +175,6 @@ namespace Bits_on_chips_application.Controllers
             string userId = _userManager.GetUserId(User);
             IQueryable<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.Id == userId && obj.OrderId != 1);
             IQueryable<int> queryable = (from item in cartItems select item.OrderId).Distinct();
-            _repoWrapper.Save();
             IQueryable<Order> orders = _repoWrapper.Order.FindByCondition(obj => queryable.Contains(obj.OrderId));
             return View(orders);
         }

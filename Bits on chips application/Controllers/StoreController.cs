@@ -31,7 +31,7 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound(id);
             }
-            Category category = _repoWrapper.Category.FindByCondition(obj => obj.CategoryId == id).FirstOrDefault();
+            Category category = _repoWrapper.Category.FindById(id);
             if (category == null)
             {
                 return NotFound(id);
@@ -100,7 +100,7 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            var obj = _repoWrapper.Component.FindByCondition(o => o.ComponentId == id).FirstOrDefault();
+            var obj = _repoWrapper.Component.FindById(id);
             if (obj == null)
             {
                 return NotFound();
@@ -113,7 +113,7 @@ namespace Bits_on_chips_application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int ComponentId)
         {
-            var obj = _repoWrapper.Component.FindByCondition(o => o.ComponentId == ComponentId).FirstOrDefault();
+            var obj = _repoWrapper.Component.FindById(ComponentId);
             if (obj == null)
             {
                 return NotFound();
@@ -165,12 +165,12 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            var obj = _repoWrapper.Component.FindByCondition(o => o.ComponentId == id).FirstOrDefault();
+            var obj = _repoWrapper.Component.FindById(id);
             if (obj == null)
             {
                 return NotFound();
             }
-            var categ = _repoWrapper.Category.FindByCondition(o => o.CategoryId == obj.CategoryId).FirstOrDefault();
+            var categ = _repoWrapper.Category.FindById(obj.CategoryId);
             if (categ == null)
             {
                 return NotFound();

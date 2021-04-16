@@ -10,6 +10,7 @@ namespace Repositories
     {
         IQueryable<T> FindAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        T FindById(params object[] keyValues);
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);

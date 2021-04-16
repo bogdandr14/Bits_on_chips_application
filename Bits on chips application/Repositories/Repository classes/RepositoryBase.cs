@@ -23,6 +23,10 @@ namespace Repositories
         {
             return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();
         }
+        public T FindById(params object[] keyValues)
+        {
+            return this.RepositoryContext.Set<T>().Find(keyValues);
+        }
         public void Create(T entity)
         {
             this.RepositoryContext.Set<T>().Add(entity);
