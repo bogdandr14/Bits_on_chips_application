@@ -11,33 +11,35 @@ namespace Bits_on_chips_application.Controllers
 {
     public class CartController : Controller
     {
-        private readonly BitsOnChipsDbContext _db;
+        private readonly IRepositoryWrapper _repoWrapper;
         UserManager<ApplicationUser> _userManager;
         SignInManager<ApplicationUser> _signInManager;
-        public CartController(BitsOnChipsDbContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public CartController(IRepositoryWrapper repoWrapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _db = db;
+            _repoWrapper = repoWrapper;
             _userManager = userManager;
             _signInManager = signInManager;
         }
         public IActionResult ShoppingCart()
         {
             string userId = _userManager.GetUserId(User);
-            var obj = _db.DBCarts.Where(obj => obj.Id == userId && obj.OrderId == 1);
+            var obj = _repoWrapper.CartItem.FindByCondition(o => o.Id == userId && o.OrderId == 1);
+            IList<CartItem> result = new List<CartItem>();
             foreach(var item in obj)
             {
-                item.Component = _db.DBComponents.Find(item.ComponentId);
-                item.Component.Category = _db.DBCategories.Find(item.Component.CategoryId);
+                item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).First();
+                item.Component.Category = _repoWrapper.Category.FindByCondition(o => o.CategoryId == item.Component.CategoryId).First();
+                result.Add(item);
             }
-            return View(obj);
+            return View(result);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddItem(Component component)
         {
             string userId = _userManager.GetUserId(User);
-            component = _db.DBComponents.FirstOrDefault(obj=> obj.ComponentId == component.ComponentId);
-            CartItem cartItem = _db.DBCarts.FirstOrDefault(obj => obj.ComponentId == component.ComponentId && obj.Id == userId && obj.OrderId == 1);
+            component = _repoWrapper.Component.FindByCondition(obj => obj.ComponentId == component.ComponentId).FirstOrDefault();
+            CartItem cartItem = _repoWrapper.CartItem.FindByCondition(obj => obj.ComponentId == component.ComponentId && obj.Id == userId && obj.OrderId == 1).FirstOrDefault();
             if (cartItem == default(CartItem))
             {
                 cartItem = new CartItem
@@ -47,15 +49,15 @@ namespace Bits_on_chips_application.Controllers
                     OrderId = 1,
                     Quantity = 1
                 };
-                _db.DBCarts.Add(cartItem);
+                _repoWrapper.CartItem.Create(cartItem);
             }
             else
             {
                 ++cartItem.Quantity;
-                _db.DBCarts.Update(cartItem);
+                _repoWrapper.CartItem.Update(cartItem);
             }
-            _db.SaveChanges();
-            Category category = _db.DBCategories.FirstOrDefault(obj => obj.CategoryId == component.CategoryId);
+            _repoWrapper.Save();
+            Category category = _repoWrapper.Category.FindByCondition(obj => obj.CategoryId == component.CategoryId).FirstOrDefault();
             TempData["item added"] = component.ComponentId.ToString();
             return RedirectToAction(category.CategoryName, "Store");
         }
@@ -65,13 +67,13 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            CartItem item = _db.DBCarts.Find(id);
+            CartItem item = _repoWrapper.CartItem.FindByCondition(o => o.CartItemId == id).FirstOrDefault();
             if (item == null)
             {
                 return NotFound();
             }
-            item.Component = _db.DBComponents.Find(item.ComponentId);
-            item.Component.Category = _db.DBCategories.Find(item.Component.CategoryId);
+            item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).FirstOrDefault();
+            item.Component.Category = _repoWrapper.Category.FindByCondition(o => o.CategoryId == item.Component.CategoryId).FirstOrDefault();
             return View(item);
         }
         [HttpPost]
@@ -80,14 +82,14 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                CartItem cartItem = _db.DBCarts.Find(item.CartItemId);
+                CartItem cartItem = _repoWrapper.CartItem.FindByCondition(o=>o.CartItemId == item.CartItemId).FirstOrDefault();
                 if (cartItem == null)
                 {
                     return NotFound();
                 }
                 cartItem.Quantity = item.Quantity;
-                _db.DBCarts.Update(cartItem);
-                _db.SaveChanges();
+                _repoWrapper.CartItem.Update(cartItem);
+                _repoWrapper.Save();
                 return RedirectToAction("ShoppingCart");
             }
             ModelState.AddModelError("", "Invalid quantity (range 1-100)");
@@ -97,9 +99,13 @@ namespace Bits_on_chips_application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RemoveItem(CartItem item)
         {
-            item = _db.DBCarts.Find(item.CartItemId);
-            _db.DBCarts.Remove(item);
-            _db.SaveChanges();
+            item = _repoWrapper.CartItem.FindByCondition(o => o.CartItemId==item.CartItemId).FirstOrDefault();
+            if(item == default(CartItem))
+            {
+                return NotFound();
+            }
+            _repoWrapper.CartItem.Delete(item);
+            _repoWrapper.Save();
             return RedirectToAction("ShoppingCart", "Cart");
         }
         [HttpPost]
@@ -112,10 +118,10 @@ namespace Bits_on_chips_application.Controllers
             }
             string id = _userManager.GetUserId(User);
             float totalPrice = 0;
-            IQueryable<CartItem> cartItems = _db.DBCarts.Where(obj => obj.Id == id && obj.OrderId == 1);
+            IList<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
             foreach(var item in cartItems)
             {
-                item.Component = _db.DBComponents.Find(item.ComponentId);
+                item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).FirstOrDefault();
                 item.PricePaid = item.Component.Price;
                 totalPrice += item.PricePaid * item.Quantity;
             }
@@ -124,15 +130,15 @@ namespace Bits_on_chips_application.Controllers
                 Date = DateTime.Now,
                 Price = totalPrice
             };
-            _db.DBOrders.Add(order);
-            _db.SaveChanges();
-            order = _db.DBOrders.Where(obj => obj.Date == order.Date).FirstOrDefault();
+            _repoWrapper.Order.Create(order);
+            _repoWrapper.Save();
+            order = _repoWrapper.Order.FindByCondition(obj => obj.Date == order.Date).FirstOrDefault();
             foreach (var item in cartItems)
             {
                 item.OrderId = order.OrderId;
-                _db.DBCarts.Update(item);
+                _repoWrapper.CartItem.Update(item);
             }
-            _db.SaveChanges();
+            _repoWrapper.Save();
             TempData["order id"] = order.OrderId;
             return RedirectToAction("Order");
         }
@@ -150,12 +156,14 @@ namespace Bits_on_chips_application.Controllers
             {
                 id = (int)TempData["order id"];
             }
-            IQueryable<CartItem> cartItems = _db.DBCarts.Where(obj => obj.OrderId == id);
+            IQueryable<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.OrderId == id);
+            IList<CartItem> result = new List<CartItem>();
             foreach (var item in cartItems)
             {
-                item.Component = _db.DBComponents.Find(item.ComponentId);
+                item.Component = _repoWrapper.Component.FindByCondition(o => o.ComponentId == item.ComponentId).FirstOrDefault();
+                result.Add(item);
             }
-            return View(cartItems);
+            return View(result);
         }
 
         public IActionResult AllOrders()
@@ -165,10 +173,10 @@ namespace Bits_on_chips_application.Controllers
                 return RedirectToAction("Login", "User");
             }
             string userId = _userManager.GetUserId(User);
-            IQueryable<CartItem> cartItems = _db.DBCarts.Where(obj => obj.Id == userId && obj.OrderId != 1);
+            IQueryable<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.Id == userId && obj.OrderId != 1);
             IQueryable<int> queryable = (from item in cartItems select item.OrderId).Distinct();
-            _db.SaveChanges();
-            IQueryable<Order> orders = _db.DBOrders.Where(obj => queryable.Contains(obj.OrderId));
+            _repoWrapper.Save();
+            IQueryable<Order> orders = _repoWrapper.Order.FindByCondition(obj => queryable.Contains(obj.OrderId));
             return View(orders);
         }
     }
