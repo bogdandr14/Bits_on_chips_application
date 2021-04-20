@@ -1,6 +1,7 @@
 ﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
+using Bits_on_chips_application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -13,10 +14,12 @@ namespace Bits_on_chips_application.Controllers
 {
     public class StoreController : Controller
     {
-        private readonly IRepositoryWrapper _repoWrapper;
-        public StoreController(IRepositoryWrapper repoWrapper)
+        private readonly ComponentService _componentService;
+        private readonly CategoryService _categoryService;
+        public StoreController(ComponentService componentService, CategoryService categoryService)
         {
-            _repoWrapper = repoWrapper;
+            _componentService = componentService;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -24,7 +27,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Categories")]
         public IActionResult Categories()
         {
-            IEnumerable<Category> objList = _repoWrapper.Category.FindAll();
+            IEnumerable<Category> objList = _categoryService.GetCategories();
             return View(objList);
         }
 
@@ -36,7 +39,7 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound(id);
             }
-            Category category = _repoWrapper.Category.FindById(id);
+            Category category = _categoryService.GetCategoryById(id);
             if (category == null)
             {
                 return NotFound(id);
@@ -49,7 +52,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Ssd")]
         public IActionResult Ssd()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("ssd"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("ssd"));
             return View(objList);
         }
 
@@ -58,7 +61,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Hdd")]
         public IActionResult Hdd()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("hdd"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("hdd"));
             return View(objList);
         }
 
@@ -67,7 +70,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Ram")]
         public IActionResult Ram()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("ram"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("ram"));
             return View(objList);
         }
 
@@ -76,7 +79,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Cpu")]
         public IActionResult Cpu()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("cpu"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("cpu"));
             return View(objList);
         }
 
@@ -85,7 +88,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Gpu")]
         public IActionResult Gpu()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("gpu"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("gpu"));
             return View(objList);
         }
 
@@ -94,7 +97,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Source")]
         public IActionResult Source()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("source"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("source"));
             return View(objList);
         }
 
@@ -103,7 +106,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Cooler")]
         public IActionResult Cooler()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("cooler"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("cooler"));
             return View(objList);
         }
 
@@ -112,7 +115,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Motherboard")]
         public IActionResult Motherboard()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("motherboard"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("motherboard"));
             return View(objList);
         }
 
@@ -121,7 +124,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Store/Case")]
         public IActionResult Case()
         {
-            IQueryable<Component> objList = _repoWrapper.Component.FindByCondition(o => o.Category.CategoryName.Equals("case"));
+            IList<Component> objList = _componentService.GetComponentsByCondition(o => o.Category.CategoryName.Equals("case"));
             return View(objList);
         }
 
@@ -134,7 +137,7 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            var obj = _repoWrapper.Component.FindById(id);
+            var obj = _componentService.GetComponentById(id);
             if (obj == null)
             {
                 return NotFound();
@@ -148,13 +151,13 @@ namespace Bits_on_chips_application.Controllers
         [Route("Component/DeletePost")]
         public IActionResult DeletePost(int ComponentId)
         {
-            var obj = _repoWrapper.Component.FindById(ComponentId);
+            var obj = _componentService.GetComponentById(ComponentId);
             if (obj == null)
             {
                 return NotFound();
             }
-            _repoWrapper.Component.Delete(obj);
-            _repoWrapper.Save();
+            _componentService.DeleteComponent(obj);
+            _componentService.Save();
             return RedirectToAction("Categories");
         }
 
@@ -166,7 +169,7 @@ namespace Bits_on_chips_application.Controllers
             ComponentVM ComponentVM = new ComponentVM()
             {
                 Component = new Component(),
-                TypeDropDown = _repoWrapper.Category.FindAll().Select(i => new SelectListItem
+                TypeDropDown = _categoryService.GetCategories().Select(i => new SelectListItem
                 {
                     Text = i.CategoryName,
                     Value = i.CategoryId.ToString()
@@ -183,11 +186,11 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repoWrapper.Component.Create(obj.Component);
-                _repoWrapper.Save();
+                _componentService.AddComponent(obj.Component);
+                _componentService.Save();
                 return RedirectToAction("Categories");
             }
-            IEnumerable<SelectListItem> TypeDropDown = _repoWrapper.Category.FindAll().Select(i => new SelectListItem
+            IEnumerable<SelectListItem> TypeDropDown = _categoryService.GetCategories().Select(i => new SelectListItem
             {
                 Text = i.CategoryName,
                 Value = i.CategoryId.ToString()
@@ -205,17 +208,11 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            var obj = _repoWrapper.Component.FindById(id);
+            var obj = _componentService.GetComponentById(id);
             if (obj == null)
             {
                 return NotFound();
             }
-            var categ = _repoWrapper.Category.FindById(obj.CategoryId);
-            if (categ == null)
-            {
-                return NotFound();
-            }
-            obj.Category = categ;
             return View(obj);
         }
 
@@ -227,8 +224,8 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repoWrapper.Component.Update(component);
-                _repoWrapper.Save();
+                _componentService.UpdateComponent(component);
+                _componentService.Save();
                 return RedirectToAction("Categories");
             }
             return RedirectToAction("Edit", new { id = component.ComponentId });

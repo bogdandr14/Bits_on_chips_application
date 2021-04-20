@@ -1,5 +1,6 @@
 ﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
+using Bits_on_chips_application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,12 +12,16 @@ namespace Bits_on_chips_application.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IRepositoryWrapper _repoWrapper;
+        private readonly ComponentService _componentService;
+        private readonly CartItemService _cartItemService;
+        private readonly OrderService _orderService;
         UserManager<ApplicationUser> _userManager;
         SignInManager<ApplicationUser> _signInManager;
-        public CartController(IRepositoryWrapper repoWrapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _repoWrapper = repoWrapper;
+            _componentService = componentService;
+            _cartItemService = cartItemService;
+            _orderService = orderService;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -27,12 +32,7 @@ namespace Bits_on_chips_application.Controllers
         public IActionResult ShoppingCart()
         {
             string userId = _userManager.GetUserId(User);
-            IList<CartItem> obj = _repoWrapper.CartItem.FindByCondition(o => o.Id == userId && o.OrderId == 1).ToList();
-            foreach(var item in obj)
-            {
-                item.Component = _repoWrapper.Component.FindById(item.ComponentId);
-                item.Component.Category = _repoWrapper.Category.FindById(item.Component.CategoryId);
-            }
+            IList<CartItem> obj = _cartItemService.GetCartItemsByCondition(o => o.Id == userId && o.OrderId == 1);
             return View(obj);
         }
 
@@ -42,28 +42,18 @@ namespace Bits_on_chips_application.Controllers
         public IActionResult AddItem(Component component)
         {
             string userId = _userManager.GetUserId(User);
-            component = _repoWrapper.Component.FindById(component.ComponentId);
-            CartItem cartItem = _repoWrapper.CartItem.FindByCondition(obj => obj.ComponentId == component.ComponentId && obj.Id == userId && obj.OrderId == 1).FirstOrDefault();
-            if (cartItem == default(CartItem))
+            component = _componentService.GetComponentById(component.ComponentId);
+            CartItem cartItem = new CartItem
             {
-                cartItem = new CartItem
-                {
-                    ComponentId = component.ComponentId,
-                    Id = userId,
-                    OrderId = 1,
-                    Quantity = 1
-                };
-                _repoWrapper.CartItem.Create(cartItem);
-            }
-            else
-            {
-                ++cartItem.Quantity;
-                _repoWrapper.CartItem.Update(cartItem);
-            }
-            _repoWrapper.Save();
-            Category category = _repoWrapper.Category.FindById(component.CategoryId);
+                ComponentId = component.ComponentId,
+                Id = userId,
+                OrderId = 1,
+                Quantity = 1
+            };
+            _cartItemService.AddCartItem(cartItem);
+            _cartItemService.Save();
             TempData["item added"] = component.ComponentId.ToString();
-            return RedirectToAction(category.CategoryName, "Store");
+            return RedirectToAction(component.Category.CategoryName, "Store");
         }
 
         [HttpGet]
@@ -75,13 +65,11 @@ namespace Bits_on_chips_application.Controllers
             {
                 return NotFound();
             }
-            CartItem item = _repoWrapper.CartItem.FindById(id);
+            CartItem item = _cartItemService.GetCartItemById(id);
             if (item == null)
             {
                 return NotFound();
             }
-            item.Component = _repoWrapper.Component.FindById(item.ComponentId);
-            item.Component.Category = _repoWrapper.Category.FindById(item.Component.CategoryId);
             return View(item);
         }
 
@@ -93,14 +81,14 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                CartItem cartItem = _repoWrapper.CartItem.FindById(item.CartItemId);
+                CartItem cartItem = _cartItemService.GetCartItemById(item.CartItemId);
                 if (cartItem == null)
                 {
                     return NotFound();
                 }
                 cartItem.Quantity = item.Quantity;
-                _repoWrapper.CartItem.Update(cartItem);
-                _repoWrapper.Save();
+                _cartItemService.UpdateCartItem(cartItem);
+                _cartItemService.Save();
                 return RedirectToAction("ShoppingCart");
             }
             ModelState.AddModelError("", "Invalid quantity (range 1-100)");
@@ -112,13 +100,13 @@ namespace Bits_on_chips_application.Controllers
         [Route("ShoppingCart/RemoveItem")]
         public IActionResult RemoveItem(CartItem item)
         {
-            item = _repoWrapper.CartItem.FindById(item.CartItemId);
+            item = _cartItemService.GetCartItemById(item.CartItemId);
             if(item == default(CartItem))
             {
                 return NotFound();
             }
-            _repoWrapper.CartItem.Delete(item);
-            _repoWrapper.Save();
+            _cartItemService.DeleteCartItem(item);
+            _cartItemService.Save();
             return RedirectToAction("ShoppingCart", "Cart");
         }
 
@@ -133,10 +121,9 @@ namespace Bits_on_chips_application.Controllers
             }
             string id = _userManager.GetUserId(User);
             float totalPrice = 0;
-            IList<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
+            IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
             foreach(var item in cartItems)
             {
-                item.Component = _repoWrapper.Component.FindById(item.ComponentId);
                 item.PricePaid = item.Component.Price;
                 totalPrice += item.Component.Price * item.Quantity;
             }
@@ -145,15 +132,11 @@ namespace Bits_on_chips_application.Controllers
                 Date = DateTime.Now,
                 Price = totalPrice
             };
-            _repoWrapper.Order.Create(order);
-            _repoWrapper.Save();
-            order = _repoWrapper.Order.FindByCondition(obj => obj.Date == order.Date).FirstOrDefault();
-            foreach (var item in cartItems)
-            {
-                item.OrderId = order.OrderId;
-                _repoWrapper.CartItem.Update(item);
-            }
-            _repoWrapper.Save();
+            _orderService.AddOrder(order);
+            _orderService.Save();
+            order = _orderService.GetOrdersByCondition(obj => obj.Date == order.Date && order.Price == totalPrice).FirstOrDefault();
+            _cartItemService.UpdateCartItemsForOrder(cartItems, order);
+            _cartItemService.Save();
             TempData["order id"] = order.OrderId;
             return RedirectToAction("Order");
         }
@@ -174,11 +157,7 @@ namespace Bits_on_chips_application.Controllers
             {
                 id = (int)TempData["order id"];
             }
-            IList<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.OrderId == id).ToList();
-            foreach (var item in cartItems)
-            {
-                item.Component = _repoWrapper.Component.FindById(item.ComponentId);
-            }
+            IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.OrderId == id).ToList();
             return View(cartItems);
         }
 
@@ -191,9 +170,7 @@ namespace Bits_on_chips_application.Controllers
                 return RedirectToAction("Login", "User");
             }
             string userId = _userManager.GetUserId(User);
-            IQueryable<CartItem> cartItems = _repoWrapper.CartItem.FindByCondition(obj => obj.Id == userId && obj.OrderId != 1);
-            IQueryable<int> queryable = (from item in cartItems select item.OrderId).Distinct();
-            IQueryable<Order> orders = _repoWrapper.Order.FindByCondition(obj => queryable.Contains(obj.OrderId));
+            List<Order> orders = _orderService.GetOrdersForUser(userId);
             return View(orders);
         }
     }

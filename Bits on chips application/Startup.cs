@@ -1,5 +1,6 @@
 using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
+using Bits_on_chips_application.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -49,6 +50,10 @@ namespace Bits_on_chips_application
                 options.User.RequireUniqueEmail = true;
             });
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<CategoryService>();
+            services.AddScoped<ComponentService>();
+            services.AddScoped<CartItemService>();
+            services.AddScoped<OrderService>();
             services.AddRazorPages();
         }
 
