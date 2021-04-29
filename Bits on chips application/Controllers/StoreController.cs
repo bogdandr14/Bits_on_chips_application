@@ -1,7 +1,9 @@
 ﻿using Bits_on_chips_application.Data;
+using Bits_on_chips_application.Utility;
 using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -129,6 +131,7 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Get-Delete
+        [Authorize(Roles = Helper.Admin)]
         [HttpGet]
         [Route("Component/Delete")]
         public IActionResult Delete(int? id)
@@ -162,6 +165,7 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Get-Create
+        [Authorize(Roles = Helper.Admin)]
         [HttpGet]
         [Route("Component/Create")]
         public IActionResult Create()
@@ -200,6 +204,7 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Get-Edit
+        [Authorize(Roles = Helper.Admin)]
         [HttpGet]
         [Route("Component/Edit")]
         public IActionResult Edit(int? id)

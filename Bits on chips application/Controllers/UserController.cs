@@ -2,11 +2,15 @@
 using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bits_on_chips_application.Controllers
@@ -16,13 +20,17 @@ namespace Bits_on_chips_application.Controllers
         UserManager<ApplicationUser> _userManager;
         SignInManager<ApplicationUser> _signInManager;
         RoleManager<IdentityRole> _roleManager;
-        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser>signInManager)
+        private readonly ILogger<UserController> _logger;
+
+        public UserController(ILogger<UserController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser>signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
         
+        [Authorize]
         [HttpGet]
         [Route("User/Info")]
         public IActionResult Info()
@@ -84,6 +92,8 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/Register")]
         public async Task<IActionResult> Register(RegisterVM  obj)
         {
+           /* string returnUrl = Url.Content("~/");
+            List<Microsoft.AspNetCore.Authentication.AuthenticationScheme> authenticationSchemes = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();*/
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -100,6 +110,15 @@ namespace Bits_on_chips_application.Controllers
 
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation("User created a new account.");
+                    /*string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/User/ConfirmEmail", 
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+                    await _emailSender*/
                     await _userManager.AddToRoleAsync(user, Helper.Customer);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
@@ -112,6 +131,7 @@ namespace Bits_on_chips_application.Controllers
             return View(obj);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("User/LogOff")]
         public async Task<IActionResult> LogOff()
@@ -120,14 +140,11 @@ namespace Bits_on_chips_application.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         [Route("User/Change")]
         [Route("User/ChangeInfo")]
         public IActionResult Change()
         {
-            if (!_signInManager.IsSignedIn(User))
-            {
-                return RedirectToAction("Login");
-            }
             ApplicationUser user = _userManager.GetUserAsync(User).Result;
            
             var obj = new EditVM
@@ -140,6 +157,7 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Post-Register
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("User/ChangePost")]

@@ -8,8 +8,8 @@ namespace Bits_on_chips_application.Utility
 {
     public static class Helper
     {
-        public static string Admin = "Admin";
-        public static string Customer = "Customer";
+        public const string Admin = "Admin";
+        public const string Customer = "Customer";
         public static List<SelectListItem> GetRolesForLogin()
         {
             return new List<SelectListItem>

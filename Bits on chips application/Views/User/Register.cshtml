@@ -7,7 +7,7 @@
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
     <form class="input" method="post" asp-action="Register">
-        <div asp-validation-summary="All" class="text-danger" style="font-size:24px"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger" style="font-size:24px"></div>
         <table class="personal-info">
             <tr>
                 <th><label asp-for="FirstName"></label></th>

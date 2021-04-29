@@ -41,7 +41,7 @@ namespace Bits_on_chips_application
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
-                options.Password.RequiredUniqueChars = 4;
+                options.Password.RequiredUniqueChars = 5;
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(3);
                 options.Lockout.MaxFailedAccessAttempts = 100;
@@ -55,6 +55,14 @@ namespace Bits_on_chips_application
             services.AddScoped<CartItemService>();
             services.AddScoped<OrderService>();
             services.AddRazorPages();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.LoginPath = "/User/Login";
+                options.AccessDeniedPath = "/Home/AccessDenied";
+                options.SlidingExpiration = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

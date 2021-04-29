@@ -34,6 +34,13 @@ namespace Bits_on_chips_application.Controllers
             return View();
         }
 
+        [Route("AccessDenied")]
+        [Route("Home/AccessDenied")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

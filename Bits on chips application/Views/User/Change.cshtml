@@ -36,13 +36,6 @@
                 </td>
             </tr>
             <tr>
-                <th><label asp-for="ConfirmPassword"></label></th>
-                <td>
-                    <input asp-for="ConfirmPassword" class="form-control w-50" required>
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </td>
-            </tr>
-            <tr>
                 <th>
                     <label asp-for="NewPassword"></label>
                 </th>
@@ -57,6 +50,13 @@
                 <td>
                     <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
                     <label for="checkbox">Show</label>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="ConfirmPassword"></label></th>
+                <td>
+                    <input asp-for="ConfirmPassword" class="form-control w-50" required>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </td>
             </tr>
         </table>

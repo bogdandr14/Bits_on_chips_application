@@ -1,6 +1,9 @@
 ﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
+using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Services;
+using Bits_on_chips_application.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Bits_on_chips_application.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ComponentService _componentService;
@@ -115,10 +119,6 @@ namespace Bits_on_chips_application.Controllers
         [Route("ShoppingCart/Order")]
         public IActionResult OrderPost()
         {
-            if (!_signInManager.IsSignedIn(User))
-            {
-                return RedirectToAction("Login", "User");
-            }
             string id = _userManager.GetUserId(User);
             float totalPrice = 0;
             IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
@@ -145,10 +145,6 @@ namespace Bits_on_chips_application.Controllers
         [Route("Order")]
         public IActionResult Order(int ?id)
         {
-            if (!_signInManager.IsSignedIn(User))
-            {
-                return RedirectToAction("Login", "User");
-            }
             if (TempData["order id"] == null && (id == null || id == 0))
             {
                 return NotFound();
@@ -165,10 +161,6 @@ namespace Bits_on_chips_application.Controllers
         [Route("AllOrders")]
         public IActionResult AllOrders()
         {
-            if (!_signInManager.IsSignedIn(User))
-            {
-                return RedirectToAction("Login", "User");
-            }
             string userId = _userManager.GetUserId(User);
             List<Order> orders = _orderService.GetOrdersForUser(userId);
             return View(orders);

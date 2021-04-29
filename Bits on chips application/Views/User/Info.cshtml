@@ -7,8 +7,6 @@
 
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-    @if (signInManager.IsSignedIn(User))
-    {
         <form class="input" method="post" asp-action="Change">
             <table class="login-info sub_title">
                 <tr>
@@ -74,15 +72,4 @@
                 @*<a class="nav-button" asp-area="" asp-controller="User" asp-action="Change">Change info</a>*@
             </div>
         </form>
-    }
-    else
-    {
-        <div class="sub_title">
-            Please login in order to see this page
-        </div>
-        <br/>
-        <div class="btns">
-            <a class="nav-button" asp-area="" asp-controller="User" asp-action="Login">Login</a>
-        </div>
-    }
 </div>
