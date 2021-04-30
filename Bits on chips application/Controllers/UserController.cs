@@ -1,6 +1,7 @@
 ﻿using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
+using Bits_on_chips_application.Services;
 using Bits_on_chips_application.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,25 +18,23 @@ namespace Bits_on_chips_application.Controllers
 {
     public class UserController : Controller
     {
-        UserManager<ApplicationUser> _userManager;
-        SignInManager<ApplicationUser> _signInManager;
         RoleManager<IdentityRole> _roleManager;
+        UserService _userService;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser>signInManager)
+        public UserController(ILogger<UserController> logger, RoleManager<IdentityRole> roleManager, UserService userService)
         {
-            _userManager = userManager;
             _roleManager = roleManager;
-            _signInManager = signInManager;
+            _userService = userService;
             _logger = logger;
         }
         
         [Authorize]
         [HttpGet]
         [Route("User/Info")]
-        public IActionResult Info()
+        public async Task<IActionResult> InfoAsync()
         {
-            ApplicationUser user = _userManager.GetUserAsync(User).Result;
+            ApplicationUser user = await _userService.GetUserAsync(User);
             return View(user);
         }
 
@@ -43,7 +42,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/SignIn")]
         public IActionResult Login()
         {
-            if (_signInManager.IsSignedIn(User))
+            if (_userService.IsUserSignedIn(User))
             {
                 return RedirectToAction("User//Info");
             }
@@ -58,8 +57,7 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                if ((await _userService.LogInUserAsync(model)).Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -74,7 +72,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/SignUp")]
         public async Task<IActionResult> Register()
         {
-            if (_signInManager.IsSignedIn(User))
+            if (_userService.IsUserSignedIn(User))
             {
                 return RedirectToAction("Info");
             }
@@ -96,34 +94,12 @@ namespace Bits_on_chips_application.Controllers
             List<Microsoft.AspNetCore.Authentication.AuthenticationScheme> authenticationSchemes = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();*/
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
-                {
-                    UserName = obj.Username,
-                    FirstName = obj.FirstName,
-                    LastName = obj.LastName,
-                    BirthDate = obj.BirthDate,
-                    Address = obj.Address,
-                    Email = obj.Email,
-                    PhoneNumber = obj.Phone
-                };
-                var result = await _userManager.CreateAsync(user, obj.Password);
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account.");
-                    /*string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/User/ConfirmEmail", 
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-                    await _emailSender*/
-                    await _userManager.AddToRoleAsync(user, Helper.Customer);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                IdentityResult identityResult = await _userService.RegisterUserAsync(obj);
+                if (identityResult.Succeeded) 
+                { 
                     return RedirectToAction("Index", "Home");
                 }
-                foreach(var err in result.Errors)
+                foreach(var err in identityResult.Errors)
                 {
                     ModelState.AddModelError("", err.Description);
                 }
@@ -136,17 +112,16 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/LogOff")]
         public async Task<IActionResult> LogOff()
         {
-            await _signInManager.SignOutAsync();
+            _userService.SignOutUser();
             return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
         [Route("User/Change")]
         [Route("User/ChangeInfo")]
-        public IActionResult Change()
+        public async Task<IActionResult> ChangeAsync()
         {
-            ApplicationUser user = _userManager.GetUserAsync(User).Result;
-           
+            ApplicationUser user = await _userService.GetUserAsync(User);
             var obj = new EditVM
             {
                 Address = user.Address,
@@ -163,36 +138,18 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/ChangePost")]
         public async Task<IActionResult> ChangePost(EditVM modifications)
         {
-            ApplicationUser user = _userManager.GetUserAsync(User).Result;
             if (ModelState.IsValid)
             {
-                Task<bool> task = _userManager.CheckPasswordAsync(user, modifications.ConfirmPassword);
-                if (task.Result)
+                TempData["message"] =  await _userService.UpdateUserAsync(modifications, User);
+                if (TempData["message"].ToString().Equals(Helper.UpdateSuccess))
                 {
-                    if (modifications.NewPassword != null)
-                    {
-                        var task1 = await _userManager.ChangePasswordAsync(user, modifications.ConfirmPassword, modifications.NewPassword);
-                        if (!task1.Succeeded)
-                        {
-                            TempData["message"] = "The new password does not meet the requirements!";
-                            return RedirectToAction("Change");
-                        }
-                    }
-                    user.Email = modifications.Email;
-                    user.Address = modifications.Address;
-                    user.PhoneNumber = modifications.Phone;
-                    var result = await _userManager.UpdateAsync(user);
-                    if (!result.Succeeded)
-                    {
-                        TempData["message"] = "Could not update with the new information.";
-                        return RedirectToAction("Change");
-                    }
                     return RedirectToAction("Info", "User");
                 }
-                TempData["message"] = "Passwords do not match!";
-                return RedirectToAction("Change");
             }
-            TempData["message"] = "The fields do not met the requirements!";
+            else
+            {
+                TempData["message"] = "The fields do not met the requirements!";
+            }
             return RedirectToAction("Change");
         }
     }

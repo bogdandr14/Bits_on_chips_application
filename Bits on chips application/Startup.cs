@@ -54,6 +54,8 @@ namespace Bits_on_chips_application
             services.AddScoped<ComponentService>();
             services.AddScoped<CartItemService>();
             services.AddScoped<OrderService>();
+            services.AddScoped<UserService>();
+
             services.AddRazorPages();
             services.ConfigureApplicationCookie(options =>
             {
