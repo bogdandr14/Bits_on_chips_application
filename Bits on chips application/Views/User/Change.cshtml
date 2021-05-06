@@ -5,7 +5,7 @@
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
     <div class="sub_sub_title" style="color:red">@TempData["message"]</div>
-    <form class="input" method="post" asp-action="ChangePost">
+    <form class="input" method="post" asp-action="ChangePost" enctype="multipart/form-data">
         <div asp-validation-summary="All" class="text-danger"></div>
         <table class="input">
             <tr>
@@ -13,7 +13,7 @@
                     <label asp-for="Address"></label>
                 </th>
                 <td>
-                    <input asp-for="Address" class="form-control w-50" value="@Model.Address">
+                    <input asp-for="Address" class="form-control w-50" value="@Model.Address"/>
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </td>
             </tr>
@@ -22,7 +22,7 @@
                     <label asp-for="Email"></label>
                 </th>
                 <td>
-                    <input asp-for="Email" class="form-control w-50" value="@Model.Email">
+                    <input asp-for="Email" class="form-control w-50" value="@Model.Email"/>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </td>
             </tr>
@@ -31,8 +31,17 @@
                     <label asp-for="Phone"></label>
                 </th>
                 <td>
-                    <input asp-for="Phone" class="form-control w-50" value="@Model.Phone">
+                    <input asp-for="Phone" class="form-control w-50" value="@Model.Phone"/>
                     <span asp-validation-for="Phone" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label asp-for="PhotoFile"></label>
+                </th>
+                <td>
+                    <input type="file" asp-for="PhotoFile" placeholder="Insert new profile picture" class="form-control w-50" />
+                    <span asp-validation-for="PhotoFile" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
@@ -40,7 +49,7 @@
                     <label asp-for="NewPassword"></label>
                 </th>
                 <td>
-                    <input asp-for="NewPassword" class="form-control w-50" id="password">
+                    <input asp-for="NewPassword" class="form-control w-50" id="password"/>
                     <span asp-validation-for="NewPassword" class="text-danger"></span>
                 </td>
             </tr>
@@ -48,14 +57,14 @@
                 <th>
                 </th>
                 <td>
-                    <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
+                    <input type="checkbox" onclick="showPassword()" class="largerCheckbox"/>
                     <label for="checkbox">Show</label>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="ConfirmPassword"></label></th>
                 <td>
-                    <input asp-for="ConfirmPassword" class="form-control w-50" required>
+                    <input asp-for="ConfirmPassword" class="form-control w-50" required/>
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </td>
             </tr>

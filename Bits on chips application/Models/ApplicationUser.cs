@@ -15,5 +15,7 @@ namespace Bits_on_chips_application.Models
         public DateTime BirthDate { get; set; }
         
         public string Address { get; set; }
+
+        public string ProfilePicture { get; set; }
     }
 }

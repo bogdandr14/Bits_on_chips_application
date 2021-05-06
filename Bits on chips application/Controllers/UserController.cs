@@ -4,12 +4,14 @@ using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Services;
 using Bits_on_chips_application.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,15 +20,13 @@ namespace Bits_on_chips_application.Controllers
 {
     public class UserController : Controller
     {
-        RoleManager<IdentityRole> _roleManager;
-        UserService _userService;
-        private readonly ILogger<UserController> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserService _userService;
 
-        public UserController(ILogger<UserController> logger, RoleManager<IdentityRole> roleManager, UserService userService)
+        public UserController(RoleManager<IdentityRole> roleManager, UserService userService)
         {
             _roleManager = roleManager;
             _userService = userService;
-            _logger = logger;
         }
         
         [Authorize]
@@ -59,10 +59,12 @@ namespace Bits_on_chips_application.Controllers
             {
                 if ((await _userService.LogInUserAsync(model)).Succeeded)
                 {
+                    TempData["message"] = "Login successful!";
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Invalid login attempt");
             }
+            TempData["message"] = "Could not log in";
             return View(model);
         }
 
@@ -94,9 +96,17 @@ namespace Bits_on_chips_application.Controllers
             List<Microsoft.AspNetCore.Authentication.AuthenticationScheme> authenticationSchemes = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();*/
             if (ModelState.IsValid)
             {
+                string fileName = Path.GetFileNameWithoutExtension(obj.PhotoFile.FileName);
+                string extension = Path.GetExtension(obj.PhotoFile.FileName);
+                obj.PhotoName = fileName + DateTime.Now.ToString("yyMMddHHmmss") + extension;
                 IdentityResult identityResult = await _userService.RegisterUserAsync(obj);
+                using (Stream fileStream = new FileStream(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ProfilePictures", obj.PhotoName), FileMode.Create))
+                {
+                    await obj.PhotoFile.CopyToAsync(fileStream);
+                }
                 if (identityResult.Succeeded) 
-                { 
+                {
+                    TempData["message"] = "user created successfully";
                     return RedirectToAction("Index", "Home");
                 }
                 foreach(var err in identityResult.Errors)
@@ -104,6 +114,7 @@ namespace Bits_on_chips_application.Controllers
                     ModelState.AddModelError("", err.Description);
                 }
             }
+            TempData["message"] = "user could not be created";
             return View(obj);
         }
 
@@ -112,7 +123,8 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/LogOff")]
         public async Task<IActionResult> LogOff()
         {
-            _userService.SignOutUser();
+            await _userService.SignOutUser();
+            TempData["message"] = "Log out successfull";
             return RedirectToAction("Index", "Home");
         }
 
@@ -122,12 +134,14 @@ namespace Bits_on_chips_application.Controllers
         public async Task<IActionResult> ChangeAsync()
         {
             ApplicationUser user = await _userService.GetUserAsync(User);
+
             var obj = new EditVM
             {
                 Address = user.Address,
                 Email = user.Email,
-                Phone = user.PhoneNumber
-            };      
+                Phone = user.PhoneNumber,
+                PhotoPath = user.ProfilePicture
+            };
             return View(obj);
         }
 
@@ -140,9 +154,36 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["message"] =  await _userService.UpdateUserAsync(modifications, User);
+                string currentProfilePhoto = (await _userService.GetUserAsync(User)).ProfilePicture;
+                if(currentProfilePhoto == null)
+                {
+                    currentProfilePhoto = "";
+                }
+                if (modifications.PhotoFile != null)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(modifications.PhotoFile.FileName);
+                    string extension = Path.GetExtension(modifications.PhotoFile.FileName);
+                    modifications.PhotoPath = fileName + DateTime.Now.ToString("yyMMddHHmmss") + extension;
+                    TempData["message"] = await _userService.UpdateUserAsync(modifications, User);
+                }
+                else
+                {
+                    TempData["message"] = await _userService.UpdateUserAsync(modifications, User);
+                }
                 if (TempData["message"].ToString().Equals(Helper.UpdateSuccess))
                 {
+                    if (modifications.PhotoFile != null)
+                    {
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ProfilePictures", currentProfilePhoto); 
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
+                        using (Stream fileStream = new FileStream(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ProfilePictures", modifications.PhotoPath), FileMode.Create))
+                        {
+                            await modifications.PhotoFile.CopyToAsync(fileStream);
+                        }
+                    }
                     return RedirectToAction("Info", "User");
                 }
             }

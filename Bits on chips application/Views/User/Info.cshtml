@@ -7,69 +7,79 @@
 
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-        <form class="input" method="post" asp-action="Change">
-            <table class="login-info sub_title">
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.UserName"></label>:
-                    </th>
-                    <td style="font-size: 24px; padding-left: 24px">
-                        @Model.UserName
-                    </td>
-                </tr>
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.FirstName"></label>:
-                    </th>
-                    <td style="font-size: 24px;padding-left: 24px">
-                        @Model.FirstName
-                    </td>
-                </tr>
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.LastName"></label>:
-                    </th>
-                    <td style="font-size: 24px; padding-left: 24px">
-                        @Model.LastName
-                    </td>
-                </tr>
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.BirthDate"></label>:
-                    </th>
-                    <td style="font-size: 24px; padding-left: 24px">
-                        @Model.BirthDate.Day/@Model.BirthDate.Month/@Model.BirthDate.Year
-                    </td>
-                </tr>
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.Address"></label>:
-                    </th>
-                    <td style="font-size: 24px; padding-left: 24px">
-                        @Model.Address
-                    </td>
-                </tr>
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.Email"></label>:
-                    </th>
-                    <td style="font-size: 24px; padding-left: 24px">
-                        @Model.Email
-                    </td>
-                </tr>
-                <tr>
-                    <th style="font-size: 24px">
-                        <label asp-for="@Model.PhoneNumber"></label>:
-                    </th>
-                    <td style="font-size: 24px; padding-left: 24px">
-                        @Model.PhoneNumber
-                    </td>
-                </tr>
-            </table>
-            <div class="btns">
-                <input type="submit" class="nav-button" value="Change info" />
-                <a class="btns-post btn-edit" asp-controller="Cart" asp-action="AllOrders">See my orders</a>
-                @*<a class="nav-button" asp-area="" asp-controller="User" asp-action="Change">Change info</a>*@
-            </div>
-        </form>
+    <div class="sub_sub_title" style="color:red">@TempData["message"]</div>
+    @{string imgSrc = "../ProfilePictures/" + Model.ProfilePicture;}
+    <form class="input" method="post" asp-action="Change">
+        <table class="login-info sub_title">
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.ProfilePicture"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    <img src="@imgSrc" width="200" height="200" style="border-radius:10px;border: 2px solid rgb(200, 255, 0);" />
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.UserName"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    @Model.UserName
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.FirstName"></label>:
+                </th>
+                <td style="font-size: 24px;padding-left: 24px">
+                    @Model.FirstName
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.LastName"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    @Model.LastName
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.BirthDate"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    @Model.BirthDate.Day/@Model.BirthDate.Month/@Model.BirthDate.Year
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.Address"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    @Model.Address
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.Email"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    @Model.Email
+                </td>
+            </tr>
+            <tr>
+                <th style="font-size: 24px">
+                    <label asp-for="@Model.PhoneNumber"></label>:
+                </th>
+                <td style="font-size: 24px; padding-left: 24px">
+                    @Model.PhoneNumber
+                </td>
+            </tr>
+        </table>
+        <div class="btns">
+            <input type="submit" class="nav-button" value="Change info" />
+            <a class="btns-post btn-edit" asp-controller="Cart" asp-action="AllOrders">See my orders</a>
+            @*<a class="nav-button" asp-area="" asp-controller="User" asp-action="Change">Change info</a>*@
+        </div>
+    </form>
 </div>

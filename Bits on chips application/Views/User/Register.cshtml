@@ -6,49 +6,57 @@
 
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-    <form class="input" method="post" asp-action="Register">
+    <div class="sub_sub_title" style="color:red">@TempData["message"]</div>
+    <form class="input" method="post" asp-action="Register" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger" style="font-size:24px"></div>
         <table class="personal-info">
             <tr>
                 <th><label asp-for="FirstName"></label></th>
                 <td>
-                    <input type=text placeholder="Enter first name" asp-for="FirstName">
+                    <input type="text" placeholder="Enter first name" asp-for="FirstName" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="LastName"></label></th>
                 <td>
-                    <input type=text placeholder="Enter last name" asp-for="LastName">
+                    <input type="text" placeholder="Enter last name" asp-for="LastName" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="BirthDate"></label></th>
                 <td>
-                    <input type="date" placeholder="Enter birth date" asp-for="BirthDate">
+                    <input type="date" placeholder="Enter birth date" asp-for="BirthDate" />
                     <span asp-validation-for="BirthDate" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Address"></label></th>
                 <td>
-                    <input type=text placeholder="Enter address" asp-for="Address">
+                    <input type="text" placeholder="Enter address" asp-for="Address" />
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Email"></label></th>
                 <td>
-                    <input type=text placeholder="Enter e-mail" asp-for="Email">
+                    <input type="text" placeholder="Enter e-mail" asp-for="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
                 <th><label asp-for="Phone"></label></th>
                 <td>
-                    <input type=text placeholder="Enter phone number" asp-for="Phone">
+                    <input type="tel" placeholder="Enter phone number" asp-for="Phone" />
                     <span asp-validation-for="Phone" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="PhotoFile"></label></th>
+                <td>
+                    <input type="file" placeholder="Insert profile picture" asp-for="PhotoFile" required />
+                    <span asp-validation-for="PhotoFile" class="text-danger"></span>
                 </td>
             </tr>
             <tr>
@@ -87,7 +95,7 @@
                     <label asp-for="RoleName" hidden></label>
                 </th>
                 <td>
-                    <select asp-items="@Bits_on_chips_application.Utility.Helper.GetRolesForLogin()" asp-for="RoleName"hidden></select>
+                    <select asp-items="@Bits_on_chips_application.Utility.Helper.GetRolesForLogin()" asp-for="RoleName" hidden></select>
                     <span asp-validation-for="RoleName" class="text-danger"></span>
                 </td>
             </tr>
@@ -98,7 +106,7 @@
             <a class="nav-button" style="margin-bottom: 20px" asp-controller="Home" asp-action="Index">Cancel</a>
         </div>
     </form>
-    @section Scripts{ 
-        <partial name="_ValidationScriptsPartial"/>
+    @section Scripts{
+        <partial name="_ValidationScriptsPartial" />
     }
 </div>

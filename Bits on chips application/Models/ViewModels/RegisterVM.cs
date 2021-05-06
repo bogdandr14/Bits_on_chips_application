@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -47,7 +48,13 @@ namespace Bits_on_chips_application.Models.ViewModels
         
         [DisplayName("Phone number")]
         public string Phone { get; set; }
-        
+
+        [DisplayName("Profile picture")]
+        public string PhotoName { get; set; }
+
+        [DisplayName("Profile picture file")]
+        public IFormFile PhotoFile { get; set; }
+
         [Required]
         [DisplayName("Role name")]
         public string RoleName { get; set; }

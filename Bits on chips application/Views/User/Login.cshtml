@@ -3,50 +3,51 @@
     ViewData["Title"] = "Login page";
 }
 
-    <div class="text-center">
-        <div class="title">@ViewData["Title"]</div>
-        <div class="sub_title">Here you can enter in your personal account</div>
-        <form class="input" method="post" asp-action="Login" asp-controller="User">
-            <div asp-validation-summary="All" class="text-danger" style="font-size:24px"></div>
-            <table class="login-info">
-                <tr>
-                    <th>
-                        <label asp-for="Username" class="control-label"></label>
-                    </th>
-                    <td>
-                        <input asp-for="Username" class="form-control w-50" placeholder="Enter your username">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label asp-for="Password" class="control-label"></label>
-                    </th>
-                    <td>
-                        <input type="password" asp-for="Password" class="form-control w-50" placeholder="Enter password" id="password">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                    </th>
-                    <td>
-                        <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
-                        <label for="checkbox">Show password</label>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                    </th>
-                    <td>
-                        <input type="checkbox" asp-for="RememberMe" class="largerCheckbox" />
-                        <label asp-for="RememberMe" class="control-label"></label>
-                    </td>
-                </tr>
-            </table>
-            <div class="sub_title">Don't have an account? Please register</div>
-            <div class="btns">
-                <input type="submit" class="nav-button" value="Login" />
-                @*<a class="nav-button" asp-controller="User" asp-action="Login">Login</a>*@
-                <a class="nav-button" asp-controller="User" asp-action="Register">Register</a>
-            </div>
-        </form>
-    </div>
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="sub_sub_title" style="color:red">@TempData["message"]</div>
+    <div class="sub_title">Here you can enter in your personal account</div>
+    <form class="input" method="post" asp-action="Login" asp-controller="User">
+        <div asp-validation-summary="All" class="text-danger" style="font-size:24px"></div>
+        <table class="login-info">
+            <tr>
+                <th>
+                    <label asp-for="Username" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Username" class="form-control w-50" placeholder="Enter your username">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label asp-for="Password" class="control-label"></label>
+                </th>
+                <td>
+                    <input type="password" asp-for="Password" class="form-control w-50" placeholder="Enter password" id="password">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                </th>
+                <td>
+                    <input type="checkbox" onclick="showPassword()" class="largerCheckbox">
+                    <label for="checkbox">Show password</label>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                </th>
+                <td>
+                    <input type="checkbox" asp-for="RememberMe" class="largerCheckbox" />
+                    <label asp-for="RememberMe" class="control-label"></label>
+                </td>
+            </tr>
+        </table>
+        <div class="sub_title">Don't have an account? Please register</div>
+        <div class="btns">
+            <input type="submit" class="nav-button" value="Login" />
+            @*<a class="nav-button" asp-controller="User" asp-action="Login">Login</a>*@
+            <a class="nav-button" asp-controller="User" asp-action="Register">Register</a>
+        </div>
+    </form>
+</div>

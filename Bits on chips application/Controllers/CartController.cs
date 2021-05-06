@@ -19,15 +19,13 @@ namespace Bits_on_chips_application.Controllers
         private readonly ComponentService _componentService;
         private readonly CartItemService _cartItemService;
         private readonly OrderService _orderService;
-        UserManager<ApplicationUser> _userManager;
-        SignInManager<ApplicationUser> _signInManager;
-        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserManager<ApplicationUser> userManager)
         {
             _componentService = componentService;
             _cartItemService = cartItemService;
             _orderService = orderService;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         [HttpGet]

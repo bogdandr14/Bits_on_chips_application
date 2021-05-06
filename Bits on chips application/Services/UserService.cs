@@ -12,14 +12,12 @@ namespace Bits_on_chips_application.Services
 {
     public class UserService : BaseService
     {
-        UserManager<ApplicationUser> _userManager;
-        SignInManager<ApplicationUser> _signInManager;
-        RoleManager<IdentityRole> _roleManager;
-        public UserService(IRepositoryWrapper repositoryWrapper, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public UserService(IRepositoryWrapper repositoryWrapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
             : base(repositoryWrapper)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _signInManager = signInManager;
         }
 
@@ -28,15 +26,6 @@ namespace Bits_on_chips_application.Services
             return await _userManager.GetUserAsync(User);
         }
 
-        public List<ApplicationUser> GetUsersByCondition(Expression<Func<ApplicationUser, bool>> expression)
-        {
-            return repositoryWrapper.ApplicationUser.FindByCondition(expression).ToList();
-        }
-
-        public ApplicationUser GetUserById(params object[] keyValues)
-        {
-            return repositoryWrapper.ApplicationUser.FindById(keyValues);
-        }
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterVM registerInfo)
         {
@@ -48,7 +37,8 @@ namespace Bits_on_chips_application.Services
                 BirthDate = registerInfo.BirthDate,
                 Address = registerInfo.Address,
                 Email = registerInfo.Email,
-                PhoneNumber = registerInfo.Phone
+                PhoneNumber = registerInfo.Phone,
+                ProfilePicture = registerInfo.PhotoName
             };
             var result = await _userManager.CreateAsync(user, registerInfo.Password);
             if (result.Succeeded)
@@ -76,6 +66,10 @@ namespace Bits_on_chips_application.Services
                 user.Email = modifications.Email;
                 user.Address = modifications.Address;
                 user.PhoneNumber = modifications.Phone;
+                if(modifications.PhotoFile != null)
+                {
+                    user.ProfilePicture = modifications.PhotoPath;
+                }
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -91,7 +85,7 @@ namespace Bits_on_chips_application.Services
             return signInResult;
         }
 
-        public async void SignOutUser()
+        public async Task SignOutUser()
         {
             await _signInManager.SignOutAsync();
         }
