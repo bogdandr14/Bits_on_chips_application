@@ -93,7 +93,7 @@ namespace Bits_on_chips_application.Controllers
                 _cartItemService.Save();
                 return RedirectToAction("ShoppingCart");
             }
-            ModelState.AddModelError("", "Invalid quantity (range 1-100)");
+            ModelState.AddModelError("", Helper.InvalidQuantity);
             return View(item);
         }
 

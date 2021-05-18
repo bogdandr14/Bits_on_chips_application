@@ -20,12 +20,10 @@ namespace Bits_on_chips_application.Controllers
 {
     public class UserController : Controller
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserService _userService;
 
-        public UserController(RoleManager<IdentityRole> roleManager, UserService userService)
+        public UserController(UserService userService)
         {
-            _roleManager = roleManager;
             _userService = userService;
         }
         
@@ -59,12 +57,12 @@ namespace Bits_on_chips_application.Controllers
             {
                 if ((await _userService.LogInUserAsync(model)).Succeeded)
                 {
-                    TempData["message"] = "Login successful!";
+                    TempData["message"] = Helper.LoginSuccess;
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Invalid login attempt");
+                ModelState.AddModelError("", Helper.LoginFailure);
             }
-            TempData["message"] = "Could not log in";
+            TempData["message"] = Helper.LoginUnavailable;
             return View(model);
         }
 
@@ -72,16 +70,11 @@ namespace Bits_on_chips_application.Controllers
         [HttpGet]
         [Route("User/Register")]
         [Route("User/SignUp")]
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             if (_userService.IsUserSignedIn(User))
             {
                 return RedirectToAction("Info");
-            }
-            if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
-            {
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Customer));
             }
             return View();
         }
@@ -106,7 +99,7 @@ namespace Bits_on_chips_application.Controllers
                 }
                 if (identityResult.Succeeded) 
                 {
-                    TempData["message"] = "user created successfully";
+                    TempData["message"] = Helper.UserCreationSuccess;
                     return RedirectToAction("Index", "Home");
                 }
                 foreach(var err in identityResult.Errors)
@@ -114,7 +107,7 @@ namespace Bits_on_chips_application.Controllers
                     ModelState.AddModelError("", err.Description);
                 }
             }
-            TempData["message"] = "user could not be created";
+            TempData["message"] = Helper.UserCreationFailure;
             return View(obj);
         }
 
@@ -124,7 +117,7 @@ namespace Bits_on_chips_application.Controllers
         public async Task<IActionResult> LogOff()
         {
             await _userService.SignOutUser();
-            TempData["message"] = "Log out successfull";
+            TempData["message"] = Helper.LogoutSuccessful;
             return RedirectToAction("Index", "Home");
         }
 
@@ -189,7 +182,7 @@ namespace Bits_on_chips_application.Controllers
             }
             else
             {
-                TempData["message"] = "The fields do not met the requirements!";
+                TempData["message"] = Helper.InvalidInput;
             }
             return RedirectToAction("Change");
         }

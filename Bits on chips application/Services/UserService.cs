@@ -12,11 +12,13 @@ namespace Bits_on_chips_application.Services
 {
     public class UserService : BaseService
     {
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public UserService(IRepositoryWrapper repositoryWrapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserService(IRepositoryWrapper repositoryWrapper, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
             : base(repositoryWrapper)
         {
+            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -29,6 +31,11 @@ namespace Bits_on_chips_application.Services
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterVM registerInfo)
         {
+            if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
+            {
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Customer));
+            }
             var user = new ApplicationUser
             {
                 UserName = registerInfo.Username,
