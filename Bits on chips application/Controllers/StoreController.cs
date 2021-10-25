@@ -1,16 +1,12 @@
-﻿using Bits_on_chips_application.Data;
-using Bits_on_chips_application.Utility;
-using Bits_on_chips_application.Models;
+﻿using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Services;
+using Bits_on_chips_application.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Vereyon.Web;
 
 namespace Bits_on_chips_application.Controllers
 {
@@ -136,16 +132,19 @@ namespace Bits_on_chips_application.Controllers
         [Route("Component/Delete")]
         public IActionResult Delete(int? id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
+            if (Authentication.Jwt.JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var obj = _componentService.GetComponentById(id);
+                if (obj == null)
+                {
+                    return NotFound();
+                }
+                return View(obj);
             }
-            var obj = _componentService.GetComponentById(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            return RedirectToAction("Categories");
         }
 
         //Post-Delete
@@ -165,21 +164,24 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Get-Create
-        [Authorize(Roles = Helper.Admin)]
+        [Authorize]
         [HttpGet]
         [Route("Component/Create")]
         public IActionResult Create()
         {
-            ComponentVM ComponentVM = new ComponentVM()
-            {
-                Component = new Component(),
-                TypeDropDown = _categoryService.GetCategories().Select(i => new SelectListItem
+            if (Authentication.Jwt.JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
+                ComponentVM ComponentVM = new ComponentVM()
                 {
-                    Text = i.CategoryName,
-                    Value = i.CategoryId.ToString()
-                })
-            };
-            return View(ComponentVM);
+                    Component = new Component(),
+                    TypeDropDown = _categoryService.GetCategories().Select(i => new SelectListItem
+                    {
+                        Text = i.CategoryName,
+                        Value = i.CategoryId.ToString()
+                    })
+                };
+                return View(ComponentVM);
+            }
+            return RedirectToAction("Categories");
         }
 
         //Post-Create
@@ -204,21 +206,24 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Get-Edit
-        [Authorize(Roles = Helper.Admin)]
+        [Authorize]
         [HttpGet]
         [Route("Component/Edit")]
         public IActionResult Edit(int? id)
         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
+            if (Authentication.Jwt.JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var obj = _componentService.GetComponentById(id);
+                if (obj == null)
+                {
+                    return NotFound();
+                }
+                return View(obj);
             }
-            var obj = _componentService.GetComponentById(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            return RedirectToAction("Categories");
         }
 
         //Post-Edit

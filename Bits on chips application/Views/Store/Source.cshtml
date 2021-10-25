@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Bits_on_chips_application.Models.Component>
-@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
 @{
     ViewData["Title"] = "Source page";
 }
@@ -32,7 +31,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Price)
                     </th>
-                    @if (signInManager.IsSignedIn(User))
+                    @if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context))
                     {
                         <th class="btns-post"></th>
                     }
@@ -60,16 +59,16 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>
-                        @if (signInManager.IsSignedIn(User))
+                        @if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context))
                         {
-                             <td class="btns-post" role="group">
-                                @if (User.IsInRole(Bits_on_chips_application.Utility.Helper.Admin))
+                            <td class="btns-post" role="group">
+                                @if (Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Admin))
                                 {
                                     <a class="btn-edit" asp-controller="Store" asp-action="Edit" asp-route-Id="@item.ComponentId">Edit</a>
                                     <a class="btn-delete" asp-controller="Store" asp-action="Delete" asp-route-Id="@item.ComponentId">Delete</a>
                                 }
                                 @{Component component = item;}
-                                @if (User.IsInRole(Bits_on_chips_application.Utility.Helper.Customer))
+                                @if (Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Customer))
                                 {
                                     <form class="input" method="post" asp-action="AddItem" asp-controller="Cart">
                                         <input asp-for="@component.ComponentId" hidden />

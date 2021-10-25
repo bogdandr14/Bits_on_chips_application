@@ -1,12 +1,10 @@
 ﻿@model IEnumerable<Bits_on_chips_application.Models.CartItem>
-@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
-@inject Microsoft.AspNetCore.Identity.UserManager<Bits_on_chips_application.Models.ApplicationUser> userManager
 @{
     ViewData["Title"] = "Shopping Cart";
 }
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
-    @if (signInManager.IsSignedIn(User) && (User.IsInRole(Bits_on_chips_application.Utility.Helper.Customer)))
+    @if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context) && Authentication.Jwt.JwtMiddleware.IsUserInRole(Context,Bits_on_chips_application.Utility.Helper.Customer))
     {
         @if (Model.Count() > 0)
         {

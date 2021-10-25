@@ -1,10 +1,13 @@
-﻿@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
-@if (signInManager.IsSignedIn(User))
+﻿@if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context))
 {
+
     <form method="post" id="logoutForm" asp-action="LogOff" asp-controller="User">
         <ul class="navbar-nav flex-grow-3">
             <li class="nav-item">
-                <a class="nav-link" id="registerLink" asp-area="" asp-controller="User" asp-action="Info">Hello, @User.Identity.Name!</a>
+                <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="ShoppingCart">Shopping cart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="registerLink" asp-area="" asp-controller="User" asp-action="Info">Hello, @Context.Items["FullName"]!</a>
             </li>
             <li class="nav-link">
                 <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>

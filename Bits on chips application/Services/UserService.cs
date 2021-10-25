@@ -2,11 +2,15 @@
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Utility;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using Authentication.Jwt;
 
 namespace Bits_on_chips_application.Services
 {
@@ -23,9 +27,9 @@ namespace Bits_on_chips_application.Services
             _signInManager = signInManager;
         }
 
-        public async Task<ApplicationUser> GetUserAsync(System.Security.Claims.ClaimsPrincipal User)
+        public async Task<ApplicationUser> GetUserAsync(string User)
         {
-            return await _userManager.GetUserAsync(User);
+            return await _userManager.FindByNameAsync(User);
         }
 
 
@@ -51,6 +55,7 @@ namespace Bits_on_chips_application.Services
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, Helper.Customer);
+                JwtMiddleware.GenerateToken(user, await _userManager.GetRolesAsync(user));
                 await _signInManager.SignInAsync(user, isPersistent: false);
             }
             return result;
@@ -86,10 +91,16 @@ namespace Bits_on_chips_application.Services
             }
             return Helper.UpdateWrongPassword;
         }
-        public async Task<SignInResult> LogInUserAsync(LoginVM loginInfo)
+        public async Task<UserResponseVM> LogInUserAsync(LoginVM loginInfo)
         {
-            SignInResult signInResult = await _signInManager.PasswordSignInAsync(loginInfo.Username, loginInfo.Password, loginInfo.RememberMe, false);
-            return signInResult;
+            var user = await _userManager.FindByNameAsync(loginInfo.Username);
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginInfo.Password))
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                return JwtMiddleware.GenerateToken(user, userRoles);
+            }
+            return null;
         }
 
         public async Task SignOutUser()

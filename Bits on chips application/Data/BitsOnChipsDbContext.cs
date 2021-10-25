@@ -1,4 +1,5 @@
 ﻿using Bits_on_chips_application.Models;
+using Bits_on_chips_application.Models.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,5 +19,8 @@ namespace Bits_on_chips_application.Data
         public DbSet<Category> DBCategories { get; set; }
         public DbSet<ApplicationUser> DBApplicationUsers { get; set; }
         public DbSet<Order> DBOrders { get; set; }
+        public DbSet<WishItem> DBWishItems { get; set; }
+        public DbSet<PaymentMethod> DbPaymentMethods { get; set; }
+        public DbSet<ShipmentMethod> DBShipmentMethods { get; set; }
     }
 }

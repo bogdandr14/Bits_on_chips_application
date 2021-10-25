@@ -1,5 +1,7 @@
 ﻿using Bits_on_chips_application;
 using Bits_on_chips_application.Data;
+using Bits_on_chips_application.Repositories.Repository_classes;
+using Bits_on_chips_application.Repositories.Repository_interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,10 @@ namespace Repositories
         private ICartItemRepository _cartItem;
         private IOrderRepository _order;
         private IApplicationUserRepository _applicationUser;
+        private IWishItemRepository _wishItem;
+        private IPaymentMethodRepository _paymentMethod;
+        private IShipmentMethodRepository _shipmentMethod;
+
         public ICategoryRepository Category
         {
             get
@@ -56,7 +62,8 @@ namespace Repositories
                 }
                 return _order;
             }
-        }public IApplicationUserRepository ApplicationUser
+        }
+        public IApplicationUserRepository ApplicationUser
         {
             get
             {
@@ -65,6 +72,40 @@ namespace Repositories
                     _applicationUser = new ApplicationUserRepository(_repoContext);
                 }
                 return _applicationUser;
+            }
+        }
+
+        public IWishItemRepository WishItem
+        {
+            get
+            {
+                if (_wishItem == null)
+                {
+                    _wishItem = new WishItemRepository(_repoContext);
+                }
+                return _wishItem;
+            }
+        }
+        public IPaymentMethodRepository PaymentMethod
+        {
+            get
+            {
+                if (_paymentMethod == null)
+                {
+                    _paymentMethod = new PaymentMethodRepository(_repoContext);
+                }
+                return _paymentMethod;
+            }
+        }
+        public IShipmentMethodRepository ShipmentMethod
+        {
+            get
+            {
+                if (_shipmentMethod == null)
+                {
+                    _shipmentMethod = new ShipmentMethodRepository(_repoContext);
+                }
+                return _shipmentMethod;
             }
         }
         public RepositoryWrapper(BitsOnChipsDbContext repositoryContext)

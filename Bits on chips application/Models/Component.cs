@@ -21,7 +21,13 @@ namespace Bits_on_chips_application.Models
         
         [DisplayName("Price")]
         public float Price { get; set; }
-        
+
+        [DisplayName("Description")]
+        public string Description { get; set; }
+
+        [DisplayName("Quantity")]
+        public int Quantity { get; set; }
+
         [DisplayName("Interface")]
         public string Interface { get; set; }
         

@@ -1,4 +1,5 @@
-﻿using Repositories;
+﻿using Bits_on_chips_application.Repositories.Repository_interfaces;
+using Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace Bits_on_chips_application
         ICartItemRepository CartItem { get; }
         IOrderRepository Order { get; }
         IApplicationUserRepository ApplicationUser { get; }
+        IWishItemRepository WishItem { get; }
+        IShipmentMethodRepository ShipmentMethod { get; }
+        IPaymentMethodRepository PaymentMethod { get; }
         void Save();
     }
 }

@@ -20,6 +20,7 @@ namespace Bits_on_chips_application.Utility
         public static string LoginUnavailable = "Could not log in";
         public static string UserCreationSuccess = "User created successfully";
         public static string UserCreationFailure = "User could not be created";
+        public static string UserAlreadyExist = "The user already exists!";
         public static string LogoutSuccessful = "Log out successfull";
         public static string InvalidInput = "The fields do not met the requirements!";
         public static string InvalidQuantity = "Invalid quantity (range 1-100)";

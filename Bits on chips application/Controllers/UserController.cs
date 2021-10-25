@@ -1,5 +1,4 @@
-﻿using Bits_on_chips_application.Data;
-using Bits_on_chips_application.Models;
+﻿using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Services;
 using Bits_on_chips_application.Utility;
@@ -7,13 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Bits_on_chips_application.Controllers
@@ -21,18 +15,18 @@ namespace Bits_on_chips_application.Controllers
     public class UserController : Controller
     {
         private readonly UserService _userService;
-
         public UserController(UserService userService)
         {
             _userService = userService;
         }
-        
+
         [Authorize]
         [HttpGet]
         [Route("User/Info")]
         public async Task<IActionResult> InfoAsync()
         {
-            ApplicationUser user = await _userService.GetUserAsync(User);
+            string username = HttpContext.Items["Username"].ToString();
+            ApplicationUser user = await _userService.GetUserAsync(username);
             return View(user);
         }
 
@@ -55,8 +49,11 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                if ((await _userService.LogInUserAsync(model)).Succeeded)
+                UserResponseVM userResponse = await _userService.LogInUserAsync(model);
+                if (userResponse != null)
                 {
+                    Response.Cookies.Append("Authorization", userResponse.Token);
+
                     TempData["message"] = Helper.LoginSuccess;
                     return RedirectToAction("Index", "Home");
                 }
@@ -83,10 +80,10 @@ namespace Bits_on_chips_application.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("User/Register")]
-        public async Task<IActionResult> Register(RegisterVM  obj)
+        public async Task<IActionResult> Register(RegisterVM obj)
         {
-           /* string returnUrl = Url.Content("~/");
-            List<Microsoft.AspNetCore.Authentication.AuthenticationScheme> authenticationSchemes = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();*/
+            /* string returnUrl = Url.Content("~/");
+             List<Microsoft.AspNetCore.Authentication.AuthenticationScheme> authenticationSchemes = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();*/
             if (ModelState.IsValid)
             {
                 string fileName = Path.GetFileNameWithoutExtension(obj.PhotoFile.FileName);
@@ -97,14 +94,21 @@ namespace Bits_on_chips_application.Controllers
                 {
                     await obj.PhotoFile.CopyToAsync(fileStream);
                 }
-                if (identityResult.Succeeded) 
+                if (identityResult != null && identityResult.Succeeded)
                 {
                     TempData["message"] = Helper.UserCreationSuccess;
                     return RedirectToAction("Index", "Home");
                 }
-                foreach(var err in identityResult.Errors)
+                if (identityResult == null)
                 {
-                    ModelState.AddModelError("", err.Description);
+                    TempData["message"] = Helper.UserAlreadyExist;
+                }
+                else
+                {
+                    foreach (var err in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", err.Description);
+                    }
                 }
             }
             TempData["message"] = Helper.UserCreationFailure;
@@ -116,7 +120,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/LogOff")]
         public async Task<IActionResult> LogOff()
         {
-            await _userService.SignOutUser();
+            Response.Cookies.Delete("Authorization");
             TempData["message"] = Helper.LogoutSuccessful;
             return RedirectToAction("Index", "Home");
         }
@@ -126,7 +130,8 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/ChangeInfo")]
         public async Task<IActionResult> ChangeAsync()
         {
-            ApplicationUser user = await _userService.GetUserAsync(User);
+            string username = HttpContext.Items["Username"].ToString();
+            ApplicationUser user = await _userService.GetUserAsync(username);
 
             var obj = new EditVM
             {
@@ -147,8 +152,9 @@ namespace Bits_on_chips_application.Controllers
         {
             if (ModelState.IsValid)
             {
-                string currentProfilePhoto = (await _userService.GetUserAsync(User)).ProfilePicture;
-                if(currentProfilePhoto == null)
+                string username = HttpContext.Items["Username"].ToString();
+                string currentProfilePhoto = (await _userService.GetUserAsync(username)).ProfilePicture;
+                if (currentProfilePhoto == null)
                 {
                     currentProfilePhoto = "";
                 }
@@ -167,7 +173,7 @@ namespace Bits_on_chips_application.Controllers
                 {
                     if (modifications.PhotoFile != null)
                     {
-                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ProfilePictures", currentProfilePhoto); 
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\ProfilePictures", currentProfilePhoto);
                         if (System.IO.File.Exists(fullPath))
                         {
                             System.IO.File.Delete(fullPath);

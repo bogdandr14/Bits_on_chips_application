@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<Bits_on_chips_application.Models.Category>
-@inject Microsoft.AspNetCore.Identity.SignInManager<Bits_on_chips_application.Models.ApplicationUser> signInManager
 @{
     ViewData["Title"] = "Component categories page";
 }
 
 <div class="text-center">
     <div class="title"> @ViewData["Title"]</div>
-    @if (signInManager.IsSignedIn(User) && User.IsInRole(Bits_on_chips_application.Utility.Helper.Admin))
+    @if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context) && Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Admin))
     {
         <div class="btns">
             <a class="nav-button" asp-action="Create">Add new component</a>
