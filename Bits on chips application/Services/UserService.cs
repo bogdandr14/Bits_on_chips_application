@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Authentication.Jwt;
+using Microsoft.AspNetCore.Http;
 
 namespace Bits_on_chips_application.Services
 {
@@ -103,14 +104,19 @@ namespace Bits_on_chips_application.Services
             return null;
         }
 
+        public string GetUserId(HttpContext context)
+        {
+            return JwtMiddleware.getUserId(context);
+        }
+
         public async Task SignOutUser()
         {
             await _signInManager.SignOutAsync();
         }
 
-        public bool IsUserSignedIn(System.Security.Claims.ClaimsPrincipal User)
+        public bool IsUserSignedIn(HttpContext context)
         {
-            return _signInManager.IsSignedIn(User);
+            return JwtMiddleware.IsUserLoggedId(context);
         }
     }
 }

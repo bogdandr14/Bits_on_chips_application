@@ -34,9 +34,9 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/SignIn")]
         public IActionResult Login()
         {
-            if (_userService.IsUserSignedIn(User))
+            if (_userService.IsUserSignedIn(HttpContext))
             {
-                return RedirectToAction("User//Info");
+                return RedirectToAction("Info");
             }
             return View();
         }
@@ -69,7 +69,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("User/SignUp")]
         public IActionResult Register()
         {
-            if (_userService.IsUserSignedIn(User))
+            if (_userService.IsUserSignedIn(HttpContext))
             {
                 return RedirectToAction("Info");
             }

@@ -1,4 +1,4 @@
-﻿using Bits_on_chips_application.Models.ViewModels;
+﻿using Bits_on_chips_application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,12 +46,7 @@ namespace Bits_on_chips_application.Services
             }
         }
 
-        public void UpdateWishItem(WishItem wishItem)
-        {
-            repositoryWrapper.WishItem.Update(wishItem);
-        }
-
-        public void DeleteCartItem(WishItem wishItem)
+        public void DeleteWishItem(WishItem wishItem)
         {
             repositoryWrapper.WishItem.Delete(wishItem);
         }

@@ -1,5 +1,5 @@
 ﻿using Bits_on_chips_application.Data;
-using Bits_on_chips_application.Models.ViewModels;
+using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Repositories.Repository_interfaces;
 using Repositories;
 

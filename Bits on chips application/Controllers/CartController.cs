@@ -19,13 +19,13 @@ namespace Bits_on_chips_application.Controllers
         private readonly ComponentService _componentService;
         private readonly CartItemService _cartItemService;
         private readonly OrderService _orderService;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserManager<ApplicationUser> userManager)
+        private readonly UserService _userService;
+        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserService userService)
         {
             _componentService = componentService;
             _cartItemService = cartItemService;
             _orderService = orderService;
-            _userManager = userManager;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("ShoppingCart/Items")]
         public IActionResult ShoppingCart()
         {
-            string userId = _userManager.GetUserId(User);
+            string userId = _userService.GetUserId(HttpContext);
             IList<CartItem> obj = _cartItemService.GetCartItemsByCondition(o => o.Id == userId && o.OrderId == 1);
             return View(obj);
         }
@@ -43,7 +43,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("ShoppingCart/AddItem")]
         public IActionResult AddItem(Component component)
         {
-            string userId = _userManager.GetUserId(User);
+            string userId = _userService.GetUserId(HttpContext);
             component = _componentService.GetComponentById(component.ComponentId);
             CartItem cartItem = new CartItem
             {
@@ -117,7 +117,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("ShoppingCart/Order")]
         public IActionResult OrderPost()
         {
-            string id = _userManager.GetUserId(User);
+            string id = _userService.GetUserId(HttpContext);
             float totalPrice = 0;
             IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
             foreach(var item in cartItems)
@@ -159,7 +159,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("AllOrders")]
         public IActionResult AllOrders()
         {
-            string userId = _userManager.GetUserId(User);
+            string userId = _userService.GetUserId(HttpContext);
             List<Order> orders = _orderService.GetOrdersForUser(userId);
             return View(orders);
         }

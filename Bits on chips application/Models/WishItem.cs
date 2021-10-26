@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Bits_on_chips_application.Models.ViewModels
+namespace Bits_on_chips_application.Models
 {
     public class WishItem
     {

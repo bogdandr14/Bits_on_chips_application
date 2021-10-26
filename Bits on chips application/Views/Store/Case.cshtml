@@ -32,7 +32,7 @@
                     {
                         <th class="btns-post"></th>
                     }
-                    </tr>
+                </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
@@ -73,6 +73,13 @@
                                         else
                                         {
                                             <input type="submit" class="btn-add" value="Add to cart" />
+                                        }
+                                    </form>
+                                    <form class="input" method="post" asp-action="AddItem" asp-controller="Wish">
+                                        <input asp-for="@component.ComponentId" hidden />
+                                        @if (!(TempData["item added"] != null && item.ComponentId.ToString().Equals(TempData["item added"].ToString())))
+                                        {
+                                            <input type="submit" class="btn-add" value="Wish" />
                                         }
                                     </form>
                                 }

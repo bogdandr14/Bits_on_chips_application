@@ -2,10 +2,6 @@
 using Bits_on_chips_application.Data;
 using Bits_on_chips_application.Repositories.Repository_classes;
 using Bits_on_chips_application.Repositories.Repository_interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Repositories
 {
@@ -42,7 +38,8 @@ namespace Repositories
                 }
                 return _component;
             }
-        }public ICartItemRepository CartItem
+        }
+        public ICartItemRepository CartItem
         {
             get
             {
@@ -52,7 +49,8 @@ namespace Repositories
                 }
                 return _cartItem;
             }
-        }public IOrderRepository Order
+        }
+        public IOrderRepository Order
         {
             get
             {

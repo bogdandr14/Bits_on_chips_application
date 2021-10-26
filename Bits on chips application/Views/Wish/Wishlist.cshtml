@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Bits_on_chips_application.Models.WishItem>
+@{
+    ViewData["Title"] = "Wishlist";
+}
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    @if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context) && Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Customer))
+    {
+        @if (Model.Count() > 0)
+        {
+            <table class="component-table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Component.Category.CategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Component.ComponentName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Component.Producer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Component.Price)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Component.Category.CategoryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Component.ComponentName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Component.Producer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Component.Price)
+                            </td>
+                            <td class="btns-post" role="group">
+                                @{Component component = item.Component;}
+                                <form class="input" method="post" asp-action="AddItem" asp-controller="Cart">
+                                    <input asp-for="@component.ComponentId" hidden />
+                                    @if (TempData["item added"] != null && item.ComponentId.ToString().Equals(TempData["item added"].ToString()))
+                                    {
+                                        <input type="submit" class="btn-add" value="Item added!" />
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" class="btn-add" value="Add to cart" />
+                                    }
+                                </form>
+                                <form class="input" method="post" asp-action="RemoveItem" asp-controller="Wish">
+                                    <input asp-for="@item.WishItemId" hidden />
+                                    <input type="submit" class="btn-delete" value="Remove" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="sub_title">
+                <ul>
+                    <li>The wishlist is currently empty, search for a product <a class="nav-button" asp-area="" asp-controller="Store" asp-action="Categories">here</a>.</li>
+                </ul>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="sub_title"> Please login with your personal account in order to access your shopping cart</div>
+        <div class="btns">
+            <a class="nav-button" asp-controller="User" asp-action="Login">Login</a>
+        </div>
+    }
+</div>

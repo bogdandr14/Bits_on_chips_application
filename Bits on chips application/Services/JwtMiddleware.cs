@@ -79,7 +79,7 @@ namespace Authentication.Jwt
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                     new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
                     new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, user.Id),
                 };
 
             foreach (var userRole in userRoles)
@@ -93,7 +93,7 @@ namespace Authentication.Jwt
                 ConstantsJwt.Issuer,
                 ConstantsJwt.Audience,
                 authClaims,
-                expires: DateTime.UtcNow.AddMinutes(1),
+                expires: DateTime.UtcNow.AddMinutes(10),
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
@@ -128,5 +128,16 @@ namespace Authentication.Jwt
             }
             return false;
         }
-}
+
+        public static string getUserId(HttpContext context)
+        {
+            var token = context.Request.Cookies["Authorization"]?.Split(" ").Last();
+            var jwtToken = ValidateToken(token);
+            if (jwtToken != null)
+            {
+                return jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+            }
+            return null;
+        }
+    }
 }

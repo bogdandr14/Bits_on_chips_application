@@ -1,4 +1,5 @@
-﻿using Bits_on_chips_application.Models;
+﻿using Authentication.Jwt;
+using Bits_on_chips_application.Models;
 using Bits_on_chips_application.Models.ViewModels;
 using Bits_on_chips_application.Services;
 using Bits_on_chips_application.Utility;
@@ -127,12 +128,12 @@ namespace Bits_on_chips_application.Controllers
         }
 
         //Get-Delete
-        [Authorize(Roles = Helper.Admin)]
+        [Authorize]
         [HttpGet]
         [Route("Component/Delete")]
         public IActionResult Delete(int? id)
         {
-            if (Authentication.Jwt.JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
+            if (JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
                 if (id == null || id == 0)
                 {
                     return NotFound();
@@ -169,7 +170,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Component/Create")]
         public IActionResult Create()
         {
-            if (Authentication.Jwt.JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
+            if (JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
                 ComponentVM ComponentVM = new ComponentVM()
                 {
                     Component = new Component(),
@@ -211,7 +212,7 @@ namespace Bits_on_chips_application.Controllers
         [Route("Component/Edit")]
         public IActionResult Edit(int? id)
         {
-            if (Authentication.Jwt.JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
+            if (JwtMiddleware.IsUserInRole(HttpContext, Helper.Admin)){
                 if (id == null || id == 0)
                 {
                     return NotFound();
