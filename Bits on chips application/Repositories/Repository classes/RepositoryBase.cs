@@ -27,13 +27,13 @@ namespace Repositories
         {
             return this.RepositoryContext.Set<T>().Find(keyValues);
         }
-        public void Create(T entity)
+        public T Create(T entity)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
+            return RepositoryContext.Set<T>().Add(entity).Entity;
         }
-        public void Update(T entity)
+        public T Update(T entity)
         {
-            this.RepositoryContext.Set<T>().Update(entity);
+            return RepositoryContext.Set<T>().Update(entity).Entity;
         }
         public void Delete(T entity)
         {

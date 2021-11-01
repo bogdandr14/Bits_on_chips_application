@@ -13,7 +13,7 @@ namespace Bits_on_chips_application.Services
         {
         }
 
-        public List<ShipmentMethod> GetCartItems()
+        public List<ShipmentMethod> GetShipmentMethods()
         {
             return repositoryWrapper.ShipmentMethod.FindAll().ToList();
         }

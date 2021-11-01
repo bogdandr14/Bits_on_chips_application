@@ -132,6 +132,29 @@ namespace Bits_on_chips_application.Migrations
                     b.ToTable("DBCarts");
                 });
 
+            modelBuilder.Entity("Bits_on_chips_application.Models.Case", b =>
+                {
+                    b.Property<int>("CaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberSlots")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CaseId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBOCases");
+                });
+
             modelBuilder.Entity("Bits_on_chips_application.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -154,9 +177,6 @@ namespace Bits_on_chips_application.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Buffer")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -165,30 +185,6 @@ namespace Bits_on_chips_application.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Efficiency")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Frequency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Interface")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaxRead")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumberCores")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberFans")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberSlots")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Power")
-                        .HasColumnType("int");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
@@ -199,26 +195,153 @@ namespace Bits_on_chips_application.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Size")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Socket")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Speed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Technology")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ComponentId");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("DBComponents");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Cooler", b =>
+                {
+                    b.Property<int>("CoolerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberFans")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Speed")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CoolerId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBCoolers");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Cpu", b =>
+                {
+                    b.Property<int>("CpuId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Frequency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberCores")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Socket")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Technology")
+                        .HasColumnType("int");
+
+                    b.HasKey("CpuId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBCpus");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Gpu", b =>
+                {
+                    b.Property<int>("GpuId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Capacity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Frequency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Interface")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GpuId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBGpus");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Hdd", b =>
+                {
+                    b.Property<int>("HddId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Buffer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Capacity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Interface")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Speed")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HddId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBHdds");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Motherboard", b =>
+                {
+                    b.Property<int>("MotherboardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Interface")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Socket")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MotherboardId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBMotherboards");
                 });
 
             modelBuilder.Entity("Bits_on_chips_application.Models.Order", b =>
@@ -267,6 +390,35 @@ namespace Bits_on_chips_application.Migrations
                     b.ToTable("DbPaymentMethods");
                 });
 
+            modelBuilder.Entity("Bits_on_chips_application.Models.Ram", b =>
+                {
+                    b.Property<int>("RamId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Capacity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Frequency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Latency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RamId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBRams");
+                });
+
             modelBuilder.Entity("Bits_on_chips_application.Models.ShipmentMethod", b =>
                 {
                     b.Property<int>("ShipmentId")
@@ -280,6 +432,58 @@ namespace Bits_on_chips_application.Migrations
                     b.HasKey("ShipmentId");
 
                     b.ToTable("DBShipmentMethods");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Source", b =>
+                {
+                    b.Property<int>("SourceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Efficiency")
+                        .HasColumnType("real");
+
+                    b.Property<int>("NumberFans")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Power")
+                        .HasColumnType("int");
+
+                    b.HasKey("SourceId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBSource");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Ssd", b =>
+                {
+                    b.Property<int>("SsdId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Capacity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Interface")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaxRead")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SsdId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("DBSsd");
                 });
 
             modelBuilder.Entity("Bits_on_chips_application.Models.WishItem", b =>
@@ -460,6 +664,17 @@ namespace Bits_on_chips_application.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("Bits_on_chips_application.Models.Case", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
             modelBuilder.Entity("Bits_on_chips_application.Models.Component", b =>
                 {
                     b.HasOne("Bits_on_chips_application.Models.Category", "Category")
@@ -469,6 +684,61 @@ namespace Bits_on_chips_application.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Cooler", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Cpu", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Gpu", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Hdd", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Motherboard", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
                 });
 
             modelBuilder.Entity("Bits_on_chips_application.Models.Order", b =>
@@ -484,6 +754,39 @@ namespace Bits_on_chips_application.Migrations
                     b.Navigation("PaymentMethod");
 
                     b.Navigation("ShipmentMethod");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Ram", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Source", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("Bits_on_chips_application.Models.Ssd", b =>
+                {
+                    b.HasOne("Bits_on_chips_application.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Component");
                 });
 
             modelBuilder.Entity("Bits_on_chips_application.Models.WishItem", b =>

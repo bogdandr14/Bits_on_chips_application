@@ -1,0 +1,94 @@
+﻿@model Bits_on_chips_application.Models.Ssd
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="btns">
+        <a asp-action="Index" class="btn-add">Back to List</a>
+    </div>
+    <div class="input">
+        <table class="delete-info">
+            <tr>
+                <th><label asp-for="Component.ComponentName"></label></th>
+                <td>
+                    <input type=text asp-for="Component.ComponentName" style="background:white" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Component.Producer"></label></th>
+                <td>
+                    <input type=text asp-for="Component.Producer" style="background:white" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Component.Description"></label></th>
+                <td>
+                    <input type=text asp-for="Component.Description" style="background:white" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Component.Price"></label></th>
+                <td>
+                    <input type=text asp-for="Component.Price" style="background:white" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Interface"></label></th>
+                <td>
+                    <input type=text asp-for="Interface" style="background:white" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Capacity"></label></th>
+                <td>
+                    <input type=text asp-for="Capacity" style="background:white" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="MaxRead"></label></th>
+                <td>
+                    <input type=text asp-for="MaxRead" style="background:white" disabled />
+                </td>
+            </tr>
+        </table>
+        @if (Authentication.Jwt.JwtMiddleware.IsUserLoggedId(Context))
+        {
+    <div class="btns">
+
+        @if (Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Admin))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.SsdId" class="btn-edit">Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model.SsdId" class="btn-delete">Delete</a>
+        }
+        @{Component component = Model.Component;
+            component.ComponentId = Model.ComponentId;}
+        @if (Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Customer))
+        {
+            @if (Model.Component.Quantity > 0)
+            {
+                <form class="input" method="post" asp-action="AddItem" asp-controller="Cart" asp-route-id="@Model.ComponentId">
+                    <input asp-for="@component" hidden />
+                    <input type="submit" class="btn-add" value="Add to cart" />
+                </form>
+            }
+            else
+            {
+                <div class="title">Out of stock</div>
+            }
+            @if (TempData["wish item"] == null)
+            {
+                <form class="input" method="post" asp-action="AddItem" asp-controller="Wish" asp-route-id="@Model.ComponentId">
+                    <input asp-for="@component" hidden />
+                    <input type="submit" class="btn-add" value="Wish" />
+                </form>
+            }
+
+        }
+    </div>
+
+        }
+
+    </div>
+</div>

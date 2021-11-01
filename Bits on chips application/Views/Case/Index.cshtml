@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Bits_on_chips_application.Models.Case>
+
+@{
+    ViewData["Title"] = "Case page";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="btns">
+        @if (Authentication.Jwt.JwtMiddleware.IsUserInRole(Context, Bits_on_chips_application.Utility.Helper.Admin))
+        {
+            <a class="nav-button" asp-action="Create">Create New</a>
+        }
+        <a class="nav-button" asp-area="" asp-controller="Store" asp-action="Categories">Back to categories</a>
+    </div>
+    @if (Model.Count() > 0)
+    {
+        <table class="component-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Component.ComponentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Component.Producer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Size)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NumberSlots)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Component.Price)
+                    </th>
+                    <th class="btns-post">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Component.ComponentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Component.Producer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Size)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberSlots)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Component.Price)
+                        </td>
+                        <td class="btns-post" role="group">
+                            <a class="btn-add" asp-action="Details" asp-route-Id="@item.CaseId">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <br />
+        <br />
+        <div class="sub_title">
+            No items in this category yet, please come back soon!
+        </div>
+    }
+</div>

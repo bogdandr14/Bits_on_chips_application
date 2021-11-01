@@ -1,0 +1,93 @@
+﻿@model Bits_on_chips_application.Models.Case
+
+@{
+    ViewData["Title"] = "Edit component";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="btns" style="margin-bottom: 30px">
+        <a class="nav-button" asp-action="Index">Back to list</a>
+    </div>
+    <form class="input" method="post" asp-action="EditPost">
+        <input asp-for="ComponentId" hidden />
+        <input asp-for="CaseId" hidden />
+        <input asp-for="Component.CategoryId" hidden />
+        <input asp-for="Component.ComponentId" hidden />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <table>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Component.ComponentName" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Component.ComponentName" class="form-control w-50" value="@Model.Component.ComponentName" />
+                    <span asp-validation-for="Component.ComponentName" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Component.Producer" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Component.Producer" class="form-control w-50" value="@Model.Component.Producer" />
+                    <span asp-validation-for="Component.Producer" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Component.Description" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Component.Description" class="form-control w-50" value="@Model.Component.Description" />
+                    <span asp-validation-for="Component.Description" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Component.Price" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Component.Price" class="form-control w-50" value="@Model.Component.Price" />
+                    <span asp-validation-for="Component.Price" class="text-danger"></span>
+                </td>
+            </tr>
+
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Component.Quantity" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Component.Quantity" class="form-control w-50" value="@Model.Component.Quantity" />
+                    <span asp-validation-for="Component.Quantity" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Size" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Size" class="form-control w-50" value="@Model.Size" />
+                    <span asp-validation-for="Size" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="NumberSlots" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="NumberSlots" class="form-control w-50" value="@Model.NumberSlots" />
+                    <span asp-validation-for="NumberSlots" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="btns">
+                <th>
+                </th>
+                <td>
+                    <input type="submit" value="Save" style="border-color: Highlight; color: Highlight" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

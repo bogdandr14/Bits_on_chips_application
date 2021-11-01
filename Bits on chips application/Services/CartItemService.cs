@@ -62,6 +62,9 @@ namespace Bits_on_chips_application.Services
             foreach (var item in cartItems)
             {
                 item.OrderId = order.OrderId;
+                Component component = repositoryWrapper.Component.FindById(item.CartItemId);
+                component.Quantity -= item.Quantity;
+                repositoryWrapper.Component.Update(component);
                 UpdateCartItem(item);
             }
         }

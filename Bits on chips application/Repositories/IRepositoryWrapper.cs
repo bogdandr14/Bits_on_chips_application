@@ -17,6 +17,16 @@ namespace Bits_on_chips_application
         IWishItemRepository WishItem { get; }
         IShipmentMethodRepository ShipmentMethod { get; }
         IPaymentMethodRepository PaymentMethod { get; }
+        ICaseRepository Case { get; }
+        ICoolerRepository Cooler { get; }
+        ICpuRepository Cpu { get; }
+        IGpuRepository Gpu { get; }
+        IHddRepository Hdd { get; }
+        IMotherboardRepository Motherboard { get; }
+        IRamRepository Ram { get; }
+        ISourceRepository Source { get; }
+        ISsdRepository Ssd { get; }
+
         void Save();
     }
 }

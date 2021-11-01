@@ -6,6 +6,7 @@ using Bits_on_chips_application.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,16 @@ namespace Bits_on_chips_application.Controllers
         private readonly CartItemService _cartItemService;
         private readonly OrderService _orderService;
         private readonly UserService _userService;
-        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserService userService)
+        private readonly ShipmentMethodService _shipmentMethodService;
+        private readonly PaymentMethodService _paymentMethodService;
+        public CartController(ComponentService componentService, CartItemService cartItemService, OrderService orderService, UserService userService, ShipmentMethodService shipmentMethodService, PaymentMethodService paymentMethodService)
         {
             _componentService = componentService;
             _cartItemService = cartItemService;
             _orderService = orderService;
             _userService = userService;
+            _shipmentMethodService = shipmentMethodService;
+            _paymentMethodService = paymentMethodService;
         }
 
         [HttpGet]
@@ -41,9 +46,13 @@ namespace Bits_on_chips_application.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("ShoppingCart/AddItem")]
-        public IActionResult AddItem(Component component)
+        public IActionResult AddItem(Component component, int id)
         {
             string userId = _userService.GetUserId(HttpContext);
+            if(component.ComponentId == 0)
+            {
+                component.ComponentId = id;
+            }
             component = _componentService.GetComponentById(component.ComponentId);
             CartItem cartItem = new CartItem
             {
@@ -55,7 +64,7 @@ namespace Bits_on_chips_application.Controllers
             _cartItemService.AddCartItem(cartItem);
             _cartItemService.Save();
             TempData["item added"] = component.ComponentId.ToString();
-            return RedirectToAction(component.Category.CategoryName, "Store");
+            return RedirectToAction("ShoppingCart", "Cart");
         }
 
         [HttpGet]
@@ -112,27 +121,56 @@ namespace Bits_on_chips_application.Controllers
             return RedirectToAction("ShoppingCart", "Cart");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("ShoppingCart/Order")]
-        public IActionResult OrderPost()
+        [HttpGet]
+        [Route("ShoppingCart/PaymentInfo")]
+        public IActionResult PaymentInfo()
         {
             string id = _userService.GetUserId(HttpContext);
             float totalPrice = 0;
             IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
-            foreach(var item in cartItems)
+            foreach (var item in cartItems)
             {
                 item.PricePaid = item.Component.Price;
                 totalPrice += item.Component.Price * item.Quantity;
             }
+            PaymentVM order = new PaymentVM
+            {
+                Price = totalPrice,
+            };
+            order.PaymentDropDown = _paymentMethodService.GetPaymentMethods().Select(i=> new SelectListItem
+            { 
+                Text = i.PaymentName,
+                Value = i.PaymentMethodId.ToString()
+            });
+
+            order.ShipmentDropDown = _shipmentMethodService.GetShipmentMethods().Select(i => new SelectListItem
+            {
+                Text = i.ShipmentMethodName,
+                Value = i.ShipmentId.ToString()
+            });
+
+            return View(order);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("ShoppingCart/PaymentInfo")]
+        public IActionResult PaymentPost(PaymentVM orderVM)
+        {
+            string id = _userService.GetUserId(HttpContext);
+            IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.Id == id && obj.OrderId == 1).ToList();
+            float price = orderVM.Price;
             Order order = new Order
             {
                 Date = DateTime.Now,
-                Price = totalPrice
+                Price = orderVM.Price,
+                ShipmentAddress = orderVM.ShipmentAddress,
+                ShipmentMethodId = orderVM.ShipmentMethodId,
+                PaymentMethodId = orderVM.PaymentMethodId
             };
             _orderService.AddOrder(order);
             _orderService.Save();
-            order = _orderService.GetOrdersByCondition(obj => obj.Date == order.Date && order.Price == totalPrice).FirstOrDefault();
+            order = _orderService.GetOrdersByCondition(obj => obj.Date == order.Date && order.Price == price).FirstOrDefault();
             _cartItemService.UpdateCartItemsForOrder(cartItems, order);
             _cartItemService.Save();
             TempData["order id"] = order.OrderId;
@@ -151,8 +189,14 @@ namespace Bits_on_chips_application.Controllers
             {
                 id = (int)TempData["order id"];
             }
+            Order order = _orderService.GetOrderById(id);
             IList<CartItem> cartItems = _cartItemService.GetCartItemsByCondition(obj => obj.OrderId == id).ToList();
-            return View(cartItems);
+            OrderVM orderVM = new OrderVM
+            {
+                Order = order,
+                OrderedItems = cartItems
+            };
+            return View(orderVM);
         }
 
         [HttpGet]

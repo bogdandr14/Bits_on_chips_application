@@ -27,49 +27,6 @@ namespace Bits_on_chips_application.Models
 
         [DisplayName("Quantity")]
         public int Quantity { get; set; }
-
-        [DisplayName("Interface")]
-        public string Interface { get; set; }
-        
-        [DisplayName("Size")]
-        public string Size { get; set; }
-        
-        [DisplayName("Component type")]
-        public string Type { get; set; }
-        
-        [DisplayName("Buffer")]
-        public string Buffer { get; set; }
-        
-        [DisplayName("Speed")]
-        public string Speed { get; set; }
-        
-        [DisplayName("Socket")]
-        public string Socket { get; set; }
-        
-        [DisplayName("Frequency")]
-        public string Frequency { get; set; }
-        
-        [DisplayName("Max read capability")]
-        public string MaxRead { get; set; }
-        
-        [DisplayName("Efficiency")]
-        public float Efficiency { get; set; }
-        
-        [DisplayName("Technology")]
-        public int Technology { get; set; }
-        
-        [DisplayName("Power")]
-        public int Power { get; set; }
-        
-        [DisplayName("Number of cores")]
-        [Range(0,16)]
-        public int NumberCores { get; set; }
-        
-        [DisplayName("Number of slots")]
-        public int NumberSlots { get; set; }
-        
-        [DisplayName("Number of fans")]
-        public int NumberFans { get; set; }
         
         [DisplayName("Category Type")]
         [Required]

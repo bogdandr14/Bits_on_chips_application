@@ -1,0 +1,61 @@
+﻿@model Bits_on_chips_application.Models.Ram
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="sub_title">Are you sure you want to delete this component?</div>
+    <form class="input" method="post" asp-action="DeletePost">
+        <input asp-for="RamId" hidden />
+        <table class="delete-info">
+            <tr>
+                <th><label asp-for="Component.ComponentName"></label></th>
+                <td>
+                    <input type=text asp-for="Component.ComponentName" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Component.Producer"></label></th>
+                <td>
+                    <input type=text asp-for="Component.Producer" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Component.Price"></label></th>
+                <td>
+                    <input type=text asp-for="Component.Price" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Type"></label></th>
+                <td>
+                    <input type=text asp-for="Type" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Capacity"></label></th>
+                <td>
+                    <input type=text asp-for="Capacity" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Frequency"></label></th>
+                <td>
+                    <input type=text asp-for="Frequency" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+            <tr>
+                <th><label asp-for="Latency"></label></th>
+                <td>
+                    <input type=text asp-for="Latency" style="background:grey; color:crimson" disabled />
+                </td>
+            </tr>
+        </table>
+        <div class="btns">
+            <input type="submit" style="border-color:red; color:red" value="Delete" />
+            <a asp-action="Index" class="btn-add">Cancel</a>
+        </div>
+    </form>
+</div>

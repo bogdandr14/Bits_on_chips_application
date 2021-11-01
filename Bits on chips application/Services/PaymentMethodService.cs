@@ -13,7 +13,7 @@ namespace Bits_on_chips_application.Services
         {
         }
 
-        public List<PaymentMethod> GetCartItems()
+        public List<PaymentMethod> GetPaymentMethods()
         {
             return repositoryWrapper.PaymentMethod.FindAll().ToList();
         }

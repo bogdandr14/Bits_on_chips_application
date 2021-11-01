@@ -1,0 +1,64 @@
+﻿@model Bits_on_chips_application.Models.ViewModels.PaymentVM
+
+
+@{
+    ViewData["Title"] = "Order info";
+}
+
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    <div class="btns" style="margin-bottom: 30px">
+        <a class="nav-button" asp-controller="Cart" asp-action="PaymentInfo">Back to categories</a>
+    </div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <table>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="Price" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="Price" class="form-control w-50" disabled />
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="ShipmentAddress" class="control-label"></label>
+                </th>
+                <td>
+                    <input asp-for="ShipmentAddress" class="form-control w-50" required />
+                </td>
+            </tr>
+
+            <tr class="form-group">
+                <th>
+                    <label asp-for="ShipmentMethodId" class="control-label"></label>
+                </th>
+                <td>
+                    <select asp-for="ShipmentMethodId" class="form-control w-50" asp-items="@Model.ShipmentDropDown">
+                        <option selected>--Select shipment method</option>
+                    </select>
+                    <span asp-validation-for="PaymentMethodId" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="form-group">
+                <th>
+                    <label asp-for="PaymentMethodId" class="control-label"></label>
+                </th>
+                <td>
+                    <select asp-for="PaymentMethodId" class="form-control w-50" asp-items="@Model.PaymentDropDown">
+                        <option selected>--Select payment method</option>
+                    </select>
+                    <span asp-validation-for="PaymentMethodId" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr class="btns">
+                <th>
+                </th>
+                <td>
+                    <input type="submit" value="Order" style="border-color: Highlight; color: Highlight" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

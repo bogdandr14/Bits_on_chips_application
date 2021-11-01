@@ -36,12 +36,11 @@ namespace Bits_on_chips_application.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Route("Wishlist/AddItem")]
-        public IActionResult AddItem(Component component)
+        public IActionResult AddItem(Component component, int id)
         {
             string userId = _userService.GetUserId(HttpContext);
-            component = _componentService.GetComponentById(component.ComponentId);
+            component = _componentService.GetComponentById(id);
             WishItem wishItem = new WishItem
             {
                 ComponentId = component.ComponentId,
@@ -50,7 +49,7 @@ namespace Bits_on_chips_application.Controllers
             _wishItemService.AddWishItem(wishItem);
             _wishItemService.Save();
             TempData["item added"] = component.ComponentId.ToString();
-            return RedirectToAction(component.Category.CategoryName, "Store");
+            return RedirectToAction("Index",component.Category.CategoryName);
         }
 
         [HttpPost]

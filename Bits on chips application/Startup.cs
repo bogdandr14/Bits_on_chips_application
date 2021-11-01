@@ -65,6 +65,16 @@ namespace Bits_on_chips_application
             services.AddScoped<ShipmentMethodService>();
             services.AddScoped<PaymentMethodService>();
             services.AddScoped<UserService>();
+            services.AddScoped<CaseService>();
+            services.AddScoped<CoolerService>();
+            services.AddScoped<CpuService>();
+            services.AddScoped<GpuService>();
+            services.AddScoped<HddService>();
+            services.AddScoped<MotherboardService>();
+            services.AddScoped<RamService>();
+            services.AddScoped<SourceService>();
+            services.AddScoped<SsdService>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

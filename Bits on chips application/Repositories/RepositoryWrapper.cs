@@ -16,6 +16,16 @@ namespace Repositories
         private IWishItemRepository _wishItem;
         private IPaymentMethodRepository _paymentMethod;
         private IShipmentMethodRepository _shipmentMethod;
+        private ICaseRepository _case;
+        private ICoolerRepository _cooler;
+        private ICpuRepository _cpu;
+        private IGpuRepository _gpu;
+        private IHddRepository _hdd;
+        private IMotherboardRepository _motherboard;
+        private IRamRepository _ram;
+        private ISourceRepository _source;
+        private ISsdRepository _ssd;
+
 
         public ICategoryRepository Category
         {
@@ -104,6 +114,106 @@ namespace Repositories
                     _shipmentMethod = new ShipmentMethodRepository(_repoContext);
                 }
                 return _shipmentMethod;
+            }
+        }
+
+        public ICaseRepository Case
+        {
+            get
+            {
+                if (_case == null)
+                {
+                    _case = new CaseRepository(_repoContext);
+                }
+                return _case;
+            }
+        }
+        public ICoolerRepository Cooler
+        {
+            get
+            {
+                if (_cooler == null)
+                {
+                    _cooler = new CoolerRepository(_repoContext);
+                }
+                return _cooler;
+            }
+        }
+        public ICpuRepository Cpu
+        {
+            get
+            {
+                if (_cpu == null)
+                {
+                    _cpu = new CpuRepository(_repoContext);
+                }
+                return _cpu;
+            }
+        }
+        public IGpuRepository Gpu
+        {
+            get
+            {
+                if (_gpu == null)
+                {
+                    _gpu = new GpuRepository(_repoContext);
+                }
+                return _gpu;
+            }
+        }
+        public IHddRepository Hdd
+        {
+            get
+            {
+                if (_hdd == null)
+                {
+                    _hdd = new HddRepository(_repoContext);
+                }
+                return _hdd;
+            }
+        }
+        public IMotherboardRepository Motherboard
+        {
+            get
+            {
+                if (_motherboard == null)
+                {
+                    _motherboard = new MotherboardRepository(_repoContext);
+                }
+                return _motherboard;
+            }
+        }
+        public IRamRepository Ram
+        {
+            get
+            {
+                if (_ram == null)
+                {
+                    _ram = new RamRepository(_repoContext);
+                }
+                return _ram;
+            }
+        }
+        public ISourceRepository Source
+        {
+            get
+            {
+                if (_source == null)
+                {
+                    _source = new SourceRepository(_repoContext);
+                }
+                return _source;
+            }
+        }
+        public ISsdRepository Ssd
+        {
+            get
+            {
+                if (_ssd == null)
+                {
+                    _ssd = new SsdRepository(_repoContext);
+                }
+                return _ssd;
             }
         }
         public RepositoryWrapper(BitsOnChipsDbContext repositoryContext)

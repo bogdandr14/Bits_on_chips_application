@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Bits_on_chips_application.Models.CartItem>
+﻿@model Bits_on_chips_application.Models.ViewModels.OrderVM
 
 @{
     ViewData["Title"] = "Order page";
@@ -9,21 +9,21 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Component.ComponentName)
+                    @Html.DisplayNameFor(model => model.OrderedItems.First().Component.ComponentName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Component.Producer)
+                    @Html.DisplayNameFor(model => model.OrderedItems.First().Component.Producer)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
+                    @Html.DisplayNameFor(model => model.OrderedItems.First().Component.Quantity)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PricePaid)
+                    @Html.DisplayNameFor(model => model.OrderedItems.First().Component.Price)
                 </th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.OrderedItems)
             {
                 <tr>
                     <td>
@@ -42,7 +42,28 @@
             }
         </tbody>
     </table>
-    <div class="btns btns-post">
-        <a class="btn-edit" asp-controller="Cart" asp-action="AllOrders">See all orders</a>
-    </div>
+    <table>
+
+        <tr class="form-group">
+            <th>
+                <label asp-for="Order.ShipmentAddress" class="control-label"></label>
+            </th>
+            <td>
+                <input asp-for="Order.ShipmentAddress" class="form-control w-50" disabled />
+                <span asp-validation-for="Order.ShipmentAddress" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr class="form-group">
+            <th>
+                <label asp-for="Order.Price" class="control-label"></label>
+            </th>
+            <td>
+                <input asp-for="Order.Price" class="form-control w-50" disabled />
+                <span asp-validation-for="Order.Price" class="text-danger"></span>
+            </td>
+        </tr>
+        </table>
+        <div class="btns btns-post">
+            <a class="btn-edit" asp-controller="Cart" asp-action="AllOrders">See all orders</a>
+        </div>
 </div>
