@@ -17,7 +17,17 @@
         @foreach (var categ in Model)
         {
             string imgSrc = "../css/" + categ.CategoryName + "Image.jpg";
-            <a class="nav-button" asp-controller="@categ.CategoryName" asp-action="Index" ><img src=@imgSrc></a>
+            <div class="row">
+                <div class="span3">
+                    <a class="nav-button" asp-controller="@categ.CategoryName" asp-action="Index">
+                        <img src=@imgSrc>
+                        <span> <h2> @categ.CategoryName</h2> </span>
+                    </a>
+                </div>
+                <div class="span3">
+                    @categ.Description
+                </div>
+            </div>
         }
 
     </div>

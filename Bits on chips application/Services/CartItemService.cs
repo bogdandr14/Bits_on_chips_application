@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Bits_on_chips_application.Services
 {
@@ -22,7 +21,7 @@ namespace Bits_on_chips_application.Services
         public List<CartItem> GetCartItemsByCondition(Expression<Func<CartItem, bool>> expression)
         {
             List<CartItem> cartItems = repositoryWrapper.CartItem.FindByCondition(expression).ToList();
-            foreach(var item in cartItems)
+            foreach (var item in cartItems)
             {
                 item.Component = repositoryWrapper.Component.FindById(item.ComponentId);
                 item.Component.Category = repositoryWrapper.Category.FindById(item.Component.CategoryId);
@@ -62,8 +61,9 @@ namespace Bits_on_chips_application.Services
             foreach (var item in cartItems)
             {
                 item.OrderId = order.OrderId;
-                Component component = repositoryWrapper.Component.FindById(item.CartItemId);
+                Component component = repositoryWrapper.Component.FindById(item.ComponentId);
                 component.Quantity -= item.Quantity;
+                item.PricePaid = component.Price * item.Quantity;
                 repositoryWrapper.Component.Update(component);
                 UpdateCartItem(item);
             }

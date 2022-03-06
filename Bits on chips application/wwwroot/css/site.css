@@ -191,6 +191,9 @@ button {
 .comp_categ, ul li {
     list-style-type: none;
 }
+.comp_categ row {
+    max-width: 25%;
+}
 
 .comp_categ a img {
     border: 2px solid rgb(200, 255, 0);

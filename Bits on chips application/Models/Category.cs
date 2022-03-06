@@ -10,5 +10,6 @@ namespace Bits_on_chips_application.Models
         [DisplayName("Category name")]
 
         public string CategoryName { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -29,6 +29,12 @@ namespace Bits_on_chips_application.Services
             return components;
         }
 
+        public List<string> SearchComponentNames(string term)
+        {
+            List<string> componentNames = repositoryWrapper.Component.FindByCondition(p => p.ComponentName.Contains(term)).Select(p => p.ComponentName).ToList();
+            return componentNames;
+        }
+
         public Component GetComponentById(params object[] keyValues)
         {
             Component component = repositoryWrapper.Component.FindById(keyValues);

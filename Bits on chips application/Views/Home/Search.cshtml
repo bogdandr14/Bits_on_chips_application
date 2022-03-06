@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Bits_on_chips_application.Models.Component>
+
+@{
+    ViewData["Title"] = "Search components page";
+}
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#searchField').autocomplete({
+                source: '@Url.Action("Autocomplete", "Home")'
+            });
+        });
+</script>
+<div class="text-center">
+    <div class="title">@ViewData["Title"]</div>
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+    {
+        <div class="form-inline">
+            Find by name:
+            <input id="searchField" class="form-control" name="term" value="@ViewData["CurrentFilter"]" placeholder="Search by name..." style="margin-left:10px; margin-right:10px" />
+            <input type="submit" value="Search" class="btn btn-primary" style="border-radius: 8px; background-color: #1b1b1b" />
+        </div>
+    }
+
+    @if (Model.Count() > 0)
+    {
+        <table class="component-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ComponentName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Producer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th class="btns-post">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ComponentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Producer)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td class="btns-post" role="group">
+                            <a class="btn-add" asp-action="Details" asp-route-Id="@item.ComponentId">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <br />
+        <br />
+        <div class="sub_title">
+            No items found while searching!
+        </div>
+    }
+</div>
