@@ -23,7 +23,7 @@ namespace Bits_on_chips_application.Utility
         public static string UserAlreadyExist = "The user already exists!";
         public static string LogoutSuccessful = "Log out successfull";
         public static string InvalidInput = "The fields do not met the requirements!";
-        public static string InvalidQuantity = "Invalid quantity (range 1-100)";
+        public static string InvalidQuantity = "Invalid quantity";
 
         public static List<SelectListItem> GetRolesForLogin()
         {

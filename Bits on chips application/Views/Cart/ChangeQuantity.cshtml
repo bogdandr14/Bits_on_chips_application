@@ -4,6 +4,7 @@
 }
 <div class="text-center">
     <div class="title">@ViewData["Title"]</div>
+    <div class="sub_sub_title" style="color:red">@TempData["message"]</div>
     <form class="input" method="post" asp-action="ChangeQuantity">
         <input asp-for="CartItemId" hidden />
         <table class="delete-info">
@@ -32,9 +33,9 @@
                 </td>
             </tr>
             <tr>
-                <th><label asp-for="Quantity"></label></th>
+                <th><label asp-for="Quantity"></label><label>(Max @Model.Component.Quantity)</label></th>
                 <td>
-                    <input type=text asp-for="Quantity" />
+                    <input type=number asp-for="Quantity" />
                 </td>
             </tr>
         </table>

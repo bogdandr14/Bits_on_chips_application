@@ -59,14 +59,14 @@ namespace Bits_on_chips_application.Controllers
 
         [Microsoft.AspNetCore.Mvc.HttpGet]
         [Microsoft.AspNetCore.Mvc.Route("Home/Autocomplete")]
-        public Microsoft.AspNetCore.Mvc.ActionResult Autocomplete(string? term)
+        public async Task<Microsoft.AspNetCore.Mvc.ActionResult> Autocomplete(string? term)
         {
             if (term == null)
             {
                 term = "";
             }
             var names = _componentService.SearchComponentNames(term);
-            return Json(names, JsonRequestBehavior.AllowGet);
+            return Ok(names);
         }          
 
 

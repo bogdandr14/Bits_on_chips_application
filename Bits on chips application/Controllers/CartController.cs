@@ -49,7 +49,7 @@ namespace Bits_on_chips_application.Controllers
         public IActionResult AddItem(Component component, int id)
         {
             string userId = _userService.GetUserId(HttpContext);
-            if(component.ComponentId == 0)
+            if (component.ComponentId == 0)
             {
                 component.ComponentId = id;
             }
@@ -90,9 +90,9 @@ namespace Bits_on_chips_application.Controllers
         [Route("CartItem/ChangeQuantity")]
         public IActionResult ChangeQuantity(CartItem item)
         {
-            if (ModelState.IsValid)
+            CartItem cartItem = _cartItemService.GetCartItemById(item.CartItemId);
+            if (ModelState.IsValid && cartItem.Component.Quantity >= item.Quantity)
             {
-                CartItem cartItem = _cartItemService.GetCartItemById(item.CartItemId);
                 if (cartItem == null)
                 {
                     return NotFound();
@@ -102,8 +102,8 @@ namespace Bits_on_chips_application.Controllers
                 _cartItemService.Save();
                 return RedirectToAction("ShoppingCart");
             }
-            ModelState.AddModelError("", Helper.InvalidQuantity);
-            return View(item);
+            TempData["message"] = Helper.InvalidQuantity;
+            return View(cartItem);
         }
 
         [HttpPost]
@@ -112,7 +112,7 @@ namespace Bits_on_chips_application.Controllers
         public IActionResult RemoveItem(CartItem item)
         {
             item = _cartItemService.GetCartItemById(item.CartItemId);
-            if(item == default(CartItem))
+            if (item == default(CartItem))
             {
                 return NotFound();
             }
@@ -137,8 +137,8 @@ namespace Bits_on_chips_application.Controllers
             {
                 Price = totalPrice,
             };
-            order.PaymentDropDown = _paymentMethodService.GetPaymentMethods().Select(i=> new SelectListItem
-            { 
+            order.PaymentDropDown = _paymentMethodService.GetPaymentMethods().Select(i => new SelectListItem
+            {
                 Text = i.PaymentName,
                 Value = i.PaymentMethodId.ToString()
             });
@@ -179,13 +179,13 @@ namespace Bits_on_chips_application.Controllers
 
         [HttpGet]
         [Route("Order")]
-        public IActionResult Order(int ?id)
+        public IActionResult Order(int? id)
         {
             if (TempData["order id"] == null && (id == null || id == 0))
             {
                 return NotFound();
             }
-            if(TempData["order id"] != null)
+            if (TempData["order id"] != null)
             {
                 id = (int)TempData["order id"];
             }
